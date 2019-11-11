@@ -1,0 +1,8 @@
+.login-container .logo{
+    text-align: center;
+    padding: 2em;
+}
+
+.login-container .logo img{
+    width: 200px;
+}

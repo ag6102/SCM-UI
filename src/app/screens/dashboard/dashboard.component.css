@@ -1,0 +1,9 @@
+.container{
+    width: 90vw;
+    background-color: #fff;
+    height: 100vh;
+}
+.side-nav-container{
+    width: 10vw;
+    height: 100vh;
+}
