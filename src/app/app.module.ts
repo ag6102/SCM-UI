@@ -7,6 +7,8 @@ import { SideNavComponent } from './common-components/side-nav/side-nav.componen
 import { LoginComponent } from './screens/login/login.component';
 import { DashboardComponent } from './screens/dashboard/dashboard.component';
 import { DashboardTrackerComponent } from './screens/dashboard-tracker/dashboard-tracker.component';
+import { MapsComponent } from './common-components/maps/maps.component';
+import { NotificationBarComponent } from './common-components/notification-bar/notification-bar.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { DashboardTrackerComponent } from './screens/dashboard-tracker/dashboard
     SideNavComponent,
     LoginComponent,
     DashboardComponent,
-    DashboardTrackerComponent
+    DashboardTrackerComponent,
+    MapsComponent,
+    NotificationBarComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,21 @@
-#map {
-    height: 100vh;
-    width: 100vw;
-    position: absolute;
+.tabs{
+    display: flex;
+    justify-content: center;
+}
+
+.tabs .tab{
+    padding: .8em;
+    margin-top: 1em;
+    border: 1px solid #ccc;
+    min-width: 4em;
+    text-align: center;
+    cursor: pointer;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    box-shadow: 3px 1px 8px 3px #ccc;
+}
+
+.tabs .tab.selected{
+    background-color: black;
+    color: #fff;
 }

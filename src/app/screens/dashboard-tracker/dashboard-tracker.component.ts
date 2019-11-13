@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {} from 'googlemaps';
-declare let L;
-declare let tomtom: any;
 
 @Component({
   selector: 'app-dashboard-tracker',
@@ -10,20 +7,28 @@ declare let tomtom: any;
 })
 export class DashboardTrackerComponent implements OnInit {
 
+  mapsData: Object = {};
+
   constructor() { }
 
   ngOnInit() {
-    var pollutionCooardinates = [53.3895286,-6.1190612];
-    const map = tomtom.L.map('map', {
-      key: '69zn9YEOaXOsIbOWQWFiaWINh4yJobxv',
-      basePath: '/assets/sdk',
-      center: pollutionCooardinates,
-      zoom: 15,
-      source : 'vector'
-    });
-    var marker = tomtom.L.marker(pollutionCooardinates).addTo(map);
-    marker.bindPopup('your company name, your company address').openPopup();
-    marker.bindPopup("<b>Pollution Info</b><br/>PM2.5 - 21<br/>PM10 - 9<br/>O3 - 7<br/>NO2 - 1<br/>SO2 - 1");
+    let coordinates = [[53.3895286,-6.1190612], [52.3895286,-6.1190612]];
+    let mapsJson = {
+      coordinates : [
+        {
+          cordinate : [53.3895286,-6.1190612],
+          msg: 'Test',
+          color: 'green'
+        },
+        {
+          cordinate : [52.3895286,-6.1190612],
+          msg: 'Test2',
+          color: 'yellow'
+        }
+      ],
+      center : [53.3895286,-6.1190612],
+    };
+    this.mapsData = mapsJson;
   }
 
 }
