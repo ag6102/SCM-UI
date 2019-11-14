@@ -1,3 +1,7 @@
 <div>
-    <div id="map"></div>
+    <div class="tabs">
+        <div class="tab">Traffic</div>
+        <div class="tab" [ngClass]="{'selected' : true}" >Pollution</div>
+    </div>
+    <app-maps [mapsData]="mapsData"></app-maps>
 </div>
