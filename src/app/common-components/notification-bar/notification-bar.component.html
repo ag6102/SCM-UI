@@ -1,4 +1,4 @@
 <div class="notification-bar-container">
-    <img *ngIf="newNotification != true" alt="Maps" title="Maps" class="nav-icon" src="../../../assets/icons/notification-icon.png"/>
-    <img *ngIf="newNotification" alt="Maps" title="Maps" class="nav-icon" src="../../../assets/icons/new-notification-icon.png"/>
+    <div *ngIf="!newNotification"><img alt="Alert" title="Alert" class="nav-icon" src="../../../assets/icons/notification-icon.png"/></div>
+    <div *ngIf="newNotification"><img alt="Alert" title="Alert" class="nav-icon" src="../../../assets/icons/new-notification-icon.png"/></div>
 </div>

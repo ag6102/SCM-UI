@@ -9,6 +9,7 @@ import { DashboardComponent } from './screens/dashboard/dashboard.component';
 import { DashboardTrackerComponent } from './screens/dashboard-tracker/dashboard-tracker.component';
 import { MapsComponent } from './common-components/maps/maps.component';
 import { NotificationBarComponent } from './common-components/notification-bar/notification-bar.component';
+import { ViewListComponent } from './common-components/view-list/view-list.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { NotificationBarComponent } from './common-components/notification-bar/n
     DashboardComponent,
     DashboardTrackerComponent,
     MapsComponent,
-    NotificationBarComponent
+    NotificationBarComponent,
+    ViewListComponent
   ],
   imports: [
     BrowserModule,

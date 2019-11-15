@@ -1,0 +1,39 @@
+.list-container{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 100%;
+}
+
+.list-container .list-header,
+.list-container .list-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.5em;
+    border-bottom: 1px solid #ccc;
+    box-shadow: 2px 0px 10px 1px #ccc;
+}
+
+.list-header{
+    font-weight: bold;
+}
+
+.time{
+    width: 25%;
+}
+
+.desc{
+    width: 40%;
+}
+
+.criticality{
+    width: 10%;
+}
+
+.action{
+    width: 25%;
+    text-align: right;
+}
