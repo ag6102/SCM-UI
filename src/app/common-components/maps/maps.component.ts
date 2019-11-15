@@ -11,9 +11,7 @@ export class MapsComponent implements OnInit {
 
   @Input() mapsData; 
 
-  constructor() {
-    console.log(config)
-   }
+  constructor() { }
 
   ngOnInit() {
     let pollutionCooardinates = this.mapsData.coordinates;
