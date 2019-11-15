@@ -1,0 +1,8 @@
+{
+    "API_ENDPOINTS": {
+      "USER": "api/v1/user"
+    },
+    "CONSTANTS": {
+        "TOMTOM_API_KEY" : "69zn9YEOaXOsIbOWQWFiaWINh4yJobxv"
+    }
+  }
