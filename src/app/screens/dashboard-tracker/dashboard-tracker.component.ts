@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardTrackerComponent implements OnInit {
 
   mapsData: Object = {};
+  alertListData = [];
 
   constructor() { }
 
@@ -28,6 +29,50 @@ export class DashboardTrackerComponent implements OnInit {
       ],
       center : [53.3895286,-6.1190612],
     };
+    this.alertListData = [
+      {
+        id : '42343243',
+        time : '23/10/2019 12:00:43',
+        desc : 'Test Test Test Test', 
+        criticality : 'High',
+        action : 'Test'
+      },
+      {
+        id : '74553423',
+        time : '23/10/2019 12:00:43',
+        desc : 'Test Test Test Test', 
+        criticality : 'High',
+        action : 'Test'
+      },
+      {
+        id : '324346',
+        time : '23/10/2019 12:00:43',
+        desc : 'Test Test Test Test', 
+        criticality : 'High',
+        action : 'Test'
+      },
+      {
+        id : '324346',
+        time : '23/10/2019 12:00:43',
+        desc : 'Test Test Test Test', 
+        criticality : 'High',
+        action : 'Test'
+      },
+      {
+        id : '324346',
+        time : '23/10/2019 12:00:43',
+        desc : 'Test Test Test Test', 
+        criticality : 'High',
+        action : 'Test'
+      },
+      {
+        id : '324346',
+        time : '23/10/2019 12:00:43',
+        desc : 'Test Test Test Test', 
+        criticality : 'High',
+        action : 'Test'
+      }
+    ]
     this.mapsData = mapsJson;
   }
 

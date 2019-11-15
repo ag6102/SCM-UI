@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-declare let L;
 declare let tomtom: any;
 
 @Component({
