@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import config from '../../../assets/config/dev-config.json';
 declare let tomtom: any;
 
 @Component({
@@ -18,7 +19,7 @@ export class MapsComponent implements OnInit {
     let iconSize = [40, 40];
     let greenIcon  = {
       icon: tomtom.L.icon({
-           iconUrl: '../../../assets/icons/greenIcon.png',
+            iconUrl: '../../../assets/icons/greenIcon.png',
             iconSize: iconSize,
             iconAnchor: [17, 70],
             popupAnchor: [12, -80]
@@ -41,7 +42,7 @@ export class MapsComponent implements OnInit {
       })
     };
     const map = tomtom.L.map('map', {
-      key: '69zn9YEOaXOsIbOWQWFiaWINh4yJobxv',
+      key: config.CONSTANTS.TOMTOM_API_KEY,
       basePath: '/assets/sdk',
       center: center,
       zoom: 15,
