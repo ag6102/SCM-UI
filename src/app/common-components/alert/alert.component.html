@@ -1,0 +1,9 @@
+<div class="alert-container" *ngIf="showAlert">
+    <div class="alert-heading">Alert!!!</div>
+    <div class="alert-body">{{alertData.message}}</div>
+    <div class="alert-actions display-flex">
+        <div *ngFor="let action of alertData.action">
+            <button>{{action}}</button>
+        </div>
+    </div>
+</div>

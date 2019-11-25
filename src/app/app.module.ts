@@ -10,6 +10,8 @@ import { DashboardTrackerComponent } from './screens/dashboard-tracker/dashboard
 import { MapsComponent } from './common-components/maps/maps.component';
 import { NotificationBarComponent } from './common-components/notification-bar/notification-bar.component';
 import { ViewListComponent } from './common-components/view-list/view-list.component';
+import { AlertComponent } from './common-components/alert/alert.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,11 +22,13 @@ import { ViewListComponent } from './common-components/view-list/view-list.compo
     DashboardTrackerComponent,
     MapsComponent,
     NotificationBarComponent,
-    ViewListComponent
+    ViewListComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

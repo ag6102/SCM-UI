@@ -12,3 +12,53 @@ body{
 .display-flex{
     display: flex;
 }
+
+input, select {
+    display: block;
+    margin: 0;
+    padding: 0.5em;
+    color: black;
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.8em;
+    font-weight: inherit;
+    border: none;
+    border-radius: 0.4rem;
+    height: 2em;
+    background-color: #fff;
+    box-shadow: 5px 4px 10px 0px #313131;
+    outline: none;
+  }
+  
+input::placeholder {
+    color: rgb(30, 30, 31);
+}
+  
+input:focus, select:focus {
+    box-shadow: 0px 4px 10px 0px #ccc;
+}
+
+button{
+    display: inline-block;
+    padding: 0em 0.2em;
+    border: 1em solid #FFFFFF;
+    margin: 1em 0.3em 0.3em 0;
+    border-radius: 0.12em;
+    font-size: 20px;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.2s;
+    box-shadow: 0px 4px 10px 0px #ccc;
+}
+button:hover{
+    outline: 1px solid #ccc;
+    background-color:#FFFFFF;
+}
+@media all and (max-width:30em){
+    button{
+        display:block;
+        margin:0.4em auto;
+    }
+}
