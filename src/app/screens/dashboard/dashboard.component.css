@@ -8,3 +8,11 @@
     width: 6vw;
     height: 100vh;
 }
+.router-container{
+    overflow: scroll;
+    position: relative;
+    height: 92vh;
+}
+.notification-bar{
+    height:11vh;
+}

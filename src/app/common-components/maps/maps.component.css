@@ -1,8 +1,6 @@
 #map {
     height: 60vh;
-    min-width: 85%;
-    max-width: 100%;
-    position: absolute;
-    left: 10vw;
+    min-width: 100%;
+    position: relative;
     margin: 2em;
 }

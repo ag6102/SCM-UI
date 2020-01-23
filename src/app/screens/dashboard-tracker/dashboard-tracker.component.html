@@ -1,7 +1,10 @@
-<div>
+<div class="dashboard-tracker">
     <div class="tabs">
         <div class="tab">Traffic</div>
         <div class="tab" [ngClass]="{'selected' : true}" >Pollution</div>
     </div>
-    <app-maps [mapsData]="mapsData"></app-maps>
+    <div *ngIf="mapsData" class="map-container"><app-maps [mapsData]="mapsData"></app-maps></div>
+    <div class="alert-list">
+        <app-view-list [listData]="alertListData"></app-view-list>
+    </div>
 </div>

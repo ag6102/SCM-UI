@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
+  alertData = {};
+  showAlert: Boolean = true;
+
   constructor() { }
 
   ngOnInit() {
+    this.alertData = {
+      'message': 'Pollution alert : High in Dublin 3',
+      'action' : ['Cancel', 'Take Action']
+    };
   }
 
 }

@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./notification-bar.component.css']
 })
 export class NotificationBarComponent implements OnInit {
-  newNotification: Boolean = true;
-  constructor() { }
+
+  newNotification: Boolean;
+
+  constructor() {
+    
+   }
 
   ngOnInit() {
+    this.newNotification = true;
   }
 
 }
