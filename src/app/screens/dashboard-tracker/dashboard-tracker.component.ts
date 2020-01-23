@@ -12,16 +12,16 @@ export class DashboardTrackerComponent implements OnInit {
   alertListData = [];
   latLongList;
   pollutionDetails;
+  interval;
 
   constructor(private pollutionService: PollutionService) { }
 
   ngOnInit() {
-    // let coordinates = this.fetchAllLatLong();
     let coordinates = [[53.3895286,-6.1190612], [52.3895286,-6.1190612]];
-    // let pollutionData = coordinates.forEach(element => {
-    //   return this.fetchLatestPollutionDetails(element);
-    // });
     this.fetchLatestPollutionDetails();
+    // this.interval = setInterval(() => {
+    //   this.fetchLatestPollutionDetails();
+    // }, 1800000);
   }
 
   fetchAllLatLong(){

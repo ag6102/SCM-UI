@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import config from '../../../assets/config/dev-config.json';
+declare let L;
 declare let tomtom: any;
 
 @Component({
@@ -10,6 +11,7 @@ declare let tomtom: any;
 export class MapsComponent implements OnInit, OnChanges  {
 
   @Input() mapsData; 
+  map;
 
   constructor() { }
 
@@ -21,7 +23,7 @@ export class MapsComponent implements OnInit, OnChanges  {
     if(this.mapsData != undefined && this.mapsData.coordinates && this.mapsData.coordinates.length >0){
       let pollutionCooardinates = this.mapsData.coordinates;
       let center = this.mapsData.center;
-      let iconSize = [40, 40];
+      let iconSize = [25, 40];
       let greenIcon  = {
         icon: tomtom.L.icon({
               iconUrl: '../../../assets/icons/greenIcon.png',
@@ -46,7 +48,7 @@ export class MapsComponent implements OnInit, OnChanges  {
               popupAnchor: [12, -80]
         })
       };
-      const map = tomtom.L.map('map', {
+      const map = new tomtom.L.map('map', {
         key: config.CONSTANTS.TOMTOM_API_KEY,
         basePath: '/assets/sdk',
         center: center,
