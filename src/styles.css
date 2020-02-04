@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 body{
-    background-color: #000;
-    background-image: linear-gradient(141deg, #4e4e4e 0%, rgb(41, 38, 38) 51%, #000 75%);
+    background-color: #1e2254;
+    /* background-image: linear-gradient(141deg, #4e4e4e 0%, rgb(41, 38, 38) 51%, #000 75%); */
     width: 100vw;
     height: 100vh;
     color: #fff;

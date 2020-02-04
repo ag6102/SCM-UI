@@ -11,8 +11,11 @@
 .router-container{
     overflow: scroll;
     position: relative;
-    height: 92vh;
+    height: 77vh;
+    background: #fff;
+    top: -1rem;
+    margin: 0 3vw;
 }
 .notification-bar{
-    height:11vh;
+    height:23vh;
 }
