@@ -1,19 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
-body{
+
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+body {
     background-color: #000;
     background-image: linear-gradient(141deg, #4e4e4e 0%, rgb(41, 38, 38) 51%, #000 75%);
     width: 100vw;
     height: 100vh;
     color: #fff;
     margin: 0;
-    font-family: Helvetica;
+    font-family: 'Roboto';
     font-size: 1em;
 }
-.display-flex{
+
+.display-flex {
     display: flex;
 }
 
-input, select {
+input,
+select {
     display: block;
     margin: 0;
     padding: 0.5em;
@@ -26,19 +30,19 @@ input, select {
     border-radius: 0.4rem;
     height: 2em;
     background-color: #fff;
-    box-shadow: 5px 4px 10px 0px #313131;
     outline: none;
-  }
-  
+}
+
 input::placeholder {
     color: rgb(30, 30, 31);
 }
-  
-input:focus, select:focus {
+
+input:focus,
+select:focus {
     box-shadow: 0px 4px 10px 0px #ccc;
 }
 
-button{
+button {
     display: inline-block;
     padding: 0em 0.2em;
     border: 1em solid #FFFFFF;
@@ -50,15 +54,16 @@ button{
     font-weight: bold;
     text-align: center;
     transition: all 0.2s;
-    box-shadow: 0px 4px 10px 0px #ccc;
 }
-button:hover{
+
+button:hover {
     outline: 1px solid #ccc;
-    background-color:#FFFFFF;
+    background-color: #FFFFFF;
 }
-@media all and (max-width:30em){
-    button{
-        display:block;
-        margin:0.4em auto;
+
+@media all and (max-width:30em) {
+    button {
+        display: block;
+        margin: 0.4em auto;
     }
 }

@@ -1,26 +1,30 @@
-.side-nav-container{
+.side-nav-container {
     display: flex;
     justify-content: center;
 }
 
-.logo{
+.logo {
     width: 6vw;
     padding: 15px 0;
 }
 
-.nav-icons{
+.nav-icons {
     bottom: 1em;
     position: absolute;
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
     font-size: 0.85em;
+    width: 6vw;
 }
 
-.nav-icons>div{
-    margin: 5px 0;
+.nav-icons>div {
+    /* margin: 5px 0; */
+    padding: 10px;
 }
 
-.nav-icons .nav-icon{
-    width: 2.5vw;
-    margin-right: 5px;
+.nav-icons .nav-icon {
+    width: 3vw;
+    display: block;
+    margin: auto;
+    /* margin-right: 5px; */
 }
