@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PollutionService } from '../../services/pollution.service';
+import { BikesService } from '../../services/bikes.service';
 
 @Component({
   selector: 'app-dashboard-tracker',
@@ -12,9 +13,11 @@ export class DashboardTrackerComponent implements OnInit {
   alertListData = [];
   latLongList;
   pollutionDetails;
+  bikesDetails;
   interval;
+  selected = 'pollution';
 
-  constructor(private pollutionService: PollutionService) { }
+  constructor(private pollutionService: PollutionService, private bikesService: BikesService) { }
 
   ngOnInit() {
     let coordinates = [[53.3895286,-6.1190612], [52.3895286,-6.1190612]];
@@ -32,6 +35,7 @@ export class DashboardTrackerComponent implements OnInit {
   }
 
   fetchLatestPollutionDetails(){
+    this.selected = 'pollution';
     this.pollutionService.fetchPollutionDeatils().subscribe((response)=>{
       console.log(response);
       this.pollutionDetails = response;
@@ -47,7 +51,7 @@ export class DashboardTrackerComponent implements OnInit {
     }
     let mapsJson = {
       coordinates : pCoordinates,
-      center : [53.343792,-6.254572],
+      type : 'pollution'
     };
     this.alertListData = [
       {
@@ -95,6 +99,35 @@ export class DashboardTrackerComponent implements OnInit {
     ]
     this.mapsData = mapsJson;
     });
+  }
+
+  fetchLatestBikesData(){
+    this.selected = 'bike';
+    this.bikesService.fetchBikeDeatils().subscribe((response)=>{
+      console.log(response);
+      this.bikesDetails = response;
+      let bCoordinates = [] ;
+    for(var i=0; i < this.bikesDetails.length; i++){
+      bCoordinates.push({
+        cordinate : [this.bikesDetails[i].lat, this.bikesDetails[i].long],
+        status : this.bikesDetails[i].status,
+        availableBikes : this.bikesDetails[i].available_bikes,
+        availableBikeStands : this.bikesDetails[i].available_bike_stands,
+        bikeStands : this.bikesDetails[i].bike_stands
+      });
+      
+    }
+    let mapsJson = {
+      coordinates : bCoordinates,
+      type : 'bike'
+    };
+    this.alertListData = [];
+    this.mapsData = mapsJson;
+    });
+  }
+
+  fetchTrafficData(){
+    
   }
 
 }

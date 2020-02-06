@@ -1,7 +1,8 @@
 <div class="dashboard-tracker">
     <div class="tabs">
-        <div class="tab">Traffic</div>
-        <div class="tab" [ngClass]="{'selected' : true}" >Pollution</div>
+        <div (click)="fetchLatestPollutionDetails()" class="tab" [ngClass]="{'selected' : selected == 'traffic'}">Traffic</div>
+        <div (click)="fetchLatestPollutionDetails()" class="tab" [ngClass]="{'selected' : selected == 'pollution'}" >Pollution</div>
+        <div (click)="fetchLatestBikesData()" class="tab" [ngClass]="{'selected' : selected == 'bike'}">Bikes</div>
     </div>
     <div *ngIf="mapsData" class="map-container"><app-maps [mapsData]="mapsData"></app-maps></div>
     <div class="alert-list">
