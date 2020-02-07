@@ -6,19 +6,13 @@ import config from '../../assets/config/dev-config.json';
 @Injectable({
   providedIn: 'root'
 })
-export class PollutionService {
+export class BikesService {
+  
+  baseURL = config.API_ENDPOINTS.BASE_URL + "/bikes";
 
-  baseURL = config.API_ENDPOINTS.BASE_URL + "/polls";
   constructor(private httpClient: HttpClient) { }
 
-  fetchAllPollutionLatLongs(){
-    return this.httpClient.get(this.baseURL, {
-      headers: new HttpHeaders({
-           'Content-Type':  'application/json',
-         })
-      });
-  }
-  fetchPollutionDetails(): Observable<Object> {
+  fetchBikeDetails(){
     return this.httpClient.get(this.baseURL, {
       headers: new HttpHeaders({
            'Content-Type':  'application/json',

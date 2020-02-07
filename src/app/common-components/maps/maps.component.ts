@@ -10,98 +10,99 @@ declare let tomtom: any;
   styleUrls: ['./maps.component.css']
 })
 export class MapsComponent implements OnInit, OnChanges  {
-  @ViewChild('map', {}) mapElement: any;
+  @ViewChild('map', {static: true}) mapElement: any;
   map1: google.maps.Map;
 
   @Input() mapsData; 
   map;
+  center = [53.1424, 7.6921];
+  marker;
 
   constructor() { }
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
-    // this.ngOnInit();
+    this.ngOnInit();
   }
   ngOnInit() {
-//     const mapProperties = {
-//       center: new google.maps.LatLng(35.2271, -80.8431),
-//       zoom: 15,
-//       mapTypeId: google.maps.MapTypeId.ROADMAP
-//  };
-//   this.map1 = new google.maps.Map(this.mapElement.nativeElement, mapProperties);
-
-  var map = new google.maps.Map((this.mapElement.nativeElement), {
-    zoom: 15,
-    center: {lat: 52.41072, lng: 4.84239},
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  });
-
-  var roadTrafficCoordinates = [
-    {lat: 52.40606308516981, lng: 4.839773568917934},
-    {lat: 52.40747152484432, lng: 4.836625120554913},
-    {lat: 52.40750821722058, lng: 4.836540846321725}
-  ];
-  var trafficPath = new google.maps.Polyline({
-    path: roadTrafficCoordinates,
-    geodesic: true,
-    strokeColor: '#FF0000',
-    strokeOpacity: 1.0,
-    strokeWeight: 2
-  });
-
-  var locations = [
-    ['Bondi Beach', 52.40606308516981, 4.839773568917934],
-    ['Coogee Beach', 52.40747152484432, 4.836625120554913],
-    ['Cronulla Beach', 52.40750821722058, 4.836540846321725]
-  ];
-  for (var i = 0; i < locations.length; i++) {  
-    var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-      map: map
-    });
+    this.map = this.initializeMap();
+      if(this.mapsData.type == 'pollution'){
+        this.fetchPollutionData();
+      }else if(this.mapsData.type == 'bike'){
+        this.fetchBikesData();
+      }
+      else if(this.mapsData.type == 'traffic'){
+        this.fetchTrafficDetails();
+      }
   }
 
-  trafficPath.setMap(map);
-    // if(this.mapsData != undefined && this.mapsData.coordinates && this.mapsData.coordinates.length >0){
-    //   let pollutionCooardinates = this.mapsData.coordinates;
-    //   let center = this.mapsData.center;
-    //   let iconSize = [25, 40];
-    //   let greenIcon  = {
-    //     icon: tomtom.L.icon({
-    //           iconUrl: '../../../assets/icons/greenIcon.png',
-    //           iconSize: iconSize,
-    //           iconAnchor: [17, 70],
-    //           popupAnchor: [12, -80]
-    //     })
-    //   };
-    //   let redIcon  = {
-    //     icon: tomtom.L.icon({
-    //         iconUrl: '../../../assets/icons/redIcon.png',
-    //           iconSize: iconSize,
-    //           iconAnchor: [17, 70],
-    //           popupAnchor: [12, -80]
-    //     })
-    //   };
-    //   let yellowIcon  = {
-    //     icon: tomtom.L.icon({
-    //         iconUrl: '../../../assets/icons/yellowIcon.png',
-    //           iconSize: iconSize,
-    //           iconAnchor: [17, 70],
-    //           popupAnchor: [12, -80]
-    //     })
-    //   };
-    //   const map = new tomtom.L.map('map', {
-    //     key: config.CONSTANTS.TOMTOM_API_KEY,
-    //     basePath: '/assets/sdk',
-    //     center: center,
-    //     zoom: 15,
-    //     source : 'vector'
-    //   });
-    //   pollutionCooardinates.forEach (function (child) {
-    //     var marker = tomtom.L.marker(child.cordinate, child.aqi_display >=1 && child.aqi_display <=3  ? greenIcon : (child.aqi_display >=4 && child.aqi_display <=7 ? yellowIcon : redIcon)).addTo(map);
-    //     marker.bindPopup(child.msg).openPopup();
-    //     //marker.bindPopup(child.msg);
-    //   });
-    // }
+  initializeMap(){
+    var map = new google.maps.Map((this.mapElement.nativeElement), {
+    zoom: 15,
+    center: {lat: 53.349562, lng: -6.278198},
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+  return map;
+  }
+
+  fetchPollutionData(){
+    let pollutionCooardinates = this.mapsData.coordinates;
+    for (let i = 0; i < pollutionCooardinates.length; i++) {  
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(pollutionCooardinates[i].cordinate[0], pollutionCooardinates[i].cordinate[1]),
+        map: this.map
+      });
+      var infowindow = new google.maps.InfoWindow({
+      content: pollutionCooardinates[i].msg
+    });
+  
+    marker.addListener('click', function() {
+      infowindow.open(marker.get('map'), marker);
+    });
+    }
+  }
+
+  fetchBikesData(){
+    let bikesCooardinates = this.mapsData.coordinates;
+    var marker;
+    for (let i = 0; i < bikesCooardinates.length; i++) {  
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(bikesCooardinates[i].cordinate[0], bikesCooardinates[i].cordinate[1]),
+        map: this.map
+      });
+    this.attachSecretMessage(marker, 'Available Stands : '+bikesCooardinates[i].availableBikeStands+' Available Bikes : '+bikesCooardinates[i].availableBikes);
+    }
+  }
+
+  fetchTrafficDetails(){
+    let trafficData = this.mapsData.coordinates;
+    for (let i = 0; i < trafficData.length; i++) {
+      var coordinates = trafficData[i].coordinates.coordinate;
+      var roadTrafficCoordinates = [];
+      for (let j = 0; j < coordinates.length; j++) {
+        roadTrafficCoordinates.push({lat: coordinates[j].latitude, lng: coordinates[j].longitude})
+        
+    }
+      var trafficPath = new google.maps.Polyline({
+        path: roadTrafficCoordinates,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 3
+      });
+    
+      
+    trafficPath.setMap(this.map);
+    }
+    
+  }
+  attachSecretMessage(marker, secretMessage) {
+    var infowindow = new google.maps.InfoWindow({
+      content: secretMessage
+    });
+  
+    marker.addListener('click', function() {
+      infowindow.open(marker.get('map'), marker);
+    });
   }
 
 }

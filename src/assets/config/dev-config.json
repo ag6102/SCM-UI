@@ -1,8 +1,9 @@
 {
     "API_ENDPOINTS": {
-      "USER": "api/v1/user"
+        "USER": "api/v1/user",
+        "BASE_URL": "https://scm-be.herokuapp.com/data"
     },
     "CONSTANTS": {
-        "TOMTOM_API_KEY" : "69zn9YEOaXOsIbOWQWFiaWINh4yJobxv"
+        "TOMTOM_API_KEY": "69zn9YEOaXOsIbOWQWFiaWINh4yJobxv"
     }
-  }
+}

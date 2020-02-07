@@ -8,6 +8,8 @@ import {Router} from '@angular/router';
 })
 export class SideNavComponent implements OnInit {
 
+  selected = 'dashboard';
+
   constructor(private router: Router) { }
 
   ngOnInit() {
