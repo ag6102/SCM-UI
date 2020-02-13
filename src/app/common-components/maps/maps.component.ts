@@ -77,6 +77,7 @@ export class MapsComponent implements OnInit, OnChanges  {
     // let trafficData = this.mapsData.coordinates;
     // for (let i = 0; i < trafficData.length; i++) {
     //   var coordinates = trafficData[i].coordinates.coordinate;
+    //   var color = trafficData[i].color;
     //   var roadTrafficCoordinates = [];
     //   for (let j = 0; j < coordinates.length; j++) {
     //     roadTrafficCoordinates.push({lat: coordinates[j].latitude, lng: coordinates[j].longitude})
@@ -85,7 +86,7 @@ export class MapsComponent implements OnInit, OnChanges  {
     //   var trafficPath = new google.maps.Polyline({
     //     path: roadTrafficCoordinates,
     //     geodesic: true,
-    //     strokeColor: '#FF0000',
+    //     strokeColor: color,
     //     strokeOpacity: 1.0,
     //     strokeWeight: 3
     //   });
@@ -93,13 +94,13 @@ export class MapsComponent implements OnInit, OnChanges  {
       
     // trafficPath.setMap(this.map);
     // }
-    // var map = new google.maps.Map(document.getElementById('map'), {
-    //   zoom: 13,
-    //   center: {lat: 34.04924594193164, lng: -118.24104309082031}
-    // });
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 13,
+      center: {lat: 34.04924594193164, lng: -118.24104309082031}
+    });
   
-    var trafficLayer = new google.maps.TrafficLayer();
-    trafficLayer.setMap(this.map);
+    // var trafficLayer = new google.maps.TrafficLayer();
+    // trafficLayer.setMap(this.map);
   }
   attachSecretMessage(marker, secretMessage) {
     var infowindow = new google.maps.InfoWindow({

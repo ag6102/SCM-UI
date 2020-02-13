@@ -8,14 +8,16 @@ import {Router} from '@angular/router';
 })
 export class SideNavComponent implements OnInit {
 
-  selected = 'dashboard';
+  selected = 'dashboard/tracker';
 
   constructor(private router: Router) { }
 
   ngOnInit() {
+    this.selected = window.location.pathname;
   }
 
   navRedirect(pageName) {
     this.router.navigateByUrl(pageName);
+    this.selected = pageName;
   }
 }
