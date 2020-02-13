@@ -12,6 +12,9 @@ import { NotificationBarComponent } from './common-components/notification-bar/n
 import { ViewListComponent } from './common-components/view-list/view-list.component';
 import { AlertComponent } from './common-components/alert/alert.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PollutionTrendGraphComponent } from './common-components/pollution-trend-graph/pollution-trend-graph.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { AnalyticsComponent } from './screens/analytics/analytics.component';
 
 @NgModule({
   declarations: [
@@ -23,12 +26,15 @@ import { HttpClientModule } from '@angular/common/http';
     MapsComponent,
     NotificationBarComponent,
     ViewListComponent,
-    AlertComponent
+    AlertComponent,
+    PollutionTrendGraphComponent,
+    AnalyticsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

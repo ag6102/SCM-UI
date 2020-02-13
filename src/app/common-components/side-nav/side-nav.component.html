@@ -1,11 +1,11 @@
 <div class="side-nav-container">
     <!-- <div><img class="logo" src="../../../../assets/icons/logo-icon.png"/></div> -->
     <div class="nav-icons">
-        <div (click)="navRedirect('dashboard')" [ngClass]="{'selected' : selected == 'dashboard'}">
+        <div (click)="navRedirect('dashboard/tracker')" [ngClass]="{'selected' : selected == 'dashboard'}">
             Maps
             <!-- <img alt="Maps" title="Maps" class="nav-icon" src="../../../assets/icons/map-icon.png"/> -->
         </div>
-        <div (click)="navRedirect('')" [ngClass]="{'selected' : selected == 'analytics'}">
+        <div (click)="navRedirect('dashboard/analytics')" [ngClass]="{'selected' : selected == 'analytics'}">
             Analytics
             <!-- <img alt="History" title="History" class="nav-icon" src="../../../assets/icons/history-icon.png"/> -->
         </div>

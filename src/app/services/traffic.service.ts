@@ -7,8 +7,8 @@ import config from '../../assets/config/dev-config.json';
   providedIn: 'root'
 })
 export class TrafficService {
-  baseURL = "http://10.6.34.43:8000/data" + "/traffic";
-  // baseURL = config.API_ENDPOINTS.BASE_URL + "/traffic";
+  // baseURL = "http://10.6.57.211:8000/data" + "/traffic";
+  baseURL = config.API_ENDPOINTS.BASE_URL + "/traffic";
 
   constructor(private httpClient: HttpClient) { }
 
