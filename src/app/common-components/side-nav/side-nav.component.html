@@ -13,6 +13,10 @@
             Alerts
             <!-- <img alt="Actions" title="Actions" class="nav-icon" src="../../../assets/icons/actions-icon.png"/> -->
         </div>
+        <div (click)="navRedirect('dashboard/admin')" [ngClass]="{'selected' : selected == 'admin'}">
+            Admin Portal
+            <!-- <img alt="Actions" title="Actions" class="nav-icon" src="../../../assets/icons/actions-icon.png"/> -->
+        </div>
         <div (click)="navRedirect('login')">
             Logout
             <!-- <img alt="Logout" title="Logout" class="nav-icon" src="../../../assets/icons/logout-icon.png"/> -->

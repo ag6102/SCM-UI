@@ -8,6 +8,8 @@
 .side-nav-container {
     width: 6vw;
     height: 100vh;
+    color: #fff;
+    background-color: #1e2254;
 }
 
 .router-container {
@@ -16,6 +18,15 @@
     /* height: 92vh; */
     padding: 10px;
 }
+
+.example-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #eee;
+  }
 
 
 /* .notification-bar{

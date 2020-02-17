@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './screens/dashboard/dashboard.component';
 import { LoginComponent } from './screens/login/login.component';
 import { DashboardTrackerComponent } from './screens/dashboard-tracker/dashboard-tracker.component';
+import { AdminPortalComponent } from './screens/admin-portal/admin-portal.component';
 
 
 const routes: Routes = [
@@ -11,7 +12,8 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, 
     children: [
       { path: '', redirectTo: 'tracker', pathMatch: 'full' },
-      { path: 'tracker', component: DashboardTrackerComponent }
+      { path: 'tracker', component: DashboardTrackerComponent },
+      { path: 'admin', component: AdminPortalComponent }
     ]
    }
 ];

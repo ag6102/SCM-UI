@@ -8,13 +8,15 @@ import config from '../../assets/config/dev-config.json';
 })
 export class PollutionService {
 
-  baseURL = config.API_ENDPOINTS.BASE_URL + "/polls";
+  // baseURL = config.API_ENDPOINTS.BASE_URL + "/polls";
+  baseURL = "http://10.6.61.166:8000/data/polls/";
   constructor(private httpClient: HttpClient) { }
 
   fetchAllPollutionLatLongs(){
     return this.httpClient.get(this.baseURL, {
       headers: new HttpHeaders({
            'Content-Type':  'application/json',
+           'Authorization': localStorage.getItem('token')
          })
       });
   }
@@ -22,6 +24,7 @@ export class PollutionService {
     return this.httpClient.get(this.baseURL, {
       headers: new HttpHeaders({
            'Content-Type':  'application/json',
+           'Authorization': localStorage.getItem('token')
          })
       });
   }

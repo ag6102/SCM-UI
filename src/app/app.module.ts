@@ -12,6 +12,14 @@ import { NotificationBarComponent } from './common-components/notification-bar/n
 import { ViewListComponent } from './common-components/view-list/view-list.component';
 import { AlertComponent } from './common-components/alert/alert.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminPortalComponent } from './screens/admin-portal/admin-portal.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatCardModule} from '@angular/material/card';
+import {MatInputModule} from '@angular/material/input';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -23,12 +31,21 @@ import { HttpClientModule } from '@angular/common/http';
     MapsComponent,
     NotificationBarComponent,
     ViewListComponent,
-    AlertComponent
+    AlertComponent,
+    AdminPortalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatSidenavModule,
+    MatCardModule,
+    MatInputModule,
+    MatRadioModule,
+    MatSelectModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
