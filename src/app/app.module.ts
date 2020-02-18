@@ -16,6 +16,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { PollutionTrendGraphComponent } from './common-components/pollution-trend-graph/pollution-trend-graph.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AnalyticsComponent } from './screens/analytics/analytics.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminPortalComponent } from './screens/admin-portal/admin-portal.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatCardModule} from '@angular/material/card';
+import {MatInputModule} from '@angular/material/input';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -29,14 +36,22 @@ import { AnalyticsComponent } from './screens/analytics/analytics.component';
     ViewListComponent,
     AlertComponent,
     PollutionTrendGraphComponent,
-    AnalyticsComponent
+    AnalyticsComponent,
+    AdminPortalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     NgxChartsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    MatSidenavModule,
+    MatCardModule,
+    MatInputModule,
+    MatRadioModule,
+    MatSelectModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

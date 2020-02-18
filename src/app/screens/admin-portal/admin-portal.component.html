@@ -1,0 +1,38 @@
+<div class="admin-portal">
+    <mat-card>
+        <mat-card-title>Create New User</mat-card-title>
+        <mat-card-content>
+            <div class="block">
+                <label>First Name</label>
+                <input [(ngModel)] = "userDetails.first_name" type="text"/>
+            </div>
+            <div class="block">
+                <label>Last Name</label>
+                <input [(ngModel)] = "userDetails.last_name" type="text"/>
+            </div>
+            <div class="block">
+                <label>E-mail</label>
+                <input [(ngModel)] = "userDetails.username" type="text"/>
+            </div>
+            <div class="block">
+                <label>Password</label>
+                <input [(ngModel)] = "userDetails.password" type="password"/>
+            </div>
+            <div class="block">
+                <label>Role</label>
+                <select [(ngModel)] = "userDetails.role">
+                    <option selected="true" disabled>Select</option>
+                    <option value="manager">Manager</option>
+                    <option value="service_provider">Service Provider</option>
+                </select>
+            </div>
+            <div class="block">
+                <label>User Permissions</label>
+                <input type="checkbox" [(ngModel)] = "userDetails.permits"/>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button (click)="signupNewUser()">Create User</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

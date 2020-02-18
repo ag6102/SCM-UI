@@ -17,6 +17,9 @@ export class SideNavComponent implements OnInit {
   }
 
   navRedirect(pageName) {
+    if(pageName == 'login'){
+      localStorage.removeItem('token');
+    }
     this.router.navigateByUrl(pageName);
     this.selected = pageName;
   }

@@ -3,16 +3,25 @@
         <img src="../../../../assets/icons/logo.png"/>
     </div>
     <div class="user-cred">
-        <div class="block">
-            <label>Username/E-mail</label>
-            <input type="text"/>
-        </div>
-        <div class="block">
-            <label>Password</label>
-            <input type="password"/>
-        </div>
-        <div class="center">
-            <button (click)="authenticate()">Login</button>
-        </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="block">
+                <label>E-mail</label>
+                <input id="email" type="text"/>
+            </div>
+            <div class="block">
+                <label>Password</label>
+                <input id="password" type="password"/>
+            </div>
+            <!-- <div class="error-msg" *ngIf = "showError">Please enter correct credentials.</div> -->
+            <div class="error-msg" *ngIf="submitted && form.controls.email.invalid" id="email-error">
+                Please enter a valid email.
+            </div>
+            <div class="error-msg" *ngIf="submitted && form.controls.password.invalid" id="email-error">
+                Please enter a valid password.
+            </div>
+            <div class="center">
+                <button type="submit">Login</button>
+            </div>
+        </form>
     </div>
 </div>
