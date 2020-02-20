@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import {Router} from '@angular/router';
+ import {Router} from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 
@@ -8,39 +8,36 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angula
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
 
-  form: FormGroup;
-  userDetails = {
-    'username' : '',
-    'password' : ''
-  }
+  loginForm: FormGroup;
   showError:Boolean = false;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder) { }
-  // constructor(private authenticationService: AuthenticationService, private formBuilder: FormBuilder) { }
+  //constructor(private formBuilder: FormBuilder) { }
+  constructor(private authenticationService: AuthenticationService, private formBuilder: FormBuilder, private router:Router) { }
   
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.pattern('[^ @]*@[^ @]*')]],
+    this.loginForm = this.formBuilder.group({
+      username: ['', [Validators.required, Validators.pattern('[^ @]*@[^ @]*')]],
       password: ['', Validators.required]
     });
   }
 
-  onSubmit() {
+  onSubmit(loginCreds) {
     this.submitted = true;
-    // if(this.userDetails.username && this.userDetails.password){
-    //   this.authenticationService.authenticateUser(this.userDetails).subscribe((response)=>{
-    //     this.showError = false;
-    //     localStorage.setItem('token', response['data'].token);
-    //     // this.router.navigateByUrl('dashboard');
-    //   }, (error) => {
-    //     this.showError = true;
-    //   });
-    // }else{
-    //   this.showError = true;
-    // }
+     if(loginCreds.username && loginCreds.password){
+       this.authenticationService.authenticateUser(loginCreds).subscribe((response)=>{
+         this.showError = false;
+         localStorage.setItem('token', response['data'].token);
+          this.router.navigateByUrl('dashboard');
+       }, (error) => {
+         this.showError = true;
+       });
+     }else{
+       this.showError = true;
+     }
   }
 
 }

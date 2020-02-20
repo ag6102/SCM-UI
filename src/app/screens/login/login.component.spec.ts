@@ -29,25 +29,25 @@ describe('LoginComponent', () => {
   it('should render form with email and password inputs', () => {
     const element = fixture.nativeElement;
     expect(element.querySelector('form')).toBeTruthy();
-    expect(element.querySelector('#email')).toBeTruthy();
+    expect(element.querySelector('#username')).toBeTruthy();
     expect(element.querySelector('#password')).toBeTruthy();
     expect(element.querySelector('button')).toBeTruthy();
   });
 
   it('should validate email input as required', () => {
-    const email = component.form.controls.email;
+    const email = component.loginForm.controls.email;
     expect(email.valid).toBeFalsy();
     expect(email.errors.required).toBeTruthy();
   });
 
   it('should validate password input as required', () => {
-    const password = component.form.controls.password;
+    const password = component.loginForm.controls.password;
     expect(password.valid).toBeFalsy();
     expect(password.errors.required).toBeTruthy();
   });
 
   it('should validate email format', () => {
-    const email = component.form.controls.email;
+    const email = component.loginForm.controls.email;
     email.setValue('test');
     const errors = email.errors;
     expect(errors.required).toBeFalsy();
@@ -56,7 +56,7 @@ describe('LoginComponent', () => {
   });
 
   it('should validate email format correctly', () => {
-    const email = component.form.controls.email;
+    const email = component.loginForm.controls.email;
     email.setValue('test@test.com');
     const errors = email.errors || {};
   
