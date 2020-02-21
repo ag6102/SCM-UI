@@ -1,5 +1,5 @@
   import { Component, OnInit } from '@angular/core';
-  // import {Router} from '@angular/router';
+  import {Router} from '@angular/router';
   import { AuthenticationService } from '../../services/authentication.service';
   import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 
@@ -12,13 +12,13 @@
 
   form: FormGroup;
   userDetails = {
-    'username' : 'email@gmail.com',
+    'username' : 'dhruv@gmail.com',
     'password' : 'password'
   }
   showError:Boolean = false;
   submitted = false;
 
-  constructor(private authenticationService: AuthenticationService, private formBuilder: FormBuilder) { }
+  constructor(private authenticationService: AuthenticationService, private formBuilder: FormBuilder, private router: Router) { }
   // constructor(private authenticationService: AuthenticationService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -34,7 +34,7 @@
     this.authenticationService.authenticateUser(this.userDetails).subscribe((response)=>{
       this.showError = false;
       localStorage.setItem('token', response['data'].token);
-      // this.router.navigateByUrl('dashboard');
+      this.router.navigateByUrl('dashboard');
     }, (error) => {
       this.showError = true;
     });

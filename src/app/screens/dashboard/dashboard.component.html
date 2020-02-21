@@ -14,7 +14,7 @@
                     <router-outlet></router-outlet>
                 </div>
             </div>
-            <app-alert [alertData]="alertData" [showAlert]="showAlert"></app-alert>
+            <app-alert [alertData]="alertData" [showAlert]="showAlert" (updateAlertFlag)="updateAlertFlag()"></app-alert>
         </mat-sidenav-content>
     </mat-sidenav-container>
     <!-- <div class="container">

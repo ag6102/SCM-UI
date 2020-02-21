@@ -9,7 +9,7 @@ import config from '../../assets/config/dev-config.json';
 export class BikesService {
   
   // baseURL = config.API_ENDPOINTS.BASE_URL + "/bikes";
-  baseURL = "http://192.168.1.123:8000/data/bike/";
+  baseURL = "http://localhost:8000/data/bike/";
 
   constructor(private httpClient: HttpClient) { }
 

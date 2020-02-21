@@ -9,7 +9,12 @@ import { CacheDataRepository } from '../repositories/cache-data.repository';
 export class CacheService {
 
   constructor(private repository: CacheDataRepository) { }
+
   public getCacheData(): Observable<CacheData> {
     return this.repository.getRawCacheData();
+  }
+
+  public updateCacheData(obj): Observable<CacheData> {
+    return this.repository.updateRawCacheData(obj);
   }
 }

@@ -8,7 +8,7 @@ import config from '../../assets/config/dev-config.json';
 export class AuthenticationService {
 
   // baseURL = config.API_ENDPOINTS.BASE_URL + "/bikes";
-  baseURL = "https://scm-be.herokuapp.com/mongo_auth/login/";
+  baseURL = "http://localhost:8000/mongo_auth/login/";
 
   constructor(private httpClient: HttpClient) { }
 

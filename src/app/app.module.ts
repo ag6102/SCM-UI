@@ -23,6 +23,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
+import { CacheDataRepository } from './repositories/cache-data.repository';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatSelectModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [CacheDataRepository],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

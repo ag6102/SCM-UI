@@ -13,7 +13,7 @@ import { CacheData } from '../../models/cache-data.model';
 export class DashboardComponent implements OnInit {
 
   alertData = {};
-  showAlert: Boolean = true;
+  showAlert: Boolean = false;
   cacheData: CacheData;
 
   constructor(private router: Router, private cacheService: CacheService) { }
@@ -24,7 +24,12 @@ export class DashboardComponent implements OnInit {
         startWith(0),
         switchMap(() => this.cacheService.getCacheData())
       )
-      .subscribe(res => this.cacheData = res);
+      .subscribe(res => {
+        this.cacheData = res;
+        if(res['isAlertPresent']){
+          this.showAlert = res['isAlertPresent'];
+        }
+      });
     if(!localStorage.getItem('token')){
       this.router.navigateByUrl('login');
     }
@@ -32,6 +37,15 @@ export class DashboardComponent implements OnInit {
       'message': 'Pollution alert : High in Dublin 3',
       'action' : ['Cancel', 'Take Action']
     };
+  }
+  updateAlertFlag(){
+    this.showAlert = false;
+    let obj = {
+      'isAlertPresent' : false
+    };
+    this.cacheService.updateCacheData(obj).subscribe((v) => {
+      console.log('Done', v);
+    });
   }
 
 }

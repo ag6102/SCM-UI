@@ -1,3 +1,5 @@
-export interface CacheData {
+export class CacheData {
+
     isAlertPresent: Boolean;
+    constructor(){}
 }
