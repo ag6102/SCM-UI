@@ -1,38 +1,153 @@
-.login-container .logo{
-    text-align: center;
-    padding: 2em;
-    margin-top: 5em;
+*{
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
-.login-container .logo img{
-    width: 200px;
-}
-
-.user-cred{
-    width: 50vw;
-    margin: auto;
+/* The wrappr for the login page */
+.login-container{
     display: flex;
+    justify-content: space-evenly;
+    margin: 0 auto;
+    padding: 1 rem;
+    background-color: #FFF;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* The left side of the login screen. Landing text and the SVG container */
+.login-container .landing{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 67%;
+    height: 100%
+}
+
+.login-container .landing .landing-txt-container{
+    flex-basis: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    line-height: 2em;
+    padding: 2rem 3rem;
 }
 
-.block{
+.login-container .landing .landing-svg{
+    flex-basis: 40%;
+}
+
+
+/* The right side of the login screen. Contains form for the login */
+.login-container .login-form-container{
     display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-image: url("../../../assets/images/skyline.jpg");
+    background-size: cover;
+    flex-basis: 33%;
+    height: 100%
+}
+
+.login-container .login-form-container .overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 33%;
+  height: 100%;
+  margin: 0px auto;
+  background-color: #3CC47C;
+  opacity: 0.85;
+}
+
+.login-container .login-form-container .user-cred{
+    width: 100%;
+    height:100%;
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     flex-direction: column;
-    margin-bottom: 15px;
-    width: 75%;
+    z-index: 1;
 }
 
-.center{
-    text-align: center;
+.user-cred form{
+    flex-basis: 34%;
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+    /* background-color: sienna; */
 }
 
-.error-msg{
-    width: 50vw;
-    margin: auto;
-    color: #c78827;
-    font-size: .9em;
+.form-field{
+    width: 30vw;
+    height: 8vh;
+    border: 1px solid #3CC47C;
     text-align: center;
+    border-radius: 12px;
+    font-size: 1rem;
+}
+
+
+/* Styles for text */
+.login-text{
+    width: 100%;
+    flex-basis: 30%;
+    text-align: right;
+    color:#FFF;
+    font-size: 2rem;
+    font-weight: 100;
+}
+
+.landing-txt-title{
+    font-weight: 100;
+    font-size: 5rem;
+    color: #000
+}
+
+.landing-txt-content{
+    text-align: center;
+    line-height: 2rem;
+    font-weight: 400;
+    font-size: 1rem;
+    color: #AAA
+}
+
+/* Signin button */
+.login-btn {
+	background-color:#44c767;
+    border-radius:20px;
+    height: 3rem;
+	border:1px solid #44c767;
+	display:inline-block;
+	cursor:pointer;
+    color:#ffffff;
+    font-weight: 400;
+    font-size: 1rem;
+    width: 30vw;
+	/* padding:16px 31px; */
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+}
+.login-btn:hover {
+	background-color:#5cbf2a;
+}
+.login-btn:active {
+	position:relative;
+	top:1px;
+}
+
+/* Animations */
+#gps{
+    animation: wave 3s ease-in-out infinite;
+    -webkit-animation: wave 3s ease-in-out infinite;
+    transform-origin: center;
+    transform-box: fill-box;
+}
+
+@keyframes wave {
+    0% { transform: rotateZ(  0.0deg) }
+   30% { transform: rotateZ(-30.0deg) }
+   50% { transform: rotateZ( 30.0deg) }
+   80% { transform: rotateZ(0.0deg) }
+   100% { transform: rotateZ(  10.0deg) }
 }
