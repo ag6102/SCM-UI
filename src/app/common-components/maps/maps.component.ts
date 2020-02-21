@@ -33,6 +33,15 @@ export class MapsComponent implements OnInit, OnChanges  {
       else if(this.mapsData.type == 'traffic'){
         this.fetchTrafficDetails();
       }
+      else if(this.mapsData.type == 'busstop'){
+        this.fetchBusStopData();
+      }
+      else if(this.mapsData.type == 'luasstop'){
+        this.fetchLuasStopData();
+      }
+      else if(this.mapsData.type == 'irishrailstop'){
+        this.fetchIrishRailStopData();
+      }
   }
 
   initializeMap(){
@@ -70,6 +79,42 @@ export class MapsComponent implements OnInit, OnChanges  {
         map: this.map
       });
     this.attachSecretMessage(marker, 'Available Stands : '+bikesCooardinates[i].availableBikeStands+' Available Bikes : '+bikesCooardinates[i].availableBikes);
+    }
+  }
+
+  fetchLuasStopData(){
+    let luasStopCooardinates = this.mapsData.coordinates;
+    var marker;
+    for (let i = 0; i < luasStopCooardinates.length; i++) {  
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(luasStopCooardinates[i].cordinate[0], luasStopCooardinates[i].cordinate[1]),
+        map: this.map
+      });
+    //this.attachSecretMessage(marker, 'Available Stands : '+luasStopCooardinates[i].availableBikeStands+' Available Bikes : '+bikesCooardinates[i].availableBikes);
+    }
+  }
+
+  fetchBusStopData(){
+    let busStopCooardinates = this.mapsData.coordinates;
+    var marker;
+    for (let i = 0; i < busStopCooardinates.length; i++) {  
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(busStopCooardinates[i].cordinate[0], busStopCooardinates[i].cordinate[1]),
+        map: this.map
+      });
+    //this.attachSecretMessage(marker, 'Available Stands : '+luasStopCooardinates[i].availableBikeStands+' Available Bikes : '+bikesCooardinates[i].availableBikes);
+    }
+  }
+
+  fetchIrishRailStopData(){
+    let irishRailStopCooardinates = this.mapsData.coordinates;
+    var marker;
+    for (let i = 0; i < irishRailStopCooardinates.length; i++) {  
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(irishRailStopCooardinates[i].cordinate[0], irishRailStopCooardinates[i].cordinate[1]),
+        map: this.map
+      });
+    //this.attachSecretMessage(marker, 'Available Stands : '+luasStopCooardinates[i].availableBikeStands+' Available Bikes : '+bikesCooardinates[i].availableBikes);
     }
   }
 

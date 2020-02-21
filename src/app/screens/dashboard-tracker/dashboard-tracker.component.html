@@ -3,6 +3,9 @@
         <div (click)="fetchTrafficData()" class="tab" [ngClass]="{'selected' : selected == 'traffic'}">Traffic</div>
         <div (click)="fetchLatestPollutionDetails()" class="tab" [ngClass]="{'selected' : selected == 'pollution'}">Pollution</div>
         <div (click)="fetchLatestBikesData()" class="tab" [ngClass]="{'selected' : selected == 'bike'}">Bikes</div>
+        <div (click)="fetchLuasStopData()" class="tab" [ngClass]="{'selected' : selected == 'luasstop'}">Luas Stops</div>
+        <div (click)="fetchBusStopData()" class="tab" [ngClass]="{'selected' : selected == 'busstop'}">Bus Stops</div>
+        <div (click)="fetchIrishRailStopData()" class="tab" [ngClass]="{'selected' : selected == 'irishrailstop'}">Dart Stations</div>
     </div>
     <div *ngIf="mapsData" class="map-container">
         <app-maps [mapsData]="mapsData"></app-maps>

@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PollutionService } from '../../services/pollution.service';
 import { BikesService } from '../../services/bikes.service';
 import { TrafficService } from '../../services/traffic.service';
+import { LuasStopService } from '../../services/luasstop.service';
+import { BusStopService } from '../../services/busstop.service';
+import { IrishRailStopService } from '../../services/irishrailstop.service';
 
 @Component({
   selector: 'app-dashboard-tracker',
@@ -15,10 +18,13 @@ export class DashboardTrackerComponent implements OnInit {
   latLongList;
   pollutionDetails;
   bikesDetails;
+  busstopDetails;
+  luasstopDetails;
+  irishrailstopDetails;
   interval;
   selected = 'traffic';
 
-  constructor(private pollutionService: PollutionService, private bikesService: BikesService, private trafficService: TrafficService) { }
+  constructor(private pollutionService: PollutionService, private bikesService: BikesService, private trafficService: TrafficService, private luasstopService: LuasStopService, private busstopService: BusStopService, private irishrailstopService: IrishRailStopService ) { }
 
   ngOnInit() {
     let coordinates = [[53.3895286,-6.1190612], [52.3895286,-6.1190612]];
@@ -122,6 +128,69 @@ export class DashboardTrackerComponent implements OnInit {
     let mapsJson = {
       coordinates : bCoordinates,
       type : 'bike'
+    };
+    this.alertListData = [];
+    this.mapsData = mapsJson;
+    });
+  }
+
+  fetchLuasStopData(){
+    this.selected = 'luasstop';
+    this.luasstopService.fetchLuasStopDetails().subscribe((response)=>{
+      console.log(response);
+      this.luasstopDetails = response;
+      let lsCoordinates = [] ;
+    for(var i=0; i < this.luasstopDetails.length; i++){
+      lsCoordinates.push({
+        cordinate : [this.luasstopDetails[i].lat, this.luasstopDetails[i].long]
+      });
+      
+    }
+    let mapsJson = {
+      coordinates : lsCoordinates,
+      type : 'luasstop'
+    };
+    this.alertListData = [];
+    this.mapsData = mapsJson;
+    });
+  }
+
+  fetchBusStopData(){
+    this.selected = 'busstop';
+    this.busstopService.fetchBusStopDetails().subscribe((response)=>{
+      console.log(response);
+      this.busstopDetails = response;
+      let bsCoordinates = [] ;
+    for(var i=0; i < this.busstopDetails.length; i++){
+      bsCoordinates.push({
+        cordinate : [this.busstopDetails[i].lat, this.busstopDetails[i].long]
+      });
+      
+    }
+    let mapsJson = {
+      coordinates : bsCoordinates,
+      type : 'busstop'
+    };
+    this.alertListData = [];
+    this.mapsData = mapsJson;
+    });
+  }
+  
+  fetchIrishRailStopData(){
+    this.selected = 'irishrailstop';
+    this.irishrailstopService.fetchIrishRailStopDetails().subscribe((response)=>{
+      console.log(response);
+      this.irishrailstopDetails = response;
+      let irsCoordinates = [] ;
+    for(var i=0; i < this.irishrailstopDetails.length; i++){
+      irsCoordinates.push({
+        cordinate : [this.irishrailstopDetails[i].lat, this.irishrailstopDetails[i].long]
+      });
+      
+    }
+    let mapsJson = {
+      coordinates : irsCoordinates,
+      type : 'irishrailstop'
     };
     this.alertListData = [];
     this.mapsData = mapsJson;
