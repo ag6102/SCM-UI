@@ -1,23 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
-import {Observable} from 'rxjs';
 import config from '../../assets/config/dev-config.json';
+import { HttpHelperService } from './http-helper.service.js';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TrafficService {
-  // baseURL = "http://10.6.61.166:8000/data/traffic/";
   baseURL = config.API_ENDPOINTS.BASE_URL + "/traffic";
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpHelperService) { }
 
   fetchTrafficDetails(){
-    return this.httpClient.get(this.baseURL, {
-      headers: new HttpHeaders({
-           'Content-Type':  'application/json',
-           'Authorization': localStorage.getItem('token')
-         })
-      });
+    return this.httpClient.get(this.baseURL);
   }
 }

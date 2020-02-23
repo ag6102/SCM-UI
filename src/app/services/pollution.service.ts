@@ -1,31 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
 import {Observable} from 'rxjs';
 import config from '../../assets/config/dev-config.json';
+import { HttpHelperService } from './http-helper.service.js';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PollutionService {
 
-  // baseURL = config.API_ENDPOINTS.BASE_URL + "/polls";
-  baseURL = "http://10.6.61.166:8000/data/polls/";
-  constructor(private httpClient: HttpClient) { }
+  baseURL = config.API_ENDPOINTS.BASE_URL + "/polls";
+  constructor(private httpClient: HttpHelperService) { }
 
   fetchAllPollutionLatLongs(){
-    return this.httpClient.get(this.baseURL, {
-      headers: new HttpHeaders({
-           'Content-Type':  'application/json',
-           'Authorization': localStorage.getItem('token')
-         })
-      });
+    return this.httpClient.get(this.baseURL);
   }
   fetchPollutionDetails(): Observable<Object> {
-    return this.httpClient.get(this.baseURL, {
-      headers: new HttpHeaders({
-           'Content-Type':  'application/json',
-           'Authorization': localStorage.getItem('token')
-         })
-      });
+    return this.httpClient.get(this.baseURL);
   }
 }

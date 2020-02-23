@@ -1,27 +1,17 @@
 import { Observable, of } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpHelperService } from '../services/http-helper.service';
 
 @Injectable()
 export class CacheDataRepository {
     baseURL = "http://localhost:8000/data/flags/";
 
-    constructor(private httpClient: HttpClient){}
+    constructor(private httpHelper: HttpHelperService){}
 
     public getRawCacheData(): Observable<any> {
-        return this.httpClient.get(this.baseURL, {
-            headers: new HttpHeaders({
-                 'Content-Type':  'application/json',
-                 'Authorization': localStorage.getItem('token')
-               })
-            });
+        return this.httpHelper.get(this.baseURL);
       }
     public updateRawCacheData(obj): Observable<any> {
-        return this.httpClient.post(this.baseURL, obj, {
-            headers: new HttpHeaders({
-                 'Content-Type':  'application/json',
-                 'Authorization': localStorage.getItem('token')
-               })
-            });
+        return this.httpHelper.post(this.baseURL, obj);
       }
 }
