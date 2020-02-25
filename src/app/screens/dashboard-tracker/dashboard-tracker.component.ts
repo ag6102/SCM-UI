@@ -37,7 +37,6 @@ export class DashboardTrackerComponent implements OnInit {
 
   fetchAllLatLong(){
     this.pollutionService.fetchAllPollutionLatLongs().subscribe((response)=>{
-      console.log(response);
       this.latLongList = response;
      });
   }
@@ -45,7 +44,6 @@ export class DashboardTrackerComponent implements OnInit {
   fetchLatestPollutionDetails(){
     this.selected = 'pollution';
     this.pollutionService.fetchPollutionDetails().subscribe((response)=>{
-      console.log(response);
       this.pollutionDetails = response;
       let pCoordinates = [] ;
     for(var i=0; i < this.pollutionDetails.length; i++){
@@ -112,7 +110,6 @@ export class DashboardTrackerComponent implements OnInit {
   fetchLatestBikesData(){
     this.selected = 'bike';
     this.bikesService.fetchBikeDetails().subscribe((response)=>{
-      console.log(response);
       this.bikesDetails = response;
       let bCoordinates = [] ;
     for(var i=0; i < this.bikesDetails.length; i++){
@@ -200,7 +197,6 @@ export class DashboardTrackerComponent implements OnInit {
   fetchTrafficData(){
     this.selected = 'traffic';
     this.trafficService.fetchTrafficDetails().subscribe((response)=>{
-    //   console.log(response);
     //   this.bikesDetails = response;
     //   let bCoordinates = [] ;
     // for(var i=0; i < this.bikesDetails.length; i++){
