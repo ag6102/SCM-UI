@@ -7,8 +7,8 @@ import config from '../../assets/config/dev-config.json';
 })
 export class AuthenticationService {
 
-  // baseURL = config.API_ENDPOINTS.BASE_URL + "/bikes";
-  baseURL = "http://localhost:8000/mongo_auth/login/";
+  baseURL = config.API_ENDPOINTS.AUTH_URL + "/login/";
+  //baseURL = "http://10.6.61.166:8000/mongo_auth/login/";
 
   constructor(private httpClient: HttpClient) { }
 

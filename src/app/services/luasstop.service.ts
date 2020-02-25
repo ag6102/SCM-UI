@@ -8,8 +8,8 @@ import config from '../../assets/config/dev-config.json';
 })
 export class LuasStopService {
   
-  // baseURL = config.API_ENDPOINTS.BASE_URL + "/luasstop";
-  baseURL = "http://10.6.61.166:8000/data/luasstop/";
+  baseURL = config.API_ENDPOINTS.BASE_URL + "/luasstop";
+  //baseURL = "http://10.6.61.166:8000/data/luasstop/";
 
   constructor(private httpClient: HttpClient) { }
 
