@@ -44,7 +44,6 @@ export class DashboardComponent implements OnInit {
       'isAlertPresent' : false
     };
     this.cacheService.updateCacheData(obj).subscribe((v) => {
-      console.log('Done', v);
     });
   }
 

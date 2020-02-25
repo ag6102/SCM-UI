@@ -30,7 +30,6 @@
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.form.controls.email.value);
     this.authenticationService.authenticateUser(this.userDetails).subscribe((response)=>{
       this.showError = false;
       localStorage.setItem('token', response['data'].token);

@@ -24,6 +24,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import { CacheDataRepository } from './repositories/cache-data.repository';
+import { AlertListComponent } from './screens/alerts/alert-list/alert-list.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { CacheDataRepository } from './repositories/cache-data.repository';
     AlertComponent,
     PollutionTrendGraphComponent,
     AnalyticsComponent,
-    AdminPortalComponent
+    AdminPortalComponent,
+    AlertListComponent
   ],
   imports: [
     BrowserModule,

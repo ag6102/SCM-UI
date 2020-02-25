@@ -19,7 +19,6 @@ export class AlertComponent implements OnInit {
   }
   
   hideAlert(){
-    console.log('asas',this.cacheData);
     this.showAlert = false;
     this.updateAlertFlag.emit();
   }

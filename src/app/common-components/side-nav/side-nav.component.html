@@ -8,11 +8,11 @@
             <!-- Analytics -->
             <img alt="History" title="History" class="nav-icon" src="../../../assets/icons/bar-chart.png" />
         </div>
-        <div (click)="navRedirect('')" [ngClass]="{'selected' : selected == 'alerts'}">
+        <div (click)="navRedirect('/dashboard/alerts')" [ngClass]="{'selected' : selected == '/dashboard/alerts'}">
             <!-- Alerts -->
             <img alt="Actions" title="Actions" class="nav-icon" src="../../../assets/icons/notification.png" />
         </div>
-        <div (click)="navRedirect('dashboard/admin')" [ngClass]="{'selected' : selected == 'admin'}">
+        <div (click)="navRedirect('/dashboard/admin')" [ngClass]="{'selected' : selected == '/dashboard/admin'}">
             <!-- Admin Portal -->
             <img alt="Actions" title="Actions" class="nav-icon" src="../../../assets/icons/account.png" />
         </div>

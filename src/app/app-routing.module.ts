@@ -5,6 +5,7 @@ import { LoginComponent } from './screens/login/login.component';
 import { DashboardTrackerComponent } from './screens/dashboard-tracker/dashboard-tracker.component';
 import { AnalyticsComponent } from './screens/analytics/analytics.component';
 import { AdminPortalComponent } from './screens/admin-portal/admin-portal.component';
+import { AlertListComponent } from './screens/alerts/alert-list/alert-list.component';
 
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'tracker', pathMatch: 'full' },
       { path: 'tracker', component: DashboardTrackerComponent },
+      { path: 'alerts', component: AlertListComponent },
       { path: 'analytics', component: AnalyticsComponent },
       { path: 'admin', component: AdminPortalComponent }
     ]
