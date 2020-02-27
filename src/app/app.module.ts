@@ -24,7 +24,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import { CacheDataRepository } from './repositories/cache-data.repository';
-import { AlertListComponent } from './screens/alerts/alert-list/alert-list.component';
+import { AlertListComponent } from './screens/alert-list/alert-list.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { AlertListComponent } from './screens/alerts/alert-list/alert-list.compo
     MatInputModule,
     MatRadioModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatExpansionModule
   ],
   providers: [CacheDataRepository],
   bootstrap: [AppComponent]
