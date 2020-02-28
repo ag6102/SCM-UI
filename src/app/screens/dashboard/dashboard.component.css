@@ -1,3 +1,8 @@
+.dashboard-wrapper{
+    box-sizing: border-box;
+    overflow-x: hidden !important;
+}
+
 .container {
     width: 94vw;
     background-color: #fff;

@@ -23,6 +23,7 @@ export class DashboardTrackerComponent implements OnInit {
   irishrailstopDetails;
   interval;
   selected = 'traffic';
+  pollutionObject=[];
 
   constructor(private pollutionService: PollutionService, private bikesService: BikesService, private trafficService: TrafficService, private luasstopService: LuasStopService, private busstopService: BusStopService, private irishrailstopService: IrishRailStopService ) { }
 
@@ -106,8 +107,21 @@ export class DashboardTrackerComponent implements OnInit {
     this.mapsData = mapsJson;
     });
   }
-
+  getSavedObjects(objectType:string){
+    var savedObjects = JSON.parse(localStorage.getItem(objectType+'ObjectList'));
+    if (savedObjects != null)
+    {
+      let mapsJson = {
+      coordinates : savedObjects,
+      changeTypeAPI : false,
+      type : objectType
+      };
+      this.mapsData = mapsJson;
+    }
+  }
   fetchLatestBikesData(){
+    //localStorage.removeItem("bikeObjectList");
+    this.getSavedObjects('bike');
     this.selected = 'bike';
     this.bikesService.fetchBikeDetails().subscribe((response)=>{
       this.bikesDetails = response;
@@ -124,17 +138,25 @@ export class DashboardTrackerComponent implements OnInit {
     }
     let mapsJson = {
       coordinates : bCoordinates,
+      changeTypeAPI : true,
       type : 'bike'
     };
     this.alertListData = [];
-    this.mapsData = mapsJson;
+    if (document.querySelector('.tab.selected').textContent=="Bikes")
+    {
+      this.mapsData = mapsJson;
+    }
+    else
+    {
+      localStorage.setItem('bikeObjectList', JSON.stringify(bCoordinates))
+    }
     });
   }
 
   fetchLuasStopData(){
+    this.getSavedObjects('luasstop');
     this.selected = 'luasstop';
     this.luasstopService.fetchLuasStopDetails().subscribe((response)=>{
-      console.log(response);
       this.luasstopDetails = response;
       let lsCoordinates = [] ;
     for(var i=0; i < this.luasstopDetails.length; i++){
@@ -145,17 +167,25 @@ export class DashboardTrackerComponent implements OnInit {
     }
     let mapsJson = {
       coordinates : lsCoordinates,
+      changeTypeAPI : true,
       type : 'luasstop'
     };
     this.alertListData = [];
-    this.mapsData = mapsJson;
+    if (document.querySelector('.tab.selected').textContent=="Luas Stops")
+    {
+      this.mapsData = mapsJson;
+    }
+    else
+    {
+      localStorage.setItem('luasstopObjectList', JSON.stringify(lsCoordinates))
+    }
     });
   }
 
   fetchBusStopData(){
+    this.getSavedObjects('busstop');
     this.selected = 'busstop';
     this.busstopService.fetchBusStopDetails().subscribe((response)=>{
-      console.log(response);
       this.busstopDetails = response;
       let bsCoordinates = [] ;
     for(var i=0; i < this.busstopDetails.length; i++){
@@ -166,17 +196,25 @@ export class DashboardTrackerComponent implements OnInit {
     }
     let mapsJson = {
       coordinates : bsCoordinates,
+      changeTypeAPI : true,
       type : 'busstop'
     };
     this.alertListData = [];
-    this.mapsData = mapsJson;
+    if (document.querySelector('.tab.selected').textContent=="Bus Stops")
+    {
+      this.mapsData = mapsJson;
+    }
+    else
+    {
+      localStorage.setItem('busstopObjectList', JSON.stringify(bsCoordinates))
+    }
     });
   }
   
   fetchIrishRailStopData(){
+    this.getSavedObjects('irishrailstop');
     this.selected = 'irishrailstop';
     this.irishrailstopService.fetchIrishRailStopDetails().subscribe((response)=>{
-      console.log(response);
       this.irishrailstopDetails = response;
       let irsCoordinates = [] ;
     for(var i=0; i < this.irishrailstopDetails.length; i++){
@@ -187,10 +225,18 @@ export class DashboardTrackerComponent implements OnInit {
     }
     let mapsJson = {
       coordinates : irsCoordinates,
+      changeTypeAPI : true,
       type : 'irishrailstop'
     };
     this.alertListData = [];
-    this.mapsData = mapsJson;
+    if (document.querySelector('.tab.selected').textContent=="Dart Stations")
+    {
+      this.mapsData = mapsJson;
+    }
+    else
+    {
+      localStorage.setItem('irishrailstopObjectList', JSON.stringify(irsCoordinates))
+    }
     });
   }
 
@@ -211,6 +257,7 @@ export class DashboardTrackerComponent implements OnInit {
     // }
     let mapsJson = {
       coordinates : response,
+      changeTypeAPI : true,
       type : 'traffic'
     };
     this.alertListData = [];
