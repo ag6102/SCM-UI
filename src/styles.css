@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+@import '@angular/material/prebuilt-themes/purple-green.css';
 body {
     background-color: #1e2254;
     width: 100vw;
@@ -70,5 +71,13 @@ body {
     background: #232323;
     opacity: 0.5;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
