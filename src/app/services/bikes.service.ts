@@ -8,8 +8,8 @@ import config from '../../assets/config/dev-config.json';
 })
 export class BikesService {
   
-  // baseURL = config.API_ENDPOINTS.BASE_URL + "/bikes";
-  baseURL = "http://10.6.61.166:8000/data/bike/";
+  baseURL = config.API_ENDPOINTS.BASE_URL + "/bikes";
+  //baseURL = "http://10.6.61.166:8000/data/bike/";
 
   constructor(private httpClient: HttpClient) { }
 

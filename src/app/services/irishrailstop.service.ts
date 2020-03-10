@@ -8,8 +8,8 @@ import config from '../../assets/config/dev-config.json';
 })
 export class IrishRailStopService {
   
-  // baseURL = config.API_ENDPOINTS.BASE_URL + "/irishrailstop";
-  baseURL = "http://10.6.61.166:8000/data/irishrailstop/";
+  baseURL = config.API_ENDPOINTS.BASE_URL + "/irishrailstop";
+  //baseURL = "http://10.6.61.166:8000/data/irishrailstop/";
 
   constructor(private httpClient: HttpClient) { }
 

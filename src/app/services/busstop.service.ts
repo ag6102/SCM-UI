@@ -8,8 +8,8 @@ import config from '../../assets/config/dev-config.json';
 })
 export class BusStopService {
   
-  // baseURL = config.API_ENDPOINTS.BASE_URL + "/busstop";
-  baseURL = "http://10.6.61.166:8000/data/busstop/";
+  baseURL = config.API_ENDPOINTS.BASE_URL + "/busstop";
+  //baseURL = "http://10.6.61.166:8000/data/busstop/";
 
   constructor(private httpClient: HttpClient) { }
 

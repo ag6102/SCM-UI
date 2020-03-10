@@ -2,24 +2,23 @@
     <!-- <div><img class="logo" src="../../../../assets/icons/logo-icon.png"/></div> -->
     <div class="nav-icons">
         <div (click)="navRedirect('/dashboard/tracker')" [ngClass]="{'selected' : selected == '/dashboard/tracker'}">
-            Maps
-            <!-- <img alt="Maps" title="Maps" class="nav-icon" src="../../../assets/icons/map-icon.png"/> -->
+            <img alt="Maps" title="Maps" class="nav-icon" src="../../../assets/icons/map-icon.png" />
         </div>
         <div (click)="navRedirect('/dashboard/analytics')" [ngClass]="{'selected' : selected == '/dashboard/analytics'}">
-            Analytics
-            <!-- <img alt="History" title="History" class="nav-icon" src="../../../assets/icons/history-icon.png"/> -->
+            <!-- Analytics -->
+            <img alt="History" title="History" class="nav-icon" src="../../../assets/icons/bar-chart.png" />
         </div>
-        <div (click)="navRedirect('')" [ngClass]="{'selected' : selected == 'alerts'}">
-            Alerts
-            <!-- <img alt="Actions" title="Actions" class="nav-icon" src="../../../assets/icons/actions-icon.png"/> -->
+        <div (click)="navRedirect('/dashboard/alerts')" [ngClass]="{'selected' : selected == '/dashboard/alerts'}">
+            <!-- Alerts -->
+            <img alt="Actions" title="Actions" class="nav-icon" src="../../../assets/icons/notification.png" />
         </div>
-        <div (click)="navRedirect('dashboard/admin')" [ngClass]="{'selected' : selected == 'admin'}">
-            Admin Portal
-            <!-- <img alt="Actions" title="Actions" class="nav-icon" src="../../../assets/icons/actions-icon.png"/> -->
+        <div (click)="navRedirect('/dashboard/admin')" [ngClass]="{'selected' : selected == '/dashboard/admin'}">
+            <!-- Admin Portal -->
+            <img alt="Actions" title="Actions" class="nav-icon" src="../../../assets/icons/account.png" />
         </div>
         <div (click)="navRedirect('login')">
-            Logout
-            <!-- <img alt="Logout" title="Logout" class="nav-icon" src="../../../assets/icons/logout-icon.png"/> -->
+            <!-- Logout -->
+            <img alt="Logout" title="Logout" class="nav-icon" src="../../../assets/icons/logout.png" />
         </div>
     </div>
 </div>

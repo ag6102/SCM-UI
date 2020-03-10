@@ -3,6 +3,8 @@ import config from '../../../assets/config/dev-config.json';
 import {} from 'googlemaps';
 declare let L;
 declare let tomtom: any;
+var markers =[];
+var trafficPath;
 
 @Component({
   selector: 'app-maps',
@@ -16,133 +18,177 @@ export class MapsComponent implements OnInit, OnChanges  {
   @Input() mapsData; 
   map;
   center = [53.1424, 7.6921];
-  marker;
+  // marker;
 
   constructor() { }
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
-    this.ngOnInit();
+    if(markers != null)
+    {
+      this.clearMarkers();
+    }
+    if(trafficPath != null)
+    {
+      trafficPath.setMap(null)
+    }
+    console.log(this.mapsData.type)
+    if(this.mapsData.type == 'pollution'){
+      this.fetchPollutionData();
+    }else if(this.mapsData.type == 'bike'){
+      this.fetchBikesData();
+    }
+    else if(this.mapsData.type == 'traffic'){
+      this.fetchTrafficDetails();
+    }
+    else if(this.mapsData.type == 'busstop'){
+      this.fetchBusStopData();
+    }
+    else if(this.mapsData.type == 'luasstop'){
+      this.fetchLuasStopData();
+    }
+    else if(this.mapsData.type == 'irishrailstop'){
+      this.fetchIrishRailStopData();
+    }
   }
   ngOnInit() {
     this.map = this.initializeMap();
-      if(this.mapsData.type == 'pollution'){
-        this.fetchPollutionData();
-      }else if(this.mapsData.type == 'bike'){
-        this.fetchBikesData();
-      }
-      else if(this.mapsData.type == 'traffic'){
-        this.fetchTrafficDetails();
-      }
-      else if(this.mapsData.type == 'busstop'){
-        this.fetchBusStopData();
-      }
-      else if(this.mapsData.type == 'luasstop'){
-        this.fetchLuasStopData();
-      }
-      else if(this.mapsData.type == 'irishrailstop'){
-        this.fetchIrishRailStopData();
-      }
   }
 
   initializeMap(){
     var map = new google.maps.Map((this.mapElement.nativeElement), {
-    zoom: 15,
+    zoom: 12,
     center: {lat: 53.349562, lng: -6.278198},
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
   return map;
   }
 
+  clearMarkers()
+  {
+    for(var i=0; i < markers.length; i++){
+      markers[i].setMap(null);
+  }
+  markers = [];
+  }
+
+  storageAvailable(type) {
+    var storage;
+    try {
+        storage = window[type];
+        var x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
+}
+
+  addMarkers(coordinates, markerType:string)
+  {
+    console.log(markerType);
+    if (this.mapsData.changeTypeAPI)
+      {
+        if (this.storageAvailable('localStorage'))
+        {
+          localStorage.setItem(markerType+'ObjectList', JSON.stringify(coordinates))
+        }
+      }
+    let marker;
+    for (let i = 0; i < coordinates.length; i++) {  
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(coordinates[i].cordinate[0], coordinates[i].cordinate[1]),
+        map: this.map,
+        icon:{
+          url:"assets/images/" + markerType + ".png"
+        }
+      });
+      markers.push(marker);
+      switch(markerType)
+      {
+        case "bike":
+          this.attachSecretMessage(marker, 'Available Stands : '+coordinates[i].availableBikeStands+' Available Bikes : '+coordinates[i].availableBikes);
+          break;
+        case "pollution":
+          this.attachSecretMessage(marker, coordinates[i].msg);
+          break;
+        case "bus":
+          this.attachSecretMessage(marker, coordinates[i].msg);
+          break;
+        case "dart":
+          this.attachSecretMessage(marker, coordinates[i].msg);
+          break;
+        case "luas":
+          this.attachSecretMessage(marker, coordinates[i].msg);
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
   fetchPollutionData(){
     let pollutionCooardinates = this.mapsData.coordinates;
-    for (let i = 0; i < pollutionCooardinates.length; i++) {  
-      var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(pollutionCooardinates[i].cordinate[0], pollutionCooardinates[i].cordinate[1]),
-        map: this.map
-      });
-      var infowindow = new google.maps.InfoWindow({
-      content: pollutionCooardinates[i].msg
-    });
-  
-    marker.addListener('click', function() {
-      infowindow.open(marker.get('map'), marker);
-    });
-    }
+    this.addMarkers(pollutionCooardinates,"pollution");
   }
 
   fetchBikesData(){
     let bikesCooardinates = this.mapsData.coordinates;
-    var marker;
-    for (let i = 0; i < bikesCooardinates.length; i++) {  
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(bikesCooardinates[i].cordinate[0], bikesCooardinates[i].cordinate[1]),
-        map: this.map
-      });
-    this.attachSecretMessage(marker, 'Available Stands : '+bikesCooardinates[i].availableBikeStands+' Available Bikes : '+bikesCooardinates[i].availableBikes);
+    this.addMarkers(bikesCooardinates,"bike")
     }
-  }
-
+  
   fetchLuasStopData(){
     let luasStopCooardinates = this.mapsData.coordinates;
-    var marker;
-    for (let i = 0; i < luasStopCooardinates.length; i++) {  
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(luasStopCooardinates[i].cordinate[0], luasStopCooardinates[i].cordinate[1]),
-        map: this.map
-      });
-    //this.attachSecretMessage(marker, 'Available Stands : '+luasStopCooardinates[i].availableBikeStands+' Available Bikes : '+bikesCooardinates[i].availableBikes);
+    this.addMarkers(luasStopCooardinates,"luasstop")
     }
-  }
 
   fetchBusStopData(){
     let busStopCooardinates = this.mapsData.coordinates;
-    var marker;
-    for (let i = 0; i < busStopCooardinates.length; i++) {  
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(busStopCooardinates[i].cordinate[0], busStopCooardinates[i].cordinate[1]),
-        map: this.map
-      });
-    //this.attachSecretMessage(marker, 'Available Stands : '+luasStopCooardinates[i].availableBikeStands+' Available Bikes : '+bikesCooardinates[i].availableBikes);
+    this.addMarkers(busStopCooardinates,"busstop")
     }
-  }
 
   fetchIrishRailStopData(){
     let irishRailStopCooardinates = this.mapsData.coordinates;
-    var marker;
-    for (let i = 0; i < irishRailStopCooardinates.length; i++) {  
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(irishRailStopCooardinates[i].cordinate[0], irishRailStopCooardinates[i].cordinate[1]),
-        map: this.map
-      });
-    //this.attachSecretMessage(marker, 'Available Stands : '+luasStopCooardinates[i].availableBikeStands+' Available Bikes : '+bikesCooardinates[i].availableBikes);
+    this.addMarkers(irishRailStopCooardinates,"irishrailstop")
     }
-  }
 
   fetchTrafficDetails(){
-    // let trafficData = this.mapsData.coordinates;
-    // for (let i = 0; i < trafficData.length; i++) {
-    //   var coordinates = trafficData[i].coordinates.coordinate;
-    //   var color = trafficData[i].color;
-    //   var roadTrafficCoordinates = [];
-    //   for (let j = 0; j < coordinates.length; j++) {
-    //     roadTrafficCoordinates.push({lat: coordinates[j].latitude, lng: coordinates[j].longitude})
+     let trafficData = this.mapsData.coordinates;
+    for (let i = 0; i < trafficData.length; i++) 
+    {
+      var coordinates = trafficData[i].coordinates.coordinate;
+      var color = trafficData[i].color;
+      var roadTrafficCoordinates = [];
+      for (let j = 0; j < coordinates.length; j++) 
+      {
+        roadTrafficCoordinates.push({lat: coordinates[j].latitude, lng: coordinates[j].longitude})
         
-    // }
-    //   var trafficPath = new google.maps.Polyline({
-    //     path: roadTrafficCoordinates,
-    //     geodesic: true,
-    //     strokeColor: color,
-    //     strokeOpacity: 1.0,
-    //     strokeWeight: 3
-    //   });
-    
-      
-    // trafficPath.setMap(this.map);
-    // }
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 13,
-      center: {lat: 34.04924594193164, lng: -118.24104309082031}
-    });
+      }
+      trafficPath = new google.maps.Polyline({
+      path: roadTrafficCoordinates,
+      geodesic: true,
+      strokeColor: color,
+      strokeOpacity: 1.0,
+      strokeWeight: 3
+      });
+      trafficPath.setMap(this.map);
+    }
+    // var map = new google.maps.Map(document.getElementById('map'), {
+    //   zoom: 13,
+    //   center: {lat: 34.04924594193164, lng: -118.24104309082031}
+    // });
   
     // var trafficLayer = new google.maps.TrafficLayer();
     // trafficLayer.setMap(this.map);
@@ -152,9 +198,13 @@ export class MapsComponent implements OnInit, OnChanges  {
       content: secretMessage
     });
   
-    marker.addListener('click', function() {
+    marker.addListener('mouseover', function() {
       infowindow.open(marker.get('map'), marker);
     });
+
+    marker.addListener('mouseout', function() {
+      infowindow.close();
+  });
   }
 
 }
