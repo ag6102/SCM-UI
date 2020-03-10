@@ -25,6 +25,8 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import { CacheDataRepository } from './repositories/cache-data.repository';
 import { AlertListComponent } from './screens/alerts/alert-list/alert-list.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,8 @@ import { AlertListComponent } from './screens/alerts/alert-list/alert-list.compo
     MatInputModule,
     MatRadioModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [CacheDataRepository],
   bootstrap: [AppComponent]

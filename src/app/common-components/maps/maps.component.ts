@@ -4,11 +4,7 @@ import {} from 'googlemaps';
 declare let L;
 declare let tomtom: any;
 var markers =[];
-var bikeObject =[];
-var luasObject =[];
-var busObject =[];
-var dartObject =[];
-var pollutionObject =[];
+var trafficPath;
 
 @Component({
   selector: 'app-maps',
@@ -28,9 +24,13 @@ export class MapsComponent implements OnInit, OnChanges  {
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
     if(markers != null)
-      {
-        this.clearMarkers();
-      }
+    {
+      this.clearMarkers();
+    }
+    if(trafficPath != null)
+    {
+      trafficPath.setMap(null)
+    }
     console.log(this.mapsData.type)
     if(this.mapsData.type == 'pollution'){
       this.fetchPollutionData();
@@ -150,7 +150,6 @@ export class MapsComponent implements OnInit, OnChanges  {
     }
   
   fetchLuasStopData(){
-    console.log("inside")
     let luasStopCooardinates = this.mapsData.coordinates;
     this.addMarkers(luasStopCooardinates,"luasstop")
     }
@@ -167,24 +166,24 @@ export class MapsComponent implements OnInit, OnChanges  {
 
   fetchTrafficDetails(){
      let trafficData = this.mapsData.coordinates;
-    for (let i = 0; i < trafficData.length; i++) {
+    for (let i = 0; i < trafficData.length; i++) 
+    {
       var coordinates = trafficData[i].coordinates.coordinate;
       var color = trafficData[i].color;
       var roadTrafficCoordinates = [];
-      for (let j = 0; j < coordinates.length; j++) {
+      for (let j = 0; j < coordinates.length; j++) 
+      {
         roadTrafficCoordinates.push({lat: coordinates[j].latitude, lng: coordinates[j].longitude})
         
-    }
-      var trafficPath = new google.maps.Polyline({
-        path: roadTrafficCoordinates,
-        geodesic: true,
-        strokeColor: color,
-        strokeOpacity: 1.0,
-        strokeWeight: 3
+      }
+      trafficPath = new google.maps.Polyline({
+      path: roadTrafficCoordinates,
+      geodesic: true,
+      strokeColor: color,
+      strokeOpacity: 1.0,
+      strokeWeight: 3
       });
-    
-      
-    trafficPath.setMap(this.map);
+      trafficPath.setMap(this.map);
     }
     // var map = new google.maps.Map(document.getElementById('map'), {
     //   zoom: 13,

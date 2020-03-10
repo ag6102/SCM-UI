@@ -43,6 +43,7 @@ export class DashboardTrackerComponent implements OnInit {
   }
 
   fetchLatestPollutionDetails(){
+    this.getSavedObjects('pollution')
     this.selected = 'pollution';
     this.pollutionService.fetchPollutionDetails().subscribe((response)=>{
       this.pollutionDetails = response;
@@ -58,6 +59,7 @@ export class DashboardTrackerComponent implements OnInit {
     }
     let mapsJson = {
       coordinates : pCoordinates,
+      changeTypeAPI : true,
       type : 'pollution'
     };
     this.alertListData = [
@@ -104,7 +106,15 @@ export class DashboardTrackerComponent implements OnInit {
         action : 'Test'
       }
     ]
-    this.mapsData = mapsJson;
+
+    if (document.querySelector('.tab.selected').textContent=="Pollution")
+    {
+      this.mapsData = mapsJson;
+    }
+    else
+    {
+      localStorage.setItem('pollutionObjectList', JSON.stringify(pCoordinates))
+    }
     });
   }
   getSavedObjects(objectType:string){
@@ -241,6 +251,7 @@ export class DashboardTrackerComponent implements OnInit {
   }
 
   fetchTrafficData(){
+    this.getSavedObjects('traffic');
     this.selected = 'traffic';
     this.trafficService.fetchTrafficDetails().subscribe((response)=>{
     //   this.bikesDetails = response;
@@ -260,8 +271,16 @@ export class DashboardTrackerComponent implements OnInit {
       changeTypeAPI : true,
       type : 'traffic'
     };
+    if (document.querySelector('.tab.selected').textContent=="Traffic")
+    {
+      this.mapsData = mapsJson;
+      localStorage.setItem('trafficObjectList', JSON.stringify(response))
+    }
+    else
+    {
+      localStorage.setItem('trafficObjectList', JSON.stringify(response))
+    }
     this.alertListData = [];
-    this.mapsData = mapsJson;
     });
   }
 
