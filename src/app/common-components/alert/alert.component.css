@@ -1,25 +1,23 @@
-.alert-container{
+.alert-container {
     width: 20em;
     min-height: 6em;
     position: fixed;
-    right: 0px;
+    right: 10px;
     background: black;
-    top: 11vh;
+    top: 20px;
     z-index: 9999;
-    border: 1px solid #ccc;
     border-radius: 0.5em;
     padding: 1em;
     color: white !important;
-    box-shadow: 5px 9px 12px 2px #333;
+    box-shadow: 0px 3px 10px 0px #333;
 }
 
-.alert-heading{
+.alert-heading {
     font-weight: bold;
-    text-align: center;
     margin-bottom: 1em;
 }
 
-button{
+button {
     border: 1px solid #ccc;
     background: #fff;
     font-weight: bold;
@@ -28,10 +26,10 @@ button{
     padding: .2em .5em;
 }
 
-.alert-body{
+.alert-body {
     margin-bottom: 1em;
 }
 
-.alert-actions{
+.alert-actions {
     justify-content: space-between;
 }

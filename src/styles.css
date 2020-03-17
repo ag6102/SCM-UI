@@ -1,64 +1,83 @@
 /* You can add global styles to this file, and also import other style files */
-body{
+
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import '@angular/material/prebuilt-themes/purple-green.css';
+body {
     background-color: #1e2254;
-    /* background-image: linear-gradient(141deg, #4e4e4e 0%, rgb(41, 38, 38) 51%, #000 75%); */
     width: 100vw;
     height: 100vh;
     color: #fff;
     margin: 0;
-    font-family: Helvetica;
+    font-family: 'Roboto';
     font-size: 1em;
 }
-.display-flex{
+
+.display-flex {
     display: flex;
 }
 
-input, select {
-    display: block;
-    margin: 0;
-    padding: 0.5em;
-    color: black;
-    width: 100%;
-    font-family: inherit;
-    font-size: 0.8em;
-    font-weight: inherit;
-    border: none;
-    border-radius: 0.4rem;
-    height: 2em;
-    background-color: #fff;
-    box-shadow: 5px 4px 10px 0px #313131;
-    outline: none;
-  }
-  
-input::placeholder {
-    color: rgb(30, 30, 31);
-}
-  
-input:focus, select:focus {
-    box-shadow: 0px 4px 10px 0px #ccc;
+.lds-facebook {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
 }
 
-button{
+.lds-facebook div {
     display: inline-block;
-    padding: 0em 0.2em;
-    border: 1em solid #FFFFFF;
-    margin: 1em 0.3em 0.3em 0;
-    border-radius: 0.12em;
-    font-size: 20px;
-    box-sizing: border-box;
-    text-decoration: none;
-    font-weight: bold;
-    text-align: center;
-    transition: all 0.2s;
-    box-shadow: 0px 4px 10px 0px #ccc;
+    position: absolute;
+    left: 8px;
+    width: 16px;
+    background: #fff;
+    animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
 }
-button:hover{
-    outline: 1px solid #ccc;
-    background-color:#FFFFFF;
+
+.lds-facebook div:nth-child(1) {
+    left: 8px;
+    animation-delay: -0.24s;
 }
-@media all and (max-width:30em){
-    button{
-        display:block;
-        margin:0.4em auto;
+
+.lds-facebook div:nth-child(2) {
+    left: 32px;
+    animation-delay: -0.12s;
+}
+
+.lds-facebook div:nth-child(3) {
+    left: 56px;
+    animation-delay: 0;
+}
+
+@keyframes lds-facebook {
+    0% {
+        top: 8px;
+        height: 64px;
     }
+    50%,
+    100% {
+        top: 24px;
+        height: 32px;
+    }
+}
+
+.spinner {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: #232323;
+    opacity: 0.5;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }

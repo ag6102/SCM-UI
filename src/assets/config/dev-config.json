@@ -1,8 +1,10 @@
 {
-    "API_ENDPOINTS": {
-      "USER": "api/v1/user"
-    },
-    "CONSTANTS": {
-        "TOMTOM_API_KEY" : "69zn9YEOaXOsIbOWQWFiaWINh4yJobxv"
-    }
+  "API_ENDPOINTS": {
+    "USER": "api/v1/user",
+    "BASE_URL": "http://localhost:8000/data",
+    "AUTH_URL": "http://localhost:8000/mongo_auth"
+  },
+  "CONSTANTS": {
+    "TOMTOM_API_KEY": "69zn9YEOaXOsIbOWQWFiaWINh4yJobxv"
   }
+}

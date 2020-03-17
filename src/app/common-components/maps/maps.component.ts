@@ -1,118 +1,211 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import config from '../../../assets/config/dev-config.json';
+import { Component, OnInit, Input, OnChanges, ViewChild } from "@angular/core";
+import config from "../../../assets/config/dev-config.json";
+import {} from "googlemaps";
 declare let L;
 declare let tomtom: any;
+var markers = [];
+var trafficPath;
 
 @Component({
-  selector: 'app-maps',
-  templateUrl: './maps.component.html',
-  styleUrls: ['./maps.component.css']
+  selector: "app-maps",
+  templateUrl: "./maps.component.html",
+  styleUrls: ["./maps.component.css"]
 })
-export class MapsComponent implements OnInit, OnChanges  {
+export class MapsComponent implements OnInit, OnChanges {
+  @ViewChild("map", { static: true }) mapElement: any;
+  map1: google.maps.Map;
 
-  @Input() mapsData; 
+  @Input() mapsData;
   map;
   center = [53.1424, 7.6921];
-  marker;
+  // marker;
 
-  constructor() { }
+  constructor() {}
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
-    this.ngOnInit();
+    if (markers != null) {
+      this.clearMarkers();
+    }
+    if (trafficPath != null) {
+      trafficPath.setMap(null);
+    }
+    console.log(this.mapsData.type);
+    if (this.mapsData.type == "pollution") {
+      this.fetchPollutionData();
+    } else if (this.mapsData.type == "bike") {
+      this.fetchBikesData();
+    } else if (this.mapsData.type == "traffic") {
+      this.fetchTrafficDetails();
+    } else if (this.mapsData.type == "busstop") {
+      this.fetchBusStopData();
+    } else if (this.mapsData.type == "luasstop") {
+      this.fetchLuasStopData();
+    } else if (this.mapsData.type == "irishrailstop") {
+      this.fetchIrishRailStopData();
+    }
   }
-
   ngOnInit() {
-    let map;
-    if(this.map != undefined){
-      this.map.remove();
-    }
-    map = this.initializeMap();
-    if(this.mapsData != undefined && this.mapsData.coordinates && this.mapsData.coordinates.length >0){
-      if(this.mapsData.type == 'pollution'){
-        this.fetchPollutionData(map);
-      }else if(this.mapsData.type == 'bike'){
-        this.fetchBikesData(map);
-      }
-      else if(this.mapsData.type == 'traffic'){
-        this.fetchTrafficDetails(map);
-      }
-    }
+    this.map = this.initializeMap();
   }
 
-  initializeMap(){
-    this.map = new tomtom.L.map('map', {
-      key: config.CONSTANTS.TOMTOM_API_KEY,
-      basePath: '/assets/sdk',
-      center: this.center,
-      zoom: 15,
-      source : 'vector'
+  initializeMap() {
+    var map = new google.maps.Map(this.mapElement.nativeElement, {
+      zoom: 12,
+      center: { lat: 53.349562, lng: -6.278198 },
+      mapTypeId: google.maps.MapTypeId.ROADMAP
     });
-    return this.map;
+    return map;
   }
 
-  fetchPollutionData(map){
+  clearMarkers() {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+    }
+    markers = [];
+  }
+
+  storageAvailable(type) {
+    var storage;
+    try {
+      storage = window[type];
+      var x = "__storage_test__";
+      storage.setItem(x, x);
+      storage.removeItem(x);
+      return true;
+    } catch (e) {
+      return (
+        e instanceof DOMException &&
+        // everything except Firefox
+        (e.code === 22 ||
+          // Firefox
+          e.code === 1014 ||
+          // test name field too, because code might not be present
+          // everything except Firefox
+          e.name === "QuotaExceededError" ||
+          // Firefox
+          e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
+        // acknowledge QuotaExceededError only if there's something already stored
+        storage && storage.length !== 0
+      );
+    }
+  }
+
+  addMarkers(coordinates, markerType: string) {
+    console.log(markerType);
+    if (this.mapsData.changeTypeAPI) {
+      if (this.storageAvailable("localStorage")) {
+        localStorage.setItem(
+          markerType + "ObjectList",
+          JSON.stringify(coordinates)
+        );
+      }
+    }
+    let marker;
+    for (let i = 0; i < coordinates.length; i++) {
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(
+          coordinates[i].cordinate[0],
+          coordinates[i].cordinate[1]
+        ),
+        map: this.map,
+        icon: {
+          url: "assets/images/" + markerType + ".png"
+        }
+      });
+      markers.push(marker);
+      switch (markerType) {
+        case "bike":
+          this.attachSecretMessage(
+            marker,
+            "Available Stands : " +
+              coordinates[i].availableBikeStands +
+              " Available Bikes : " +
+              coordinates[i].availableBikes
+          );
+          break;
+        case "pollution":
+          this.attachSecretMessage(marker, coordinates[i].msg);
+          break;
+        case "bus":
+          this.attachSecretMessage(marker, coordinates[i].msg);
+          break;
+        case "dart":
+          this.attachSecretMessage(marker, coordinates[i].msg);
+          break;
+        case "luas":
+          this.attachSecretMessage(marker, coordinates[i].msg);
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  fetchPollutionData() {
     let pollutionCooardinates = this.mapsData.coordinates;
-    let iconSize = [25, 40];
-    let greenIcon  = {
-      icon: tomtom.L.icon({
-            iconUrl: '../../../assets/icons/greenIcon.png',
-            iconSize: iconSize,
-            iconAnchor: [17, 70],
-            popupAnchor: [12, -80]
-      })
-    };
-    let redIcon  = {
-      icon: tomtom.L.icon({
-          iconUrl: '../../../assets/icons/redIcon.png',
-            iconSize: iconSize,
-            iconAnchor: [17, 70],
-            popupAnchor: [12, -80]
-      })
-    };
-    let yellowIcon  = {
-      icon: tomtom.L.icon({
-          iconUrl: '../../../assets/icons/yellowIcon.png',
-            iconSize: iconSize,
-            iconAnchor: [17, 70],
-            popupAnchor: [12, -80]
-      })
-    };
-    pollutionCooardinates.forEach ((child) => {
-      this.marker = tomtom.L.marker(child.cordinate, child.aqi_display >=1 && child.aqi_display <=3  ? greenIcon : (child.aqi_display >=4 && child.aqi_display <=7 ? yellowIcon : redIcon)).addTo(map);
-      this.marker.bindPopup(child.msg).openPopup();
-      //marker.bindPopup(child.msg);
-    }, this);
+    this.addMarkers(pollutionCooardinates, "pollution");
   }
 
-  fetchBikesData(map){
+  fetchBikesData() {
     let bikesCooardinates = this.mapsData.coordinates;
-    console.log('derrefewf', this.mapsData);
-    let iconSize = [25, 40];
-    let greenIcon  = {
-      icon: tomtom.L.icon({
-            iconUrl: '../../../assets/icons/greenIcon.png',
-            iconSize: iconSize,
-            iconAnchor: [17, 70],
-            popupAnchor: [12, -80]
-      })
-    };
-    let redIcon  = {
-      icon: tomtom.L.icon({
-          iconUrl: '../../../assets/icons/redIcon.png',
-            iconSize: iconSize,
-            iconAnchor: [17, 70],
-            popupAnchor: [12, -80]
-      })
-    };
-    bikesCooardinates.forEach ((child) => {
-      this.marker = tomtom.L.marker(child.cordinate, child.status == 'OPEN'  ? greenIcon : redIcon).addTo(map);
-      this.marker.bindPopup('Available Stands : '+child.availableBikeStands+' Available Bikes : '+child.availableBikes).openPopup();
-      //marker.bindPopup(child.msg);
-    }, this);
+    this.addMarkers(bikesCooardinates, "bike");
   }
 
-  fetchTrafficDetails(map){
-    map.addControl(new tomtom.L.NavigationControl());
+  fetchLuasStopData() {
+    let luasStopCooardinates = this.mapsData.coordinates;
+    this.addMarkers(luasStopCooardinates, "luasstop");
   }
 
+  fetchBusStopData() {
+    let busStopCooardinates = this.mapsData.coordinates;
+    this.addMarkers(busStopCooardinates, "busstop");
+  }
+
+  fetchIrishRailStopData() {
+    let irishRailStopCooardinates = this.mapsData.coordinates;
+    this.addMarkers(irishRailStopCooardinates, "irishrailstop");
+  }
+
+  fetchTrafficDetails() {
+    let trafficData = this.mapsData.coordinates;
+    for (let i = 0; i < trafficData.length; i++) {
+      var coordinates = trafficData[i].coordinates.coordinate;
+      var color = trafficData[i].color;
+      var roadTrafficCoordinates = [];
+      for (let j = 0; j < coordinates.length; j++) {
+        roadTrafficCoordinates.push({
+          lat: coordinates[j].latitude,
+          lng: coordinates[j].longitude
+        });
+      }
+      trafficPath = new google.maps.Polyline({
+        path: roadTrafficCoordinates,
+        geodesic: true,
+        strokeColor: color,
+        strokeOpacity: 1.0,
+        strokeWeight: 3
+      });
+      trafficPath.setMap(this.map);
+    }
+    // var map = new google.maps.Map(document.getElementById('map'), {
+    //   zoom: 13,
+    //   center: {lat: 34.04924594193164, lng: -118.24104309082031}
+    // });
+
+    // var trafficLayer = new google.maps.TrafficLayer();
+    // trafficLayer.setMap(this.map);
+  }
+  attachSecretMessage(marker, secretMessage) {
+    var infowindow = new google.maps.InfoWindow({
+      content: secretMessage
+    });
+
+    marker.addListener("mouseover", function() {
+      infowindow.open(marker.get("map"), marker);
+    });
+
+    marker.addListener("mouseout", function() {
+      infowindow.close();
+    });
+  }
 }

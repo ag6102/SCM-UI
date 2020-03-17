@@ -8,12 +8,19 @@ import {Router} from '@angular/router';
 })
 export class SideNavComponent implements OnInit {
 
+  selected = 'dashboard/tracker';
+
   constructor(private router: Router) { }
 
   ngOnInit() {
+    this.selected = window.location.pathname;
   }
 
   navRedirect(pageName) {
+    if(pageName == 'login'){
+      localStorage.removeItem('token');
+    }
     this.router.navigateByUrl(pageName);
+    this.selected = pageName;
   }
 }

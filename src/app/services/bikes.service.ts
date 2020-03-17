@@ -1,24 +1,16 @@
-import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { Injectable } from "@angular/core";
+import config from "../../assets/config/dev-config.json";
+import { HttpHelperService } from "./http-helper.service.js";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class BikesService {
+  baseURL = config.API_ENDPOINTS.BASE_URL + "/bikes";
 
-  // baseURL = "http://10.6.57.189:8000/data/bike/";
-  // baseURL = "http://10.6.57.189:8000/data/bike/";
-  baseURL = "http://10.6.57.211:8000/data/bike/";
-  // baseURL = "http://10.6.45.76:8000/data/bike/";
+  constructor(private httpClient: HttpHelperService) {}
 
-  constructor(private httpClient: HttpClient) { }
-
-  fetchBikeDeatils(){
-    return this.httpClient.get(this.baseURL, {
-      headers: new HttpHeaders({
-           'Content-Type':  'application/json',
-         })
-      });
+  fetchBikeDetails() {
+    return this.httpClient.get(this.baseURL);
   }
 }
