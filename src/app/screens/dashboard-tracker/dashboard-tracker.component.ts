@@ -5,6 +5,7 @@ import { TrafficService } from '../../services/traffic.service';
 import { LuasStopService } from '../../services/luasstop.service';
 import { BusStopService } from '../../services/busstop.service';
 import { IrishRailStopService } from '../../services/irishrailstop.service';
+import { TimetablesService } from '../../services/timetables.service';
 
 @Component({
   selector: 'app-dashboard-tracker',
@@ -25,7 +26,7 @@ export class DashboardTrackerComponent implements OnInit {
   selected = 'traffic';
   pollutionObject=[];
 
-  constructor(private pollutionService: PollutionService, private bikesService: BikesService, private trafficService: TrafficService, private luasstopService: LuasStopService, private busstopService: BusStopService, private irishrailstopService: IrishRailStopService ) { }
+  constructor(private pollutionService: PollutionService, private bikesService: BikesService, private trafficService: TrafficService, private luasstopService: LuasStopService, private busstopService: BusStopService, private irishrailstopService: IrishRailStopService, private timetablesService: TimetablesService ) { }
 
   ngOnInit() {
     let coordinates = [[53.3895286,-6.1190612], [52.3895286,-6.1190612]];
@@ -127,6 +128,11 @@ export class DashboardTrackerComponent implements OnInit {
       type : objectType
       };
       this.mapsData = mapsJson;
+      return true;
+    }
+    else
+    {
+      return false;
     }
   }
   fetchLatestBikesData(){
@@ -138,6 +144,7 @@ export class DashboardTrackerComponent implements OnInit {
       let bCoordinates = [] ;
     for(var i=0; i < this.bikesDetails.length; i++){
       bCoordinates.push({
+        standName : this.bikesDetails[i].name,
         cordinate : [this.bikesDetails[i].lat, this.bikesDetails[i].long],
         status : this.bikesDetails[i].status,
         availableBikes : this.bikesDetails[i].available_bikes,
@@ -164,90 +171,99 @@ export class DashboardTrackerComponent implements OnInit {
   }
 
   fetchLuasStopData(){
-    this.getSavedObjects('luasstop');
-    this.selected = 'luasstop';
-    this.luasstopService.fetchLuasStopDetails().subscribe((response)=>{
-      this.luasstopDetails = response;
-      let lsCoordinates = [] ;
-    for(var i=0; i < this.luasstopDetails.length; i++){
-      lsCoordinates.push({
-        cordinate : [this.luasstopDetails[i].lat, this.luasstopDetails[i].long]
+    if(!this.getSavedObjects('luasstop'))
+    {
+      this.selected = 'luasstop';
+      this.luasstopService.fetchLuasStopDetails().subscribe((response)=>{
+        this.luasstopDetails = response;
+        let lsCoordinates = [] ;
+      for(var i=0; i < this.luasstopDetails.length; i++){
+        lsCoordinates.push({
+          cordinate : [this.luasstopDetails[i].lat, this.luasstopDetails[i].long],
+          standName : this.luasstopDetails[i].StopName
+        });
+        
+      }
+      let mapsJson = {
+        coordinates : lsCoordinates,
+        changeTypeAPI : true,
+        type : 'luasstop'
+      };
+      this.alertListData = [];
+      if (document.querySelector('.tab.selected').textContent=="Luas Stops")
+      {
+        this.mapsData = mapsJson;
+      }
+      else
+      {
+        localStorage.setItem('luasstopObjectList', JSON.stringify(lsCoordinates))
+      }
       });
-      
     }
-    let mapsJson = {
-      coordinates : lsCoordinates,
-      changeTypeAPI : true,
-      type : 'luasstop'
-    };
-    this.alertListData = [];
-    if (document.querySelector('.tab.selected').textContent=="Luas Stops")
-    {
-      this.mapsData = mapsJson;
-    }
-    else
-    {
-      localStorage.setItem('luasstopObjectList', JSON.stringify(lsCoordinates))
-    }
-    });
   }
 
   fetchBusStopData(){
-    this.getSavedObjects('busstop');
-    this.selected = 'busstop';
-    this.busstopService.fetchBusStopDetails().subscribe((response)=>{
-      this.busstopDetails = response;
-      let bsCoordinates = [] ;
-    for(var i=0; i < this.busstopDetails.length; i++){
-      bsCoordinates.push({
-        cordinate : [this.busstopDetails[i].lat, this.busstopDetails[i].long]
+    if(!this.getSavedObjects('busstop'))
+    {
+      this.selected = 'busstop';
+      this.busstopService.fetchBusStopDetails().subscribe((response)=>{
+        this.busstopDetails = response;
+        let bsCoordinates = [] ;
+      for(var i=0; i < this.busstopDetails.length; i++){
+        bsCoordinates.push({
+          cordinate : [this.busstopDetails[i].lat, this.busstopDetails[i].long],
+          standName : this.busstopDetails[i].StopName
+        });
+        
+      }
+      let mapsJson = {
+        coordinates : bsCoordinates,
+        changeTypeAPI : true,
+        type : 'busstop'
+      };
+      this.alertListData = [];
+      if (document.querySelector('.tab.selected').textContent=="Bus Stops")
+      {
+        this.mapsData = mapsJson;
+      }
+      else
+      {
+        localStorage.setItem('busstopObjectList', JSON.stringify(bsCoordinates))
+      }
       });
-      
     }
-    let mapsJson = {
-      coordinates : bsCoordinates,
-      changeTypeAPI : true,
-      type : 'busstop'
-    };
-    this.alertListData = [];
-    if (document.querySelector('.tab.selected').textContent=="Bus Stops")
-    {
-      this.mapsData = mapsJson;
-    }
-    else
-    {
-      localStorage.setItem('busstopObjectList', JSON.stringify(bsCoordinates))
-    }
-    });
   }
   
   fetchIrishRailStopData(){
-    this.getSavedObjects('irishrailstop');
-    this.selected = 'irishrailstop';
-    this.irishrailstopService.fetchIrishRailStopDetails().subscribe((response)=>{
-      this.irishrailstopDetails = response;
-      let irsCoordinates = [] ;
-    for(var i=0; i < this.irishrailstopDetails.length; i++){
-      irsCoordinates.push({
-        cordinate : [this.irishrailstopDetails[i].lat, this.irishrailstopDetails[i].long]
+    if(!this.getSavedObjects('irishrailstop'))
+    {
+      this.selected = 'irishrailstop';
+      this.irishrailstopService.fetchIrishRailStopDetails().subscribe((response)=>{
+        this.irishrailstopDetails = response;
+        let irsCoordinates = [] ;
+      for(var i=0; i < this.irishrailstopDetails.length; i++){
+        irsCoordinates.push({
+          cordinate : [this.irishrailstopDetails[i].lat, this.irishrailstopDetails[i].long],
+          standName : this.irishrailstopDetails[i].StopName
+        });
+        
+      }
+      let mapsJson = {
+        coordinates : irsCoordinates,
+        changeTypeAPI : true,
+        type : 'irishrailstop'
+      };
+      this.alertListData = [];
+      if (document.querySelector('.tab.selected').textContent=="Dart Stations")
+      {
+        this.mapsData = mapsJson;
+      }
+      else
+      {
+        localStorage.setItem('irishrailstopObjectList', JSON.stringify(irsCoordinates))
+      }
       });
-      
     }
-    let mapsJson = {
-      coordinates : irsCoordinates,
-      changeTypeAPI : true,
-      type : 'irishrailstop'
-    };
-    this.alertListData = [];
-    if (document.querySelector('.tab.selected').textContent=="Dart Stations")
-    {
-      this.mapsData = mapsJson;
-    }
-    else
-    {
-      localStorage.setItem('irishrailstopObjectList', JSON.stringify(irsCoordinates))
-    }
-    });
   }
 
   fetchTrafficData(){

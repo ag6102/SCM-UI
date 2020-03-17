@@ -50,7 +50,7 @@ export class MapsComponent implements OnInit, OnChanges {
 
   initializeMap() {
     var map = new google.maps.Map(this.mapElement.nativeElement, {
-      zoom: 12,
+      zoom: 14,
       center: { lat: 53.349562, lng: -6.278198 },
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
@@ -117,23 +117,24 @@ export class MapsComponent implements OnInit, OnChanges {
         case "bike":
           this.attachSecretMessage(
             marker,
-            "Available Stands : " +
+            coordinates[i].standName +
+            " Available Stands : " +
               coordinates[i].availableBikeStands +
-              " Available Bikes : " +
+            " Available Bikes : " +
               coordinates[i].availableBikes
           );
           break;
         case "pollution":
           this.attachSecretMessage(marker, coordinates[i].msg);
           break;
-        case "bus":
-          this.attachSecretMessage(marker, coordinates[i].msg);
+        case "busstop":
+          this.attachSecretMessage(marker, coordinates[i].standName);
           break;
-        case "dart":
-          this.attachSecretMessage(marker, coordinates[i].msg);
+        case "irishrailstop":
+          this.attachSecretMessage(marker, coordinates[i].standName);
           break;
-        case "luas":
-          this.attachSecretMessage(marker, coordinates[i].msg);
+        case "luasstop":
+          this.attachSecretMessage(marker, coordinates[i].standName);
           break;
         default:
           break;
