@@ -50,7 +50,7 @@ export class MapsComponent implements OnInit, OnChanges {
 
   initializeMap() {
     var map = new google.maps.Map(this.mapElement.nativeElement, {
-      zoom: 14,
+      zoom: 13,
       center: { lat: 53.349562, lng: -6.278198 },
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
@@ -92,11 +92,15 @@ export class MapsComponent implements OnInit, OnChanges {
 
   addMarkers(coordinates, markerType: string) {
     console.log(markerType);
+    let tempJSON = {
+      coordinates : coordinates,
+      timestamp : new Date().valueOf()
+    }
     if (this.mapsData.changeTypeAPI) {
       if (this.storageAvailable("localStorage")) {
         localStorage.setItem(
           markerType + "ObjectList",
-          JSON.stringify(coordinates)
+          JSON.stringify(tempJSON)
         );
       }
     }
@@ -207,6 +211,15 @@ export class MapsComponent implements OnInit, OnChanges {
 
     marker.addListener("mouseout", function() {
       infowindow.close();
+    });
+  }
+  attachTimeTable(marker, timetable)
+  {
+    var infowindow = new google.maps.InfoWindow({
+      content: timetable
+    });
+    marker.addListener("mouseover", function() {
+      infowindow.open(marker.get("map"), marker);
     });
   }
 }

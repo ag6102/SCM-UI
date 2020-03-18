@@ -6,6 +6,7 @@ import { LuasStopService } from '../../services/luasstop.service';
 import { BusStopService } from '../../services/busstop.service';
 import { IrishRailStopService } from '../../services/irishrailstop.service';
 import { TimetablesService } from '../../services/timetables.service';
+import { last } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard-tracker',
@@ -44,91 +45,117 @@ export class DashboardTrackerComponent implements OnInit {
   }
 
   fetchLatestPollutionDetails(){
-    this.getSavedObjects('pollution')
-    this.selected = 'pollution';
-    this.pollutionService.fetchPollutionDetails().subscribe((response)=>{
-      this.pollutionDetails = response;
-      let pCoordinates = [] ;
-    for(var i=0; i < this.pollutionDetails.length; i++){
-      pCoordinates.push({
-        cordinate : [this.pollutionDetails[i].lat, this.pollutionDetails[i].long],
-        msg : this.pollutionDetails[i].index_irl_epa.category,
-        color : this.pollutionDetails[i].index_irl_epa.color,
-        aqi_display : this.pollutionDetails[i].index_irl_epa.aqi_display
-      });
-      
-    }
-    let mapsJson = {
-      coordinates : pCoordinates,
-      changeTypeAPI : true,
-      type : 'pollution'
-    };
-    this.alertListData = [
-      {
-        id : '42343243',
-        time : '23/10/2019 12:00:43',
-        desc : 'Test Test Test Test', 
-        criticality : 'High',
-        action : 'Test'
-      },
-      {
-        id : '74553423',
-        time : '23/10/2019 12:00:43',
-        desc : 'Test Test Test Test', 
-        criticality : 'High',
-        action : 'Test'
-      },
-      {
-        id : '324346',
-        time : '23/10/2019 12:00:43',
-        desc : 'Test Test Test Test', 
-        criticality : 'High',
-        action : 'Test'
-      },
-      {
-        id : '324346',
-        time : '23/10/2019 12:00:43',
-        desc : 'Test Test Test Test', 
-        criticality : 'High',
-        action : 'Test'
-      },
-      {
-        id : '324346',
-        time : '23/10/2019 12:00:43',
-        desc : 'Test Test Test Test', 
-        criticality : 'High',
-        action : 'Test'
-      },
-      {
-        id : '324346',
-        time : '23/10/2019 12:00:43',
-        desc : 'Test Test Test Test', 
-        criticality : 'High',
-        action : 'Test'
+    if(!this.getSavedObjects('pollution'))
+    {
+      this.selected = 'pollution';
+      this.pollutionService.fetchPollutionDetails().subscribe((response)=>{
+        this.pollutionDetails = response;
+        let pCoordinates = [] ;
+      for(var i=0; i < this.pollutionDetails.length; i++){
+        pCoordinates.push({
+          cordinate : [this.pollutionDetails[i].lat, this.pollutionDetails[i].long],
+          msg : this.pollutionDetails[i].index_irl_epa.category,
+          color : this.pollutionDetails[i].index_irl_epa.color,
+          aqi_display : this.pollutionDetails[i].index_irl_epa.aqi_display
+        });
+        
       }
-    ]
+      let mapsJson = {
+        coordinates : pCoordinates,
+        changeTypeAPI : true,
+        type : 'pollution'
+      };
+      this.alertListData = [
+        {
+          id : '42343243',
+          time : '23/10/2019 12:00:43',
+          desc : 'Test Test Test Test', 
+          criticality : 'High',
+          action : 'Test'
+        },
+        {
+          id : '74553423',
+          time : '23/10/2019 12:00:43',
+          desc : 'Test Test Test Test', 
+          criticality : 'High',
+          action : 'Test'
+        },
+        {
+          id : '324346',
+          time : '23/10/2019 12:00:43',
+          desc : 'Test Test Test Test', 
+          criticality : 'High',
+          action : 'Test'
+        },
+        {
+          id : '324346',
+          time : '23/10/2019 12:00:43',
+          desc : 'Test Test Test Test', 
+          criticality : 'High',
+          action : 'Test'
+        },
+        {
+          id : '324346',
+          time : '23/10/2019 12:00:43',
+          desc : 'Test Test Test Test', 
+          criticality : 'High',
+          action : 'Test'
+        },
+        {
+          id : '324346',
+          time : '23/10/2019 12:00:43',
+          desc : 'Test Test Test Test', 
+          criticality : 'High',
+          action : 'Test'
+        }
+      ]
 
-    if (document.querySelector('.tab.selected').textContent=="Pollution")
-    {
-      this.mapsData = mapsJson;
+      if (document.querySelector('.tab.selected').textContent=="Pollution")
+      {
+        this.mapsData = mapsJson;
+      }
+      else
+      {
+        localStorage.setItem('pollutionObjectList', JSON.stringify(pCoordinates))
+      }
+      });
     }
-    else
-    {
-      localStorage.setItem('pollutionObjectList', JSON.stringify(pCoordinates))
-    }
-    });
   }
   getSavedObjects(objectType:string){
+    this.selected = objectType;
     var savedObjects = JSON.parse(localStorage.getItem(objectType+'ObjectList'));
     if (savedObjects != null)
     {
       let mapsJson = {
-      coordinates : savedObjects,
+      coordinates : savedObjects.coordinates,
       changeTypeAPI : false,
       type : objectType
       };
       this.mapsData = mapsJson;
-      return true;
+      console.log("Outside")
+      if(objectType=="irishrailstop" || objectType=="luasstop")
+      {
+        console.log("Inside")
+        this.saveTimeTableData(objectType, savedObjects.coordinates);
+      }
+      let d = new Date().valueOf()
+      let lastUpdate = (d - savedObjects.timestamp)/60000;
+      console.log(lastUpdate)
+      if(lastUpdate > 15)
+      {
+        if(objectType=="irishrailstop" || objectType=="luasstop" || objectType=="busstop")
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return true;
+      }
     }
     else
     {
@@ -137,37 +164,39 @@ export class DashboardTrackerComponent implements OnInit {
   }
   fetchLatestBikesData(){
     //localStorage.removeItem("bikeObjectList");
-    this.getSavedObjects('bike');
-    this.selected = 'bike';
-    this.bikesService.fetchBikeDetails().subscribe((response)=>{
-      this.bikesDetails = response;
-      let bCoordinates = [] ;
-    for(var i=0; i < this.bikesDetails.length; i++){
-      bCoordinates.push({
-        standName : this.bikesDetails[i].name,
-        cordinate : [this.bikesDetails[i].lat, this.bikesDetails[i].long],
-        status : this.bikesDetails[i].status,
-        availableBikes : this.bikesDetails[i].available_bikes,
-        availableBikeStands : this.bikesDetails[i].available_bike_stands,
-        bikeStands : this.bikesDetails[i].bike_stands
+    if(!this.getSavedObjects('bike'))
+    {
+      this.selected = 'bike';
+      this.bikesService.fetchBikeDetails().subscribe((response)=>{
+        this.bikesDetails = response;
+        let bCoordinates = [] ;
+      for(var i=0; i < this.bikesDetails.length; i++){
+        bCoordinates.push({
+          standName : this.bikesDetails[i].name,
+          cordinate : [this.bikesDetails[i].lat, this.bikesDetails[i].long],
+          status : this.bikesDetails[i].status,
+          availableBikes : this.bikesDetails[i].available_bikes,
+          availableBikeStands : this.bikesDetails[i].available_bike_stands,
+          bikeStands : this.bikesDetails[i].bike_stands
+        });
+        
+      }
+      let mapsJson = {
+        coordinates : bCoordinates,
+        changeTypeAPI : true,
+        type : 'bike'
+      };
+      this.alertListData = [];
+      if (document.querySelector('.tab.selected').textContent=="Bikes")
+      {
+        this.mapsData = mapsJson;
+      }
+      else
+      {
+        localStorage.setItem('bikeObjectList', JSON.stringify(bCoordinates))
+      }
       });
-      
     }
-    let mapsJson = {
-      coordinates : bCoordinates,
-      changeTypeAPI : true,
-      type : 'bike'
-    };
-    this.alertListData = [];
-    if (document.querySelector('.tab.selected').textContent=="Bikes")
-    {
-      this.mapsData = mapsJson;
-    }
-    else
-    {
-      localStorage.setItem('bikeObjectList', JSON.stringify(bCoordinates))
-    }
-    });
   }
 
   fetchLuasStopData(){
@@ -233,8 +262,55 @@ export class DashboardTrackerComponent implements OnInit {
       });
     }
   }
-  
-  fetchIrishRailStopData(){
+
+  retrievetimetable(serviceType:string)
+  {
+    let savedObjects = JSON.parse(localStorage.getItem(serviceType+'Timetable'));
+    if(savedObjects!=null)
+    {
+      let d = new Date().valueOf();
+      let lastUpdate = (d - savedObjects.timestamp)/60000;
+      console.log("Here 1 - "  + lastUpdate);
+      if(lastUpdate < 15)
+      {
+        console.log("Here 2");
+        return savedObjects.schedule;
+      }
+      else
+      {
+        console.log("Here 3");
+        return null;
+      }
+    }
+    else{
+      console.log("Here 4");
+      return savedObjects;
+    }
+  }
+
+  saveTimeTableData(markerType:string, coordinates)
+  {
+    let savedTimeTable = this.retrievetimetable(markerType);
+    if(savedTimeTable==null)
+    {
+      console.log("Here 5");
+      let timetable = [] ;
+      for(let i =0; i<coordinates.length; i++)
+      {
+        this.timetablesService.fetchTimetable(markerType,coordinates[i].standName).subscribe((response)=>{
+        timetable.push(response);
+        let tempJSON = {
+          schedule : timetable,
+          timestamp : new Date().valueOf()
+        }
+        localStorage.setItem(markerType+"Timetable", JSON.stringify(tempJSON));
+        });
+      }
+    }
+  }
+
+  fetchIrishRailStopData()
+  {
     if(!this.getSavedObjects('irishrailstop'))
     {
       this.selected = 'irishrailstop';
@@ -246,7 +322,6 @@ export class DashboardTrackerComponent implements OnInit {
           cordinate : [this.irishrailstopDetails[i].lat, this.irishrailstopDetails[i].long],
           standName : this.irishrailstopDetails[i].StopName
         });
-        
       }
       let mapsJson = {
         coordinates : irsCoordinates,
@@ -262,7 +337,8 @@ export class DashboardTrackerComponent implements OnInit {
       {
         localStorage.setItem('irishrailstopObjectList', JSON.stringify(irsCoordinates))
       }
-      });
+      this.saveTimeTableData('irishrailstop', irsCoordinates);
+    });
     }
   }
 

@@ -15,20 +15,30 @@ export class TimetablesService {
   getIrishRailTimetable(searchkey:string)
   {
     let baseURL = config.TIMETABLE_APIS.IRISHRAIL+searchkey;
-    return this.httpClient.get(baseURL, {
-        headers: new HttpHeaders({
-             'Content-Type':  'application/xml',           
-           })
-        });
+    return this.httpClient.get(baseURL, { responseType: 'text' });
+  }
+
+  getLuasTimetable(searchkey:string)
+  {
+    let baseURL = config.TIMETABLE_APIS.LUAS+searchkey;
+    return this.httpClient.get(baseURL, { responseType: 'text' });
   }
 
   fetchTimetable(serviceType:string, searchkey:string){
+    let baseURL = config.TIMETABLE_APIS.IRISHRAIL+searchkey;
+    let request;
     switch(serviceType)
     {
-        case "irishrail":
-            let request =  this.getIrishRailTimetable(searchkey);
-            return request;
-            break;
+      case "irishrailstop":
+          request =  this.getIrishRailTimetable(searchkey);
+          return request;
+          break;
+      case "luasstop":
+          request =  this.getLuasTimetable(searchkey);
+          return request;
+          break;
+      default:
+        break;
 
     }
   }
