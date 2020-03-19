@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges, ViewChild } from "@angular/core";
 import config from "../../../assets/config/dev-config.json";
 import {} from "googlemaps";
+import { TimetablesService } from '../../services/timetables.service';
 declare let L;
 declare let tomtom: any;
 var markers = [];
@@ -20,7 +21,7 @@ export class MapsComponent implements OnInit, OnChanges {
   center = [53.1424, 7.6921];
   // marker;
 
-  constructor() {}
+  constructor(private timetableService: TimetablesService) {}
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
     if (markers != null) {
@@ -133,6 +134,7 @@ export class MapsComponent implements OnInit, OnChanges {
           break;
         case "busstop":
           this.attachSecretMessage(marker, coordinates[i].standName);
+          this.getTimeTable(marker,coordinates[i].stopId);
           break;
         case "irishrailstop":
           this.attachSecretMessage(marker, coordinates[i].standName);
@@ -213,13 +215,14 @@ export class MapsComponent implements OnInit, OnChanges {
       infowindow.close();
     });
   }
-  attachTimeTable(marker, timetable)
+  onClick(StopID)
   {
-    var infowindow = new google.maps.InfoWindow({
-      content: timetable
-    });
-    marker.addListener("mouseover", function() {
-      infowindow.open(marker.get("map"), marker);
-    });
+    this.timetableService.fetchTimetable("busstop",parseInt(StopID)).subscribe((response)=>{
+      console.log(response);
+    })
+  }
+  getTimeTable(marker, StopID)
+  {
+    marker.addListener("click", this.onClick.bind(this, StopID));
   }
 }

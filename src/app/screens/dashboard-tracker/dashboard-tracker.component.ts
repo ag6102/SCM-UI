@@ -6,7 +6,6 @@ import { LuasStopService } from '../../services/luasstop.service';
 import { BusStopService } from '../../services/busstop.service';
 import { IrishRailStopService } from '../../services/irishrailstop.service';
 import { TimetablesService } from '../../services/timetables.service';
-import { last } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard-tracker',
@@ -241,7 +240,8 @@ export class DashboardTrackerComponent implements OnInit {
       for(var i=0; i < this.busstopDetails.length; i++){
         bsCoordinates.push({
           cordinate : [this.busstopDetails[i].lat, this.busstopDetails[i].long],
-          standName : this.busstopDetails[i].StopName
+          standName : this.busstopDetails[i].StopName,
+          stopId : this.busstopDetails[i].StopID
         });
         
       }

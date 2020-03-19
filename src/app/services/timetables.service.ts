@@ -18,19 +18,28 @@ export class TimetablesService {
     return this.httpClient.get(baseURL, { responseType: 'text' });
   }
 
+  getBusTimetable(searchkey)
+  {
+    let baseURL = config.TIMETABLE_APIS.BUS+searchkey;
+    return this.httpClient.get(baseURL, { responseType: 'text' });
+  }
+
   getLuasTimetable(searchkey:string)
   {
     let baseURL = config.TIMETABLE_APIS.LUAS+searchkey;
     return this.httpClient.get(baseURL, { responseType: 'text' });
   }
 
-  fetchTimetable(serviceType:string, searchkey:string){
-    let baseURL = config.TIMETABLE_APIS.IRISHRAIL+searchkey;
+  fetchTimetable(serviceType:string, searchkey){
     let request;
     switch(serviceType)
     {
       case "irishrailstop":
           request =  this.getIrishRailTimetable(searchkey);
+          return request;
+          break;
+      case "busstop":
+          request =  this.getBusTimetable(searchkey);
           return request;
           break;
       case "luasstop":

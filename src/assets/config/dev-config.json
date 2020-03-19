@@ -8,6 +8,7 @@
         "TOMTOM_API_KEY": "69zn9YEOaXOsIbOWQWFiaWINh4yJobxv"
     },
     "TIMETABLE_APIS":{
-        "IRISHRAIL": "https://cors-anywhere.herokuapp.com/http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByNameXML?StationDesc="
+        "IRISHRAIL": "https://cors-anywhere.herokuapp.com/http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByNameXML?StationDesc=",
+        "BUS": "https://cors-anywhere.herokuapp.com/https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?format=xml&stopid="
     }
 }
