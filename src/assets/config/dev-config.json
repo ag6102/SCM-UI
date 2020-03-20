@@ -1,13 +1,13 @@
 {
     "API_ENDPOINTS": {
         "USER": "api/v1/user",
-        "BASE_URL": "http://localhost:8000/data",
-        "AUTH_URL": "http://localhost:8000/mongo_auth"
+        "BASE_URL": "/data",
+        "AUTH_URL": "/mongo_auth"
     },
     "CONSTANTS": {
         "TOMTOM_API_KEY": "69zn9YEOaXOsIbOWQWFiaWINh4yJobxv"
     },
-    "TIMETABLE_APIS":{
+    "TIMETABLE_APIS": {
         "IRISHRAIL": "http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByNameXML?StationDesc="
     }
 }
