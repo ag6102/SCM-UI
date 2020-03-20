@@ -1,0 +1,45 @@
+<h3>Alert Dispatch</h3>
+<form class="normal-form" [formGroup]="infoDispatchForm" (submit)="onSubmit()">
+    <mat-grid-list cols="2" rowHeight="300px">
+        <mat-grid-tile>
+            <div class="controles-container">
+                <mat-form-field>
+                    <input formControlName="message" formControlName="message" matInput placeholder="Message*">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+                <div class="add-bottom-padding"></div>
+                <mat-form-field>
+                    <input formControlName="loc" formControlName="coordinates" matInput disabled>
+                </mat-form-field>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div class="controles-container">
+                <div class="add-bottom-padding">
+                    <mat-radio-group formControlName="to_services">
+                        Send to services:&nbsp;
+                        <ul class="services">
+                        <li><mat-radio-button value="1">Bus</mat-radio-button></li>
+                        <li><mat-radio-button value="2">Dart</mat-radio-button></li>
+                        <li><mat-radio-button value="3">Luas</mat-radio-button></li>
+                        <li><mat-radio-button value="4">Bikes</mat-radio-button></li>
+                        </ul>
+                    </mat-radio-group>
+                </div>
+                Priority:&nbsp;
+                <mat-form-field>
+                    <mat-select formControlName="priority" placeholder="Low">
+                        <mat-option>Low</mat-option>
+                        <!-- <ng-container *ngFor="let department of departmentService.array">
+                            <mat-option value="{{department.$key}}">{{department.code}}-{{department.name}}</mat-option>
+                        </ng-container> -->
+                    </mat-select>
+                </mat-form-field>
+                <div class="button-row">
+                    <!-- [disabled]="service.form.invalid" -->
+                    <button mat-raised-button color="primary" type="submit">Submit</button>
+                </div>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+</form>
