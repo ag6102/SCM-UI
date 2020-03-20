@@ -1,6 +1,7 @@
 {
     "API_ENDPOINTS": {
         "USER": "api/v1/user",
+<<<<<<< Updated upstream
         "BASE_URL": "http://localhost:8000/data",
         "AUTH_URL": "http://localhost:8000/mongo_auth"
     },
@@ -11,3 +12,12 @@
         "IRISHRAIL": "http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByNameXML?StationDesc="
     }
 }
+=======
+        "BASE_URL": "/data",
+        "AUTH_URL": "/mongo_auth"
+    },
+    "CONSTANTS": {
+        "TOMTOM_API_KEY": "69zn9YEOaXOsIbOWQWFiaWINh4yJobxv"
+    }
+}
+>>>>>>> Stashed changes
