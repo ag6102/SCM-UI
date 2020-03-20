@@ -6,5 +6,8 @@
     },
     "CONSTANTS": {
         "TOMTOM_API_KEY": "69zn9YEOaXOsIbOWQWFiaWINh4yJobxv"
+    },
+    "TIMETABLE_APIS": {
+        "IRISHRAIL": "http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByNameXML?StationDesc="
     }
 }
