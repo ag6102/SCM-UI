@@ -10,7 +10,7 @@ export class NotificationService {
   constructor(private httpClient: HttpClient) { }
 
   sendNotification(bundle) {
-    let url = config.API_ENDPOINTS.BASE_URL + "/notify";
+    let url = config.API_ENDPOINTS.DEV_SERVER_BASE + "notify";
     return this.httpClient.post(url, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

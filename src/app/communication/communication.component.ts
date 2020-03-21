@@ -49,7 +49,9 @@ export class CommunicationComponent implements OnInit {
 
   onSubmit() {  
     if (this.infoDispatchForm.valid) {
-      this.emitService.next(JSON.stringify(this.infoDispatchForm.value))
+      let bundle = this.infoDispatchForm.value;
+      bundle['is_from_city_manager'] = true;
+      this.emitService.next(JSON.stringify(bundle))
     }
     
   }

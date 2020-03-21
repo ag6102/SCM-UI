@@ -228,7 +228,7 @@ export class MapsComponent implements OnInit, OnChanges {
   publishNotifcationWithBundle(bundle) {
     if (bundle) {
       this.notificationService.sendNotification(bundle).subscribe((response) => {
-        
+        // TODO: Handle err.
       });
     }
   }
