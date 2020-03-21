@@ -20,28 +20,27 @@
                         
                         <ul class="services">
                         
-                        <li><mat-checkbox #bus [checked]='shouldSendToBus' > Dublin Bus</mat-checkbox></li>
+                        <li><mat-checkbox formControlName="busCheckbox"> Dublin Bus</mat-checkbox></li>
                         <li>
-                            <mat-checkbox [checked]='shouldSendToDart'>Dart</mat-checkbox>
+                            <mat-checkbox formControlName="dartCheckbox">Dart</mat-checkbox>
                         </li>
                         <li>
-                            <mat-checkbox [checked]='shouldSendToLuas'>Luas</mat-checkbox>
+                            <mat-checkbox formControlName="luasCheckbox">Luas</mat-checkbox>
                         </li>
                         <li>
-                            <mat-checkbox [checked]='shouldSendToBikes'>Dublin Bikes</mat-checkbox>
+                            <mat-checkbox formControlName="bikesCheckbox">Dublin Bikes</mat-checkbox>
                         </li>
  
                     </ul>
-
 
                     <!-- </mat-radio> -->
                 </div>
                 Priority:&nbsp;
                 <mat-form-field>
                     <mat-select formControlName="priority" placeholder="Low">
-                        <mat-option value="1">Low</mat-option>
-                        <mat-option value="2">Medium</mat-option>
-                        <mat-option value="3">High</mat-option>
+                        <mat-option value="low" selected>Low</mat-option>
+                        <mat-option value="medium">Medium</mat-option>
+                        <mat-option value="high">High</mat-option>
                         <!-- <ng-container *ngFor="let department of departmentService.array">
                             <mat-option value="{{department.$key}}">{{department.code}}-{{department.name}}</mat-option>
                         </ng-container> -->

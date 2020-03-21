@@ -26,11 +26,7 @@ export class CommunicationComponent implements OnInit {
   showError: Boolean = false;
   submitted = false;
 
-  shouldSendToBus = true;
-  shouldSendToDart = true;
-  shouldSendToLuas = true;
-  shouldSendToBikes = true;
-  
+
   @Output() emitService = new EventEmitter()
   
   constructor(public dialogRef: MatDialogRef<CommunicationComponent>, private formBuilder: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -38,11 +34,17 @@ export class CommunicationComponent implements OnInit {
   
   ngOnInit() {
     this.infoDispatchForm = this.formBuilder.group({
-      message: ['', Validators.required],
-      coordinates: [this.data.lat.toFixed(3) + ',  ' + this.data.lng.toFixed(3), Validators.required],
-      to_services: [''],
-      priority: [''],
-      busCheckbox: new FormControl(true)
+      message: ["", Validators.required],
+      coordinates: [
+        this.data.lat.toFixed(3) + ",  " + this.data.lng.toFixed(3),
+        Validators.required
+      ],
+      to_services: [""],
+      priority: [""],
+      busCheckbox: new FormControl(true),
+      dartCheckbox: new FormControl(true),
+      bikesCheckbox: new FormControl(true),
+      luasCheckbox: new FormControl(true)
     });
     this.infoDispatchForm.controls['coordinates'].disable();
   }
@@ -51,6 +53,11 @@ export class CommunicationComponent implements OnInit {
     if (this.infoDispatchForm.valid) {
       let bundle = this.infoDispatchForm.value;
       bundle['is_from_city_manager'] = true;
+      if (bundle['priority'] === '') {
+        bundle["priority"] = "low";
+      }
+      bundle['location'] = this.data.lat + ",  " + this.data.lng
+      console.log(JSON.stringify(bundle))
       this.emitService.next(JSON.stringify(bundle))
     }
     
