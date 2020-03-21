@@ -3,6 +3,7 @@ import config from "../../../assets/config/dev-config.json";
 import { } from "googlemaps";
 import {MatDialog, MatDialogConfig} from "@angular/material"
 import { CommunicationComponent } from 'src/app/communication/communication.component';
+import { NotificationService } from 'src/app/services/notification.service';
 declare let L;
 declare let tomtom: any;
 var markers = [];
@@ -21,7 +22,7 @@ export class MapsComponent implements OnInit, OnChanges {
   map;
   center = [53.1424, 7.6921];
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private notificationService: NotificationService) {
     
   }
 
@@ -218,9 +219,17 @@ export class MapsComponent implements OnInit, OnChanges {
     dialogConfig.data = { lat: latLng.lat(), lng: latLng.lng() }
     let modalRef = this.dialog.open(CommunicationComponent, dialogConfig)
     modalRef.componentInstance.emitService.subscribe((emmitedValue) => {
-      
+      this.publishNotifcationWithBundle(emmitedValue);
+      this.dialog.closeAll()
     });
 
   }
 
+  publishNotifcationWithBundle(bundle) {
+    if (bundle) {
+      this.notificationService.sendNotification(bundle).subscribe((response) => {
+        
+      });
+    }
+  }
 }
