@@ -57,7 +57,6 @@ export class CommunicationComponent implements OnInit {
         bundle["priority"] = "low";
       }
       bundle['location'] = this.data.lat + ",  " + this.data.lng
-      console.log(JSON.stringify(bundle))
       this.emitService.next(JSON.stringify(bundle))
     }
     
