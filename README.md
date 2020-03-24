@@ -32,3 +32,5 @@ npm audit fix
 
 Use:
 ng serve --proxy-config proxy.config.json --host 0.0.0.0
+For running as a BG process on linux using nohup
+nohup ng serve --proxy-config proxy.config.json --host 0.0.0.0 & disown
