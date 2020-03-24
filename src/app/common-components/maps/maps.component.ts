@@ -4,6 +4,7 @@ import { } from "googlemaps";
 import {MatDialog, MatDialogConfig} from "@angular/material"
 import { CommunicationComponent } from 'src/app/communication/communication.component';
 import { NotificationService } from 'src/app/services/notification.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 declare let L;
 declare let tomtom: any;
 var markers = [];
@@ -22,7 +23,7 @@ export class MapsComponent implements OnInit, OnChanges {
   map;
   center = [53.1424, 7.6921];
 
-  constructor(private dialog: MatDialog, private notificationService: NotificationService) {
+  constructor(private dialog: MatDialog, private notificationService: NotificationService, private authService: AuthenticationService) {
     
   }
 
@@ -212,17 +213,18 @@ export class MapsComponent implements OnInit, OnChanges {
 
   onRandomCoordinateClick(latLng) {
     // Opens a Communication componenet whenever a random geocoordinate is clicked.
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '50%'
-    dialogConfig.data = { lat: latLng.lat(), lng: latLng.lng() }
-    let modalRef = this.dialog.open(CommunicationComponent, dialogConfig)
-    modalRef.componentInstance.emitService.subscribe((emmitedValue) => {
-      this.publishNotifcationWithBundle(emmitedValue);
-      this.dialog.closeAll()
-    });
-
+    if (this.isAllowedToPublishNotification()) {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '50%'
+      dialogConfig.data = { lat: latLng.lat(), lng: latLng.lng() }
+      let modalRef = this.dialog.open(CommunicationComponent, dialogConfig)
+      modalRef.componentInstance.emitService.subscribe((emmitedValue) => {
+        this.publishNotifcationWithBundle(emmitedValue);
+        this.dialog.closeAll()
+      });
+    }
   }
 
   publishNotifcationWithBundle(bundle) {
@@ -230,6 +232,31 @@ export class MapsComponent implements OnInit, OnChanges {
       this.notificationService.sendNotification(bundle).subscribe((response) => {
         // TODO: Handle err.
       });
+    }
+  }
+
+  isAllowedToPublishNotification() {
+    // Checks if the logged in user has the permission to notify or not.
+    
+    let notifPermission = localStorage.getItem("notification_permission")
+    let that = this;
+    if (notifPermission) {
+      return true
+    } else {
+        this.authService.getUserPermissions().subscribe((response) => {
+          let isAllowed = true;
+          let permits = response['user']['permits']
+          for (let permit in permits) {
+            if (permits[permit] !== true){
+                isAllowed = false;
+            }
+          }
+          if (isAllowed) {
+            localStorage.setItem("notification_permission", "notification_permission_read_write");
+            that.isAllowedToPublishNotification()
+          }
+        });
+      return false;
     }
   }
 }
