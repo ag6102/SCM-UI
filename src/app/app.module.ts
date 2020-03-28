@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-
+import { MaterialModule } from "./material/material.module";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SideNavComponent } from './common-components/side-nav/side-nav.component';
@@ -26,6 +26,8 @@ import {MatSelectModule} from '@angular/material/select';
 import { CacheDataRepository } from './repositories/cache-data.repository';
 import { AlertListComponent } from './screens/alert-list/alert-list.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { CommunicationComponent } from './communication/communication.component';
+import { MatIcon, MatGridTile } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -41,24 +43,26 @@ import {MatExpansionModule} from '@angular/material/expansion';
     PollutionTrendGraphComponent,
     AnalyticsComponent,
     AdminPortalComponent,
-    AlertListComponent
+    AlertListComponent,
+    CommunicationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    MaterialModule,
     HttpClientModule,
     NgxChartsModule,
     BrowserAnimationsModule,
     FormsModule,
     MatSidenavModule,
     MatCardModule,
-    MatInputModule,
     MatRadioModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatExpansionModule
+    MatExpansionModule,
   ],
   providers: [CacheDataRepository],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[CommunicationComponent]
 })
 export class AppModule { }

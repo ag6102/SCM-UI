@@ -20,7 +20,7 @@
 }
 
 .tabs .tab.selected {
-    background-color: #1e2266;
+    background-color: #3CC47C;
     color: #fff;
 }
 
@@ -38,5 +38,5 @@
 
 .map-container {
     width: 100%;
-    margin-bottom: 10px;
+    height: 100vh
 }

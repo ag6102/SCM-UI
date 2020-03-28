@@ -1,7 +1,11 @@
 import { Component, OnInit, Input, OnChanges, ViewChild } from "@angular/core";
 import config from "../../../assets/config/dev-config.json";
-import {} from "googlemaps";
 import { TimetablesService } from '../../services/timetables.service';
+import { } from "googlemaps";
+import {MatDialog, MatDialogConfig} from "@angular/material"
+import { CommunicationComponent } from 'src/app/communication/communication.component';
+import { NotificationService } from 'src/app/services/notification.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 declare let L;
 declare let tomtom: any;
 var markers = [];
@@ -19,9 +23,13 @@ export class MapsComponent implements OnInit, OnChanges {
   @Input() mapsData;
   map;
   center = [53.1424, 7.6921];
-  // marker;
 
-  constructor(private timetableService: TimetablesService) {}
+  constructor(
+    private dialog: MatDialog,
+    private notificationService: NotificationService,
+    private authService: AuthenticationService,
+    private timetableService: TimetablesService
+  ) {}
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
     if (markers != null) {
@@ -30,7 +38,6 @@ export class MapsComponent implements OnInit, OnChanges {
     if (trafficPath != null) {
       trafficPath.setMap(null);
     }
-    console.log(this.mapsData.type);
     if (this.mapsData.type == "pollution") {
       this.fetchPollutionData();
     } else if (this.mapsData.type == "bike") {
@@ -47,6 +54,10 @@ export class MapsComponent implements OnInit, OnChanges {
   }
   ngOnInit() {
     this.map = this.initializeMap();
+    let that = this;
+    google.maps.event.addListener(this.map, "click", function(args) {
+      that.onRandomCoordinateClick(args.latLng);
+    });
   }
 
   initializeMap() {
@@ -86,7 +97,8 @@ export class MapsComponent implements OnInit, OnChanges {
           // Firefox
           e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
         // acknowledge QuotaExceededError only if there's something already stored
-        storage && storage.length !== 0
+        storage &&
+        storage.length !== 0
       );
     }
   }
@@ -94,9 +106,9 @@ export class MapsComponent implements OnInit, OnChanges {
   addMarkers(coordinates, markerType: string) {
     console.log(markerType);
     let tempJSON = {
-      coordinates : coordinates,
-      timestamp : new Date().valueOf()
-    }
+      coordinates: coordinates,
+      timestamp: new Date().valueOf()
+    };
     if (this.mapsData.changeTypeAPI) {
       if (this.storageAvailable("localStorage")) {
         localStorage.setItem(
@@ -123,9 +135,9 @@ export class MapsComponent implements OnInit, OnChanges {
           this.attachSecretMessage(
             marker,
             coordinates[i].standName +
-            " Available Stands : " +
+              " Available Stands : " +
               coordinates[i].availableBikeStands +
-            " Available Bikes : " +
+              " Available Bikes : " +
               coordinates[i].availableBikes
           );
           break;
@@ -134,7 +146,7 @@ export class MapsComponent implements OnInit, OnChanges {
           break;
         case "busstop":
           this.attachSecretMessage(marker, coordinates[i].standName);
-          this.getTimeTable(marker,coordinates[i].stopId);
+          this.getTimeTable(marker, coordinates[i].stopId);
           break;
         case "irishrailstop":
           this.attachSecretMessage(marker, coordinates[i].standName);
@@ -194,13 +206,6 @@ export class MapsComponent implements OnInit, OnChanges {
       });
       trafficPath.setMap(this.map);
     }
-    // var map = new google.maps.Map(document.getElementById('map'), {
-    //   zoom: 13,
-    //   center: {lat: 34.04924594193164, lng: -118.24104309082031}
-    // });
-
-    // var trafficLayer = new google.maps.TrafficLayer();
-    // trafficLayer.setMap(this.map);
   }
   attachSecretMessage(marker, secretMessage) {
     var infowindow = new google.maps.InfoWindow({
@@ -215,14 +220,66 @@ export class MapsComponent implements OnInit, OnChanges {
       infowindow.close();
     });
   }
-  onClick(StopID)
-  {
-    this.timetableService.fetchTimetable("busstop",parseInt(StopID)).subscribe((response)=>{
-      console.log(response);
-    })
+  onClick(StopID) {
+    this.timetableService
+      .fetchTimetable("busstop", parseInt(StopID))
+      .subscribe(response => {
+        console.log(response);
+      });
   }
-  getTimeTable(marker, StopID)
-  {
+  getTimeTable(marker, StopID) {
     marker.addListener("click", this.onClick.bind(this, StopID));
   }
+  onRandomCoordinateClick(latLng) {
+    // Opens a Communication componenet whenever a random geocoordinate is clicked.
+    if (this.isAllowedToPublishNotification()) {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "50%";
+      dialogConfig.data = { lat: latLng.lat(), lng: latLng.lng() };
+      let modalRef = this.dialog.open(CommunicationComponent, dialogConfig);
+      modalRef.componentInstance.emitService.subscribe(emmitedValue => {
+        this.publishNotifcationWithBundle(emmitedValue);
+        this.dialog.closeAll();
+      });
+    }
+  }
+
+  publishNotifcationWithBundle(bundle) {
+    if (bundle) {
+      this.notificationService.sendNotification(bundle).subscribe(response => {
+        // TODO: Handle err.
+      });
+    }
+  }
+
+  isAllowedToPublishNotification() {
+    // Checks if the logged in user has the permission to notify or not.
+
+    let notifPermission = localStorage.getItem("notification_permission");
+    let that = this;
+    if (notifPermission) {
+      return true;
+    } else {
+      this.authService.getUserPermissions().subscribe(response => {
+        let isAllowed = true;
+        let permits = response["user"]["permits"];
+        for (let permit in permits) {
+          if (permits[permit] !== true) {
+            isAllowed = false;
+          }
+        }
+        if (isAllowed) {
+          localStorage.setItem(
+            "notification_permission",
+            "notification_permission_read_write"
+          );
+          that.isAllowedToPublishNotification();
+        }
+      });
+      return false;
+    }
+  }
 }
+

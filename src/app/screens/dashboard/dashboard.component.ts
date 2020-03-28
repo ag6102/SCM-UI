@@ -26,17 +26,20 @@ export class DashboardComponent implements OnInit {
     });
 
     var channel = pusher.subscribe("notification-channel");
-    channel.bind("notification-event", this.pushNotification.bind(this));
+    let that = this;
+    channel.bind("notification-event", function (data) {
+      that.pushNotification(data);
+    });
     if (!localStorage.getItem("token")) {
       this.router.navigateByUrl("login");
     }
+
+  }
+  pushNotification(data) {
     this.alertData = {
-      message: "Pollution alert : High in Dublin 3",
+      message: data,
       action: ["Cancel", "Take Action"]
     };
-  }
-  pushNotification() {
-    console.log("up");
     this.showAlert = true;
   }
   updateAlertFlag() {

@@ -1,0 +1,56 @@
+<h3>Alert Dispatch</h3>
+<form class="normal-form" [formGroup]="infoDispatchForm" (ngSubmit)="onSubmit()">
+    <mat-grid-list cols="2" rowHeight="300px">
+        <mat-grid-tile>
+            <div class="controles-container">
+                <mat-form-field>
+                    <input formControlName="message" formControlName="message" matInput placeholder="Message*">
+                    <mat-error>This field is mandatory.</mat-error>
+                </mat-form-field>
+                <div class="add-bottom-padding"></div>
+                <mat-form-field>
+                    <input formControlName="loc" formControlName="coordinates" matInput  [attr.disabled]="shouldEditGeo">
+                </mat-form-field>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div class="controles-container">
+                <div class="add-bottom-padding">
+                    <!-- <mat-radio formControlName="to_services"> -->
+                        
+                        <ul class="services">
+                        
+                        <li><mat-checkbox formControlName="busCheckbox"> Dublin Bus</mat-checkbox></li>
+                        <li>
+                            <mat-checkbox formControlName="dartCheckbox">Dart</mat-checkbox>
+                        </li>
+                        <li>
+                            <mat-checkbox formControlName="luasCheckbox">Luas</mat-checkbox>
+                        </li>
+                        <li>
+                            <mat-checkbox formControlName="bikesCheckbox">Dublin Bikes</mat-checkbox>
+                        </li>
+ 
+                    </ul>
+
+                    <!-- </mat-radio> -->
+                </div>
+                Priority:&nbsp;
+                <mat-form-field>
+                    <mat-select formControlName="priority" placeholder="Low">
+                        <mat-option value="low" selected>Low</mat-option>
+                        <mat-option value="medium">Medium</mat-option>
+                        <mat-option value="high">High</mat-option>
+                        <!-- <ng-container *ngFor="let department of departmentService.array">
+                            <mat-option value="{{department.$key}}">{{department.code}}-{{department.name}}</mat-option>
+                        </ng-container> -->
+                    </mat-select>
+                </mat-form-field>
+                <div class="button-row">
+                    <!-- [disabled]="service.form.invalid" -->
+                    <button mat-raised-button color="primary" type="submit">Submit</button>
+                </div>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+</form>
