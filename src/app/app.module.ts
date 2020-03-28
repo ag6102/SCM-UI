@@ -28,6 +28,7 @@ import { AlertListComponent } from './screens/alert-list/alert-list.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { CommunicationComponent } from './communication/communication.component';
 import { MatIcon, MatGridTile } from '@angular/material';
+import { TimetableComponent } from './common-components/timetable/timetable.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { MatIcon, MatGridTile } from '@angular/material';
     AnalyticsComponent,
     AdminPortalComponent,
     AlertListComponent,
-    CommunicationComponent
+    CommunicationComponent,
+    TimetableComponent
   ],
   imports: [
     BrowserModule,
@@ -63,6 +65,6 @@ import { MatIcon, MatGridTile } from '@angular/material';
   ],
   providers: [CacheDataRepository],
   bootstrap: [AppComponent],
-  entryComponents:[CommunicationComponent]
+  entryComponents:[CommunicationComponent, TimetableComponent]
 })
 export class AppModule { }

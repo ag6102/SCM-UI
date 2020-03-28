@@ -4,6 +4,7 @@ import { TimetablesService } from '../../services/timetables.service';
 import { } from "googlemaps";
 import {MatDialog, MatDialogConfig} from "@angular/material"
 import { CommunicationComponent } from 'src/app/communication/communication.component';
+import { TimetableComponent } from 'src/app/common-components/timetable/timetable.component';
 import { NotificationService } from 'src/app/services/notification.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 declare let L;
@@ -129,6 +130,9 @@ export class MapsComponent implements OnInit, OnChanges {
           url: "assets/images/" + markerType + ".png"
         }
       });
+      marker.addListener("click", () => {
+        this.onCustomMarkerClick(markerType, coordinates[i].standName);
+      });
       markers.push(marker);
       switch (markerType) {
         case "bike":
@@ -220,6 +224,7 @@ export class MapsComponent implements OnInit, OnChanges {
       infowindow.close();
     });
   }
+
   onClick(StopID) {
     this.timetableService
       .fetchTimetable("busstop", parseInt(StopID))
@@ -230,13 +235,25 @@ export class MapsComponent implements OnInit, OnChanges {
   getTimeTable(marker, StopID) {
     marker.addListener("click", this.onClick.bind(this, StopID));
   }
+
+  getDialogConfig() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "50%";
+    return dialogConfig
+  }
+
+  onCustomMarkerClick(markerType, stationName) {
+    const dialogConfig = this.getDialogConfig();
+    dialogConfig.data = { type: markerType, name: stationName };
+    this.dialog.open(TimetableComponent, dialogConfig);
+  }
+
   onRandomCoordinateClick(latLng) {
     // Opens a Communication componenet whenever a random geocoordinate is clicked.
     if (this.isAllowedToPublishNotification()) {
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = false;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = "50%";
+      const dialogConfig = this.getDialogConfig()
       dialogConfig.data = { lat: latLng.lat(), lng: latLng.lng() };
       let modalRef = this.dialog.open(CommunicationComponent, dialogConfig);
       modalRef.componentInstance.emitService.subscribe(emmitedValue => {
