@@ -20,14 +20,21 @@ export class TimetablesService {
 
   getBusTimetable(searchkey)
   {
+    console.log(searchkey)
     let baseURL = config.TIMETABLE_APIS.BUS+searchkey;
-    return this.httpClient.get(baseURL, { responseType: 'text' });
+    return this.httpClient.get(baseURL, { responseType: 'text' , headers: new HttpHeaders({
+      'Authorization': localStorage.getItem('token')
+    })}
+      );
   }
 
   getLuasTimetable(searchkey:string)
   {
     let baseURL = config.TIMETABLE_APIS.LUAS+searchkey;
-    return this.httpClient.get(baseURL, { responseType: 'text' });
+    return this.httpClient.get(baseURL, { responseType: 'text' , headers: new HttpHeaders({
+      'Authorization': localStorage.getItem('token')
+    })}
+      );
   }
 
   fetchTimetable(serviceType:string, searchkey){

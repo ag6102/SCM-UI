@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges, ViewChild } from "@angular/core";
 import config from "../../../assets/config/dev-config.json";
 import { TimetablesService } from '../../services/timetables.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { } from "googlemaps";
 import {MatDialog, MatDialogConfig} from "@angular/material"
 import { CommunicationComponent } from 'src/app/communication/communication.component';
@@ -130,9 +131,6 @@ export class MapsComponent implements OnInit, OnChanges {
           url: "assets/images/" + markerType + ".png"
         }
       });
-      marker.addListener("click", () => {
-        this.onCustomMarkerClick(markerType, coordinates[i].standName);
-      });
       markers.push(marker);
       switch (markerType) {
         case "bike":
@@ -150,10 +148,15 @@ export class MapsComponent implements OnInit, OnChanges {
           break;
         case "busstop":
           this.attachSecretMessage(marker, coordinates[i].standName);
-          this.getTimeTable(marker, coordinates[i].stopId);
+          marker.addListener("click", () => {
+            this.onCustomMarkerClick(markerType, coordinates[i].stopId);
+          })          
           break;
         case "irishrailstop":
           this.attachSecretMessage(marker, coordinates[i].standName);
+          marker.addListener("click", () => {
+            this.onCustomMarkerClick(markerType, coordinates[i].standName);
+          });
           break;
         case "luasstop":
           this.attachSecretMessage(marker, coordinates[i].standName);
@@ -225,16 +228,16 @@ export class MapsComponent implements OnInit, OnChanges {
     });
   }
 
-  onClick(StopID) {
-    this.timetableService
-      .fetchTimetable("busstop", parseInt(StopID))
-      .subscribe(response => {
-        console.log(response);
-      });
-  }
-  getTimeTable(marker, StopID) {
-    marker.addListener("click", this.onClick.bind(this, StopID));
-  }
+  // onClick(StopID) {
+  //   this.timetableService
+  //     .fetchTimetable("busstop", parseInt(StopID))
+  //     .subscribe(response => {
+  //       console.log(response);
+  //     });
+  // }
+  // getTimeTable(marker, StopID) {
+  //   marker.addListener("click", this.onClick.bind(this, StopID));
+  // }
 
   getDialogConfig() {
     const dialogConfig = new MatDialogConfig();
@@ -244,10 +247,22 @@ export class MapsComponent implements OnInit, OnChanges {
     return dialogConfig
   }
 
-  onCustomMarkerClick(markerType, stationName) {
-    const dialogConfig = this.getDialogConfig();
-    dialogConfig.data = { type: markerType, name: stationName };
-    this.dialog.open(TimetableComponent, dialogConfig);
+  onCustomMarkerClick(markerType, standKey) {
+    if(markerType=='irishrailstop')
+    {
+      const dialogConfig = this.getDialogConfig();
+      dialogConfig.data = { type: markerType, name: standKey};
+      this.dialog.open(TimetableComponent, dialogConfig);
+    }
+    else if(markerType=='busstop')
+    {
+      let bus_tt;
+      this.timetableService
+      .fetchTimetable("busstop", standKey)
+      .subscribe(response => {
+        bus_tt=response;
+      });
+    }
   }
 
   onRandomCoordinateClick(latLng) {

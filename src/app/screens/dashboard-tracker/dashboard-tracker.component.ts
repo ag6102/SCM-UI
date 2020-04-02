@@ -343,37 +343,30 @@ export class DashboardTrackerComponent implements OnInit {
   }
 
   fetchTrafficData(){
-    this.getSavedObjects('traffic');
-    this.selected = 'traffic';
-    this.trafficService.fetchTrafficDetails().subscribe((response)=>{
-    //   this.bikesDetails = response;
-    //   let bCoordinates = [] ;
-    // for(var i=0; i < this.bikesDetails.length; i++){
-    //   bCoordinates.push({
-    //     cordinate : [this.bikesDetails[i].lat, this.bikesDetails[i].long],
-    //     status : this.bikesDetails[i].status,
-    //     availableBikes : this.bikesDetails[i].available_bikes,
-    //     availableBikeStands : this.bikesDetails[i].available_bike_stands,
-    //     bikeStands : this.bikesDetails[i].bike_stands
-    //   });
-      
-    // }
-    let mapsJson = {
-      coordinates : response,
-      changeTypeAPI : true,
-      type : 'traffic'
-    };
-    if (document.querySelector('.tab.selected').textContent=="Traffic")
+    if(!this.getSavedObjects('traffic'))
     {
-      this.mapsData = mapsJson;
-      localStorage.setItem('trafficObjectList', JSON.stringify(response))
+      this.selected = 'traffic';
+      this.trafficService.fetchTrafficDetails().subscribe((response)=>{
+      let mapsJson = {
+        coordinates : response,
+        changeTypeAPI : true,
+        type : 'traffic'
+      };
+      let tempJSON = {
+        coordinates: response,
+        timestamp: new Date().valueOf()
+      };
+      if (document.querySelector('.tab.selected').textContent=="Traffic")
+      {
+        this.mapsData = mapsJson;
+        localStorage.setItem('trafficObjectList', JSON.stringify(tempJSON))
+      }
+      else
+      {
+        localStorage.setItem('trafficObjectList', JSON.stringify(tempJSON))
+      }
+      this.alertListData = [];
+      });
     }
-    else
-    {
-      localStorage.setItem('trafficObjectList', JSON.stringify(response))
-    }
-    this.alertListData = [];
-    });
   }
-
 }
