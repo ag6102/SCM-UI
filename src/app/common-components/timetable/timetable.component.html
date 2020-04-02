@@ -1,28 +1,30 @@
 <div class="timetable-container">
     
-    <div class="tt-header">UPCOMING TRAINS AT PEARSE</div>
+    <div class="tt-header">UPCOMING TRAINS AT {{name}}</div>
     <div class="tt-row-container">
-        <div class="tt-row">
-            <div class="source">
-                <div class="place-dot"></div>
-            </div>
-            <div class="content">
-                <div class="upper">
-                    <div class="source-place">Bray</div>
-                    <div class="service">
-                        <img src="../../../assets/images/irail.png" />
+        <div class="tt-row" *ngFor="let station of targetInfo" style="text-decoration: none;">
+                
+                    <div class="source">
+                        <div class="place-dot"></div>
                     </div>
-                    <div class="dest-place">Howth</div>
-                </div>
-                <div class="lower">
-                    <div class="source-time">01:00</div>
-                    <div class="schedule"><span class="remaining-time">33 mins</span> &nbsp; <span class="delay">+2 mins</span></div>
-                    <div class="dest-time">03:00</div>
-                </div>
-            </div>
-            <div class="destination">
-                <div class="place-dot"></div>
-            </div>
+                    <div class="content">
+                        <div class="upper">
+                            <div class="source-place">{{station['origin']}}</div>
+                            <div class="service">
+                                <img [src] = "station['image']" />
+                            </div>
+                            <div class="dest-place">{{station['dest']}}</div>
+                        </div>
+                        <div class="lower">
+                            <div class="source-time">{{station['originTime']}}</div>
+                            <div class="schedule"><span class="remaining-time">{{station['dueIn']}} min(s)</span> &nbsp; <span class="delay">+{{station['late']}} min(s)</span>
+                            </div>
+                            <div class="dest-time">{{station['destTime']}}</div>
+                        </div>
+                    </div>
+                    <div class="destination">
+                        <div class="place-dot"></div>
+                    </div>
         </div>
     </div>
 </div>
