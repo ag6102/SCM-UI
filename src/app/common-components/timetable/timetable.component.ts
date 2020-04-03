@@ -53,33 +53,31 @@ export class TimetableComponent implements OnInit {
     let stationData = JSON.parse(localStorage.getItem("irishrailstopTimetable"))[
       "schedule"
     ];
-    // console.log(stationData);
     this.name = this.data.name;
-    // let allStations = stationData.getElementsByTagName("objStationData");
     for (let i = 0; i < stationData.length; i++) {
       let currentStation = stationData[i]['ArrayOfObjStationData']['objStationData'];
-      if (currentStation[0]['Stationfullname'].toLowerCase().trim() === this.data.name.toLowerCase().trim()) 
-      {
-        console.log(currentStation);
-        this.targetStation.push(currentStation);
+      if (currentStation && Array.isArray(currentStation)) {
+        if (currentStation[0]["Stationfullname"].toLowerCase().trim() ===
+          this.data.name.toLowerCase().trim()) {
+          this.targetStation.push(currentStation);
+        }
       }
     }
+    console.log("Target station:", this.targetStation);
     this.extractInfoFromTargetStation();
   }
 
   extractInfoFromTargetStation() {
     if (this.targetStation && this.targetStation.length > 0) {
-      this.targetInfo = this.targetStation.map((node,index) => {
-        // console.log(JSON.stringify(node));
-        // debugger;
+      this.targetInfo = this.targetStation[0].map((node, index) => {
         return {
-          origin: node[index]["Origin"],
-          originTime: node[index]["Origintime"],
-          dest: node[index]["Destination"],
-          destTime: node[index]["Destinationtime"],
-          dueIn: node[index]["Duein"],
-          late: node[index]["Late"],
-          image: node[index]["Traintype"].toLowerCase().trim() == 'dart' ? "../../../assets/images/dart.png" : "../../../assets/images/irail.png"
+          origin: node["Origin"],
+          originTime: node["Origintime"],
+          dest: node["Destination"],
+          destTime: node["Destinationtime"],
+          dueIn: node["Duein"],
+          late: node["Late"],
+          image: node["Traintype"].toLowerCase().trim() == 'dart' ? "../../../assets/images/dart.png" : "../../../assets/images/irail.png"
         };
       });
     }
