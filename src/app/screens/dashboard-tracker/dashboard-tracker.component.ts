@@ -6,7 +6,7 @@ import { LuasStopService } from '../../services/luasstop.service';
 import { BusStopService } from '../../services/busstop.service';
 import { IrishRailStopService } from '../../services/irishrailstop.service';
 import { TimetablesService } from '../../services/timetables.service';
-
+import { NgxXml2jsonService } from 'ngx-xml2json';
 @Component({
   selector: 'app-dashboard-tracker',
   templateUrl: './dashboard-tracker.component.html',
@@ -26,7 +26,7 @@ export class DashboardTrackerComponent implements OnInit {
   selected = 'traffic';
   pollutionObject=[];
 
-  constructor(private pollutionService: PollutionService, private bikesService: BikesService, private trafficService: TrafficService, private luasstopService: LuasStopService, private busstopService: BusStopService, private irishrailstopService: IrishRailStopService, private timetablesService: TimetablesService ) { }
+  constructor(private pollutionService: PollutionService, private bikesService: BikesService, private trafficService: TrafficService, private luasstopService: LuasStopService, private busstopService: BusStopService, private irishrailstopService: IrishRailStopService, private timetablesService: TimetablesService, private ngxXml2jsonService: NgxXml2jsonService ) { }
 
   ngOnInit() {
     let coordinates = [[53.3895286,-6.1190612], [52.3895286,-6.1190612]];
@@ -295,10 +295,14 @@ export class DashboardTrackerComponent implements OnInit {
     {
       console.log("Here 5");
       let timetable = [] ;
+      var XML;
       for(let i =0; i<coordinates.length; i++)
       {
         this.timetablesService.fetchTimetable(markerType,coordinates[i].standName).subscribe((response)=>{
-        timetable.push(response);
+          XML = new DOMParser().parseFromString(response, "text/xml");
+          let jsonObj = this.ngxXml2jsonService.xmlToJson(XML);
+          console.log(jsonObj);
+        timetable.push(jsonObj);
         let tempJSON = {
           schedule : timetable,
           timestamp : new Date().valueOf()

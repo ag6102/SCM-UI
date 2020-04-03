@@ -50,21 +50,17 @@ export class TimetableComponent implements OnInit {
   }
 
   handleIrishRailData() {
-    let xmlString = JSON.parse(localStorage.getItem("irishrailstopTimetable"))[
+    let stationData = JSON.parse(localStorage.getItem("irishrailstopTimetable"))[
       "schedule"
     ];
-    let parser = new DOMParser();
-    let parsed = parser.parseFromString(xmlString, "application/xml");
-    console.log(parsed);
+    // console.log(stationData);
     this.name = this.data.name;
-    let allStations = parsed.getElementsByTagName("objStationData");
-    for (let i = 0; i < allStations.length; i++) {
-      let currentStation = allStations[i];
-      let stationName = currentStation.getElementsByTagName("Stationfullname");
-      if (
-        stationName[0].textContent.toLowerCase().trim() ===
-        this.data.name.toLowerCase().trim()
-      ) {
+    // let allStations = stationData.getElementsByTagName("objStationData");
+    for (let i = 0; i < stationData.length; i++) {
+      let currentStation = stationData[i]['ArrayOfObjStationData']['objStationData'];
+      if (currentStation[0]['Stationfullname'].toLowerCase().trim() === this.data.name.toLowerCase().trim()) 
+      {
+        console.log(currentStation);
         this.targetStation.push(currentStation);
       }
     }
@@ -73,15 +69,17 @@ export class TimetableComponent implements OnInit {
 
   extractInfoFromTargetStation() {
     if (this.targetStation && this.targetStation.length > 0) {
-      this.targetInfo = this.targetStation.map(node => {
+      this.targetInfo = this.targetStation.map((node,index) => {
+        // console.log(JSON.stringify(node));
+        // debugger;
         return {
-          origin: node.getElementsByTagName("Origin")[0].textContent,
-          originTime: node.getElementsByTagName("Origintime")[0].textContent,
-          dest: node.getElementsByTagName("Destination")[0].textContent,
-          destTime: node.getElementsByTagName("Destinationtime")[0].textContent,
-          dueIn: node.getElementsByTagName("Duein")[0].textContent,
-          late: node.getElementsByTagName("Late")[0].textContent,
-          image: node.getElementsByTagName("Traintype")[0].textContent.toLowerCase().trim() == 'dart' ? "../../../assets/images/dart.png" : "../../../assets/images/irail.png"
+          origin: node[index]["Origin"],
+          originTime: node[index]["Origintime"],
+          dest: node[index]["Destination"],
+          destTime: node[index]["Destinationtime"],
+          dueIn: node[index]["Duein"],
+          late: node[index]["Late"],
+          image: node[index]["Traintype"].toLowerCase().trim() == 'dart' ? "../../../assets/images/dart.png" : "../../../assets/images/irail.png"
         };
       });
     }
