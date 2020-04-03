@@ -301,7 +301,6 @@ export class DashboardTrackerComponent implements OnInit {
         this.timetablesService.fetchTimetable(markerType,coordinates[i].standName).subscribe((response)=>{
           XML = new DOMParser().parseFromString(response, "text/xml");
           let jsonObj = this.ngxXml2jsonService.xmlToJson(XML);
-          console.log(jsonObj);
         timetable.push(jsonObj);
         let tempJSON = {
           schedule : timetable,

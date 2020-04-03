@@ -35,7 +35,8 @@ export class TimetableComponent implements OnInit {
 
   targetStation = [];
   targetInfo = [];
-  name: ''
+  name: '';
+  serviceType;
 
   constructor(
     public dialogRef: MatDialogRef<TimetableComponent>,
@@ -47,6 +48,32 @@ export class TimetableComponent implements OnInit {
     if (this.data.type === "irishrailstop") {
       this.handleIrishRailData();
     }
+    else if(this.data.type === "busstop"){
+      this.handleBusStopData();
+    }
+  }
+
+  handleBusStopData() {
+    this.name = this.data.name;
+    this.serviceType = "Buses";
+    let timetable = JSON.parse(this.data.timetable);
+    let busStandName = this.data.standName;
+    let stopId = timetable["stopid"];
+    console.log(stopId)
+    if (timetable["results"] && timetable["results"].length > 0) {
+      this.targetInfo = timetable["results"].map((node, index) => {
+        return {
+          origin: busStandName,
+          originTime: node["scheduledarrivaldatetime"],
+          dest: node["destination"],
+          destTime: "",
+          dueIn: node["duetime"],
+          late: 2,
+          route: "Route No- "+node["route"],
+          image: "../../../assets/images/bus.png"
+        };
+      });
+    }
   }
 
   handleIrishRailData() {
@@ -54,6 +81,7 @@ export class TimetableComponent implements OnInit {
       "schedule"
     ];
     this.name = this.data.name;
+    this.serviceType = "Trains";
     for (let i = 0; i < stationData.length; i++) {
       let currentStation = stationData[i]['ArrayOfObjStationData']['objStationData'];
       if (currentStation && Array.isArray(currentStation)) {
@@ -71,8 +99,8 @@ export class TimetableComponent implements OnInit {
     if (this.targetStation && this.targetStation.length > 0) {
       this.targetInfo = this.targetStation[0].map((node, index) => {
         return {
-          origin: node["Origin"],
-          originTime: node["Origintime"],
+          origin: node["Stationfullname"],
+          originTime: node["Exparrival"],
           dest: node["Destination"],
           destTime: node["Destinationtime"],
           dueIn: node["Duein"],

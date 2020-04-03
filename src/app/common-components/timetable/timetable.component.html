@@ -1,6 +1,6 @@
 <div class="timetable-container">
     
-    <div class="tt-header">UPCOMING TRAINS AT {{name}}</div>
+    <div class="tt-header">UPCOMING {{serviceType}} AT {{name}}</div>
     <div class="tt-row-container">
         <div class="tt-row" *ngFor="let station of targetInfo" style="text-decoration: none;">
                 
@@ -13,6 +13,7 @@
                             <div class="service">
                                 <img [src] = "station['image']" />
                             </div>
+                            <div class="service">{{station['route']}}</div>
                             <div class="dest-place">{{station['dest']}}</div>
                         </div>
                         <div class="lower">

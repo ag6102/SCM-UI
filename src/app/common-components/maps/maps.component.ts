@@ -30,7 +30,7 @@ export class MapsComponent implements OnInit, OnChanges {
     private dialog: MatDialog,
     private notificationService: NotificationService,
     private authService: AuthenticationService,
-    private timetableService: TimetablesService
+    private timetableService: TimetablesService    
   ) {}
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
@@ -149,7 +149,7 @@ export class MapsComponent implements OnInit, OnChanges {
         case "busstop":
           this.attachSecretMessage(marker, coordinates[i].standName);
           marker.addListener("click", () => {
-            this.onCustomMarkerClick(markerType, coordinates[i].stopId);
+            this.onCustomMarkerClick(markerType, coordinates[i].stopId, coordinates[i].standName);
           })          
           break;
         case "irishrailstop":
@@ -247,7 +247,7 @@ export class MapsComponent implements OnInit, OnChanges {
     return dialogConfig
   }
 
-  onCustomMarkerClick(markerType, standKey) {
+  onCustomMarkerClick(markerType, standKey, busStandName=null) {
     if(markerType=='irishrailstop')
     {
       const dialogConfig = this.getDialogConfig();
@@ -259,8 +259,11 @@ export class MapsComponent implements OnInit, OnChanges {
       let bus_tt;
       this.timetableService
       .fetchTimetable("busstop", standKey)
-      .subscribe(response => {
-        bus_tt=response;
+      .subscribe(response => {        
+        bus_tt = JSON.parse(response);
+        const dialogConfig = this.getDialogConfig();
+        dialogConfig.data = { type: markerType, name: standKey, timetable:bus_tt, standName:busStandName};
+        this.dialog.open(TimetableComponent, dialogConfig);
       });
     }
   }
