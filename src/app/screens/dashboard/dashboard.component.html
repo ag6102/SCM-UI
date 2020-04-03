@@ -2,7 +2,7 @@
   <mat-sidenav-container class="example-container">
     <mat-sidenav mode="side" opened>
       <div class="side-nav-container">
-        <app-side-nav></app-side-nav>
+        <app-side-nav (navIconClicked)="navIconClicked($event)"></app-side-nav>
       </div>
     </mat-sidenav>
     <mat-sidenav-content>

@@ -82,3 +82,7 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.gmnoprint {
+  margin: 70px 10px 10px !important;
+}

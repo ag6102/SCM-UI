@@ -28,13 +28,6 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    var pusher = new Pusher("fe5bdaff7e445663f02e", {
-      cluster: "eu",
-      forceTLS: true
-    });
-
-    var channel = pusher.subscribe("notification-channel");
-    channel.bind("notification-event", this.pushNotification.bind(this));
     if (!localStorage.getItem("token")) {
       this.router.navigateByUrl("login");
     }
@@ -46,6 +39,16 @@ export class DashboardComponent implements OnInit {
         );
         localStorage.setItem("role", response["user"]["role"]);
         this.ability.update(defineAbilitiesFor(response["user"]["role"]));
+        var pusher = new Pusher("fe5bdaff7e445663f02e", {
+          cluster: "eu",
+          forceTLS: true
+        });
+        var channel = pusher.subscribe("notification-channel");
+        if (response["user"]["role"] == "admin") {
+          channel.bind("to-admin", this.pushNotification.bind(this));
+        } else {
+          channel.bind("to-service-provider", this.pushNotification.bind(this));
+        }
       },
       error => {
         this.router.navigateByUrl("login");
@@ -56,15 +59,22 @@ export class DashboardComponent implements OnInit {
       action: ["Cancel", "Take Action"]
     };
   }
+
   pushNotification() {
-    console.log("up");
     this.showAlert = true;
   }
+
   updateAlertFlag() {
     this.showAlert = false;
     let obj = {
       isAlertPresent: false
     };
     this.cacheService.updateCacheData(obj).subscribe(v => {});
+  }
+
+  navIconClicked(event) {
+    if (event.data == "/dashboard/alerts") {
+      this.updateAlertFlag();
+    }
   }
 }
