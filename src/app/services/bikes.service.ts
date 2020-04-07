@@ -6,7 +6,7 @@ import { HttpHelperService } from "./http-helper.service.js";
   providedIn: "root"
 })
 export class BikesService {
-  baseURL = config.API_ENDPOINTS.BASE_URL + "/bikes";
+  baseURL = config.API_ENDPOINTS.DEV_SERVER_BASE + "bikes";
 
   constructor(private httpClient: HttpHelperService) {}
 

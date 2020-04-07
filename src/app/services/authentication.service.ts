@@ -18,4 +18,15 @@ export class AuthenticationService {
       })
     });
   }
+
+  getUserPermissions() {
+    let url = config.API_ENDPOINTS.DEV_SERVER_BASE + "/data/user"
+    return this.httpClient.get(url, {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem('token')
+      })
+    });
+  }
+
 }
