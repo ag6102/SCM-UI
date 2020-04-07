@@ -13,7 +13,7 @@ export class NotificationService {
   constructor(private httpClient: HttpHelperService) { }
 
   sendNotification(bundle) {
-    let url = config.API_ENDPOINTS.DEV_SERVER_BASE + "notify";
+    let url = config.API_ENDPOINTS.BASE_URL + "notify";
     return this.httpClient.post(url, JSON.parse(bundle));
   }
 }

@@ -20,7 +20,7 @@ export class AuthenticationService {
   }
 
   getUserPermissions() {
-    let url = config.API_ENDPOINTS.DEV_SERVER_BASE + "/data/user"
+    let url = config.API_ENDPOINTS.BASE_URL + "/data/user";
     return this.httpClient.get(url, {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
