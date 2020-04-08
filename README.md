@@ -29,3 +29,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 npm install
 npm audit fix
+
+Use:
+ng serve --proxy-config proxy.config.json --host 0.0.0.0

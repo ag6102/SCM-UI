@@ -1,0 +1,25 @@
+/* Animations */
+#gps {
+  animation: wave 3s ease-in-out infinite;
+  -webkit-animation: wave 3s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+@keyframes wave {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  30% {
+    transform: rotateZ(-30deg);
+  }
+  50% {
+    transform: rotateZ(30deg);
+  }
+  80% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(10deg);
+  }
+}

@@ -1,15 +1,18 @@
 <div class="login-container">
-    <div class="landing">
-        <div class="landing-txt-container">
-            <div class="landing-txt-title">
-                OVERSIGHT
-            </div>
-            <div class="landing-txt-content">
-                Tool to empower real life superheroes. People responsible to oversee the administrative tasks that allow the city to operate. People that deliver on and delegate authority and responsibilty. People who keep chaos at bay.
-            </div>
-        </div>
-        <div class="landing-svg">
-            <svg width="758" height="345" viewBox="0 0 758 345" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <div class="landing">
+    <div class="landing-txt-container">
+      <div class="landing-txt-title">
+        OVERSIGHT
+      </div>
+      <div class="landing-txt-content">
+        Tool to empower real life superheroes. People responsible to oversee the
+        administrative tasks that allow the city to operate. People that deliver
+        on and delegate authority and responsibilty. People who keep chaos at
+        bay.
+      </div>
+    </div>
+    <div class="landing-svg">
+      <!-- <svg width="758" height="345" viewBox="0 0 758 345" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="undraw_best_place_r685 (1) 1">
                     <path id="Vector"
                         d="M96.1761 340.042L94.8753 339.749C109.379 275.318 145.829 216.808 197.509 174.999C236.582 143.438 283.052 122.33 332.546 113.663C382.039 104.995 432.926 109.053 480.416 125.454C527.906 141.855 570.436 170.059 604.001 207.411C637.567 244.764 661.064 290.035 672.279 338.963L670.98 339.258C640.277 204.597 522.13 110.548 383.667 110.548C247.018 110.548 126.11 207.064 96.1761 340.042Z"
@@ -215,26 +218,45 @@
                             fill="#F2F2F2" />
                     </g>
                 </g>
-            </svg>
-
-        </div>
+            </svg> -->
+      <app-login-svg></app-login-svg>
     </div>
-    <div class="login-form-container">
-        <div class="overlay">
+  </div>
+  <div class="login-form-container">
+    <div class="overlay"></div>
+    <div class="user-cred">
+      <div class="login-text">
+        SIGN IN
+      </div>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+        <input
+          id="username"
+          class="form-field"
+          type="text"
+          formControlName="username"
+          placeholder="Email goes here.."
+        />
+        <input
+          id="password"
+          class="form-field"
+          type="password"
+          formControlName="password"
+          placeholder="and password here.."
+        />
+        <div *ngIf="submitted && loginForm.controls['username'].errors">
+          Incorrect email.
         </div>
-        <div class="user-cred">
-            <div class="login-text">
-                SIGN IN
-            </div>
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
-                <input id="username" class="form-field" type="text" formControlName="username" placeholder="Email goes here.."/>
-                <input id="password" class="form-field" type="password" formControlName="password" placeholder="and password here.." />
-                <div *ngIf="submitted && loginForm.controls['username'].errors">Incorrect email.</div>
-                <div *ngIf="submitted && loginForm.controls['password'].hasError('required')">Password cannot be left empty.</div>
-                <div class="center">
-                    <button type="submit" class="login-btn">SIGN IN</button>
-                </div>
-            </form>
+        <div
+          *ngIf="
+            submitted && loginForm.controls['password'].hasError('required')
+          "
+        >
+          Password cannot be left empty.
         </div>
+        <div class="center">
+          <button type="submit" class="login-btn">SIGN IN</button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>

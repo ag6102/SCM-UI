@@ -1,26 +1,21 @@
 <div class="">
-    <!-- <div class="side-nav-container">
-        <app-side-nav></app-side-nav>
-    </div> -->
-    <mat-sidenav-container class="example-container">
-        <mat-sidenav mode="side" opened>
-            <div class="side-nav-container">
-                <app-side-nav></app-side-nav>
-            </div>
-        </mat-sidenav>
-        <mat-sidenav-content>
-            <div class="container">
-                <div class="router-container">
-                    <router-outlet></router-outlet>
-                </div>
-            </div>
-            <app-alert [alertData]="alertData" [showAlert]="showAlert" (updateAlertFlag)="updateAlertFlag()"></app-alert>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
-    <!-- <div class="container">
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav mode="side" opened>
+      <div class="side-nav-container">
+        <app-side-nav (navIconClicked)="navIconClicked($event)"></app-side-nav>
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="container">
         <div class="router-container">
-            <router-outlet></router-outlet>
+          <router-outlet></router-outlet>
         </div>
-    </div> -->
-    <!-- <app-alert [alertData]="alertData" [showAlert]="showAlert"></app-alert> -->
+      </div>
+      <app-alert
+        [alertData]="alertData"
+        [showAlert]="showAlert"
+        (updateAlertFlag)="updateAlertFlag()"
+      ></app-alert>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>
