@@ -3,10 +3,10 @@ import config from "../../assets/config/dev-config.json";
 import { HttpHelperService } from "./http-helper.service.js";
 
 @Injectable({
-  providedIn: "root",
+  providedIn: "root"
 })
 export class BikesService {
-  baseURL = config.API_ENDPOINTS.BASE_URL + "/bikes";
+  baseURL = config.API_ENDPOINTS.DEV_SERVER_BASE + "bikes";
 
   constructor(private httpClient: HttpHelperService) {}
 
