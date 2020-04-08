@@ -1,6 +1,10 @@
 import { Component, OnInit, Input, OnChanges, ViewChild } from "@angular/core";
 import config from "../../../assets/config/dev-config.json";
-import {} from "googlemaps";
+import { } from "googlemaps";
+import {MatDialog, MatDialogConfig} from "@angular/material"
+import { CommunicationComponent } from 'src/app/communication/communication.component';
+import { NotificationService } from 'src/app/services/notification.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 declare let L;
 declare let tomtom: any;
 var markers = [];
@@ -18,9 +22,10 @@ export class MapsComponent implements OnInit, OnChanges {
   @Input() mapsData;
   map;
   center = [53.1424, 7.6921];
-  // marker;
 
-  constructor() {}
+  constructor(private dialog: MatDialog, private notificationService: NotificationService, private authService: AuthenticationService) {
+    
+  }
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
     if (markers != null) {
@@ -45,6 +50,10 @@ export class MapsComponent implements OnInit, OnChanges {
   }
   ngOnInit() {
     this.map = this.initializeMap();
+    let that = this
+    google.maps.event.addListener(this.map, 'click', function (args) {
+      that.onRandomCoordinateClick(args.latLng)
+    });
   }
 
   initializeMap() {
@@ -55,6 +64,7 @@ export class MapsComponent implements OnInit, OnChanges {
     });
     return map;
   }
+
 
   clearMarkers() {
     for (var i = 0; i < markers.length; i++) {
@@ -187,13 +197,6 @@ export class MapsComponent implements OnInit, OnChanges {
       });
       trafficPath.setMap(this.map);
     }
-    // var map = new google.maps.Map(document.getElementById('map'), {
-    //   zoom: 13,
-    //   center: {lat: 34.04924594193164, lng: -118.24104309082031}
-    // });
-
-    // var trafficLayer = new google.maps.TrafficLayer();
-    // trafficLayer.setMap(this.map);
   }
   attachSecretMessage(marker, secretMessage) {
     var infowindow = new google.maps.InfoWindow({
@@ -207,5 +210,54 @@ export class MapsComponent implements OnInit, OnChanges {
     marker.addListener("mouseout", function() {
       infowindow.close();
     });
+  }
+
+  onRandomCoordinateClick(latLng) {
+    // Opens a Communication componenet whenever a random geocoordinate is clicked.
+    if (this.isAllowedToPublishNotification()) {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '50%'
+      dialogConfig.data = { lat: latLng.lat(), lng: latLng.lng() }
+      let modalRef = this.dialog.open(CommunicationComponent, dialogConfig)
+      modalRef.componentInstance.emitService.subscribe((emmitedValue) => {
+        this.publishNotifcationWithBundle(emmitedValue);
+        this.dialog.closeAll()
+      });
+    }
+  }
+
+  publishNotifcationWithBundle(bundle) {
+    if (bundle) {
+      this.notificationService.sendNotification(bundle).subscribe((response) => {
+        // TODO: Handle err.
+      });
+    }
+  }
+
+  isAllowedToPublishNotification() {
+    // Checks if the logged in user has the permission to notify or not.
+    
+    let notifPermission = localStorage.getItem("notification_permission")
+    let that = this;
+    if (notifPermission) {
+      return true
+    } else {
+        this.authService.getUserPermissions().subscribe((response) => {
+          let isAllowed = true;
+          let permits = response['user']['permits']
+          for (let permit in permits) {
+            if (permits[permit] !== true){
+                isAllowed = false;
+            }
+          }
+          if (isAllowed) {
+            localStorage.setItem("notification_permission", "notification_permission_read_write");
+            that.isAllowedToPublishNotification()
+          }
+        });
+      return false;
+    }
   }
 }

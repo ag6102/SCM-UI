@@ -13,7 +13,7 @@ declare let Pusher: any;
 @Component({
   selector: "app-dashboard",
   templateUrl: "./dashboard.component.html",
-  styleUrls: ["./dashboard.component.css"]
+  styleUrls: ["./dashboard.component.css"],
 })
 export class DashboardComponent implements OnInit {
   alertData = {};
@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
       this.router.navigateByUrl("login");
     }
     this.authenticationService.checkAuthentication().subscribe(
-      response => {
+      (response) => {
         localStorage.setItem(
           "permits",
           JSON.stringify(response["user"]["permits"])
@@ -41,35 +41,43 @@ export class DashboardComponent implements OnInit {
         this.ability.update(defineAbilitiesFor(response["user"]["role"]));
         var pusher = new Pusher("fe5bdaff7e445663f02e", {
           cluster: "eu",
-          forceTLS: true
+          forceTLS: true,
         });
         var channel = pusher.subscribe("notification-channel");
+        var that = this;
         if (response["user"]["role"] == "admin") {
-          channel.bind("to-admin", this.pushNotification.bind(this));
+          channel.bind("to-admin", function (data) {
+            that.pushNotification(data);
+          });
         } else {
-          channel.bind("to-service-provider", this.pushNotification.bind(this));
+          channel.bind("to-service-provider", function (data) {
+            that.pushNotification(data);
+          });
+          channel.bind("notification-event", function (data) {
+            that.pushNotification(data);
+          });
         }
       },
-      error => {
+      (error) => {
         this.router.navigateByUrl("login");
       }
     );
-    this.alertData = {
-      message: "Pollution alert : High in Dublin 3",
-      action: ["Cancel", "Take Action"]
-    };
   }
 
-  pushNotification() {
+  pushNotification(data) {
+    this.alertData = {
+      message: data,
+      action: ["Cancel", "Take Action"],
+    };
     this.showAlert = true;
   }
 
   updateAlertFlag() {
     this.showAlert = false;
     let obj = {
-      isAlertPresent: false
+      isAlertPresent: false,
     };
-    this.cacheService.updateCacheData(obj).subscribe(v => {});
+    this.cacheService.updateCacheData(obj).subscribe((v) => {});
   }
 
   navIconClicked(event) {

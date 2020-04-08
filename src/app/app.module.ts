@@ -1,7 +1,15 @@
+import { AbilityModule } from "@casl/angular";
+import { createAbility } from "./ability";
+import { Ability } from "@casl/ability";
+import { LoaderComponent } from "./common-components/loader/loader.component";
+import { LoaderService } from "./loader.service";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { LoaderInterceptor } from "./loader.interceptor";
+import { LoginSvgComponent } from "./common-components/login-svg/login-svg.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
-
+import { MaterialModule } from "./material/material.module";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { SideNavComponent } from "./common-components/side-nav/side-nav.component";
@@ -20,20 +28,12 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AdminPortalComponent } from "./screens/admin-portal/admin-portal.component";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatCardModule } from "@angular/material/card";
-import { MatInputModule } from "@angular/material/input";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatSelectModule } from "@angular/material/select";
 import { CacheDataRepository } from "./repositories/cache-data.repository";
 import { AlertListComponent } from "./screens/alert-list/alert-list.component";
 import { MatExpansionModule } from "@angular/material/expansion";
-import { AbilityModule } from "@casl/angular";
-import { createAbility } from "./ability";
-import { Ability } from "@casl/ability";
-import { LoaderComponent } from "./common-components/loader/loader.component";
-import { LoaderService } from "./loader.service";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { LoaderInterceptor } from "./loader.interceptor";
-import { LoginSvgComponent } from './common-components/login-svg/login-svg.component';
+import { CommunicationComponent } from "./communication/communication.component";
 
 @NgModule({
   declarations: [
@@ -51,30 +51,32 @@ import { LoginSvgComponent } from './common-components/login-svg/login-svg.compo
     AdminPortalComponent,
     AlertListComponent,
     LoaderComponent,
-    LoginSvgComponent
+    LoginSvgComponent,
+    CommunicationComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    MaterialModule,
     HttpClientModule,
     NgxChartsModule,
     BrowserAnimationsModule,
     FormsModule,
     MatSidenavModule,
     MatCardModule,
-    MatInputModule,
     MatRadioModule,
     MatSelectModule,
     ReactiveFormsModule,
     MatExpansionModule,
-    AbilityModule.forRoot()
+    AbilityModule.forRoot(),
   ],
   providers: [
     CacheDataRepository,
     { provide: Ability, useFactory: createAbility },
     LoaderService,
-    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [CommunicationComponent],
 })
 export class AppModule {}

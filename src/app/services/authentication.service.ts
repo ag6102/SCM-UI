@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import config from "../../assets/config/dev-config.json";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class AuthenticationService {
   baseURL = config.API_ENDPOINTS.AUTH_URL + "/login/";
@@ -15,8 +15,8 @@ export class AuthenticationService {
   authenticateUser(userObj) {
     return this.httpClient.post(this.baseURL, userObj, {
       headers: new HttpHeaders({
-        "Content-Type": "application/json"
-      })
+        "Content-Type": "application/json",
+      }),
     });
   }
 
@@ -24,8 +24,17 @@ export class AuthenticationService {
     return this.httpClient.get(this.url, {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token")
-      })
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+  getUserPermissions() {
+    let url = config.API_ENDPOINTS.DEV_SERVER_BASE + "/data/user";
+    return this.httpClient.get(url, {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+      }),
     });
   }
 }
