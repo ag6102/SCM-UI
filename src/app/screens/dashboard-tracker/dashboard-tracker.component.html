@@ -1,16 +1,58 @@
 <div class="dashboard-tracker">
-    <div class="tabs">
-        <div (click)="fetchTrafficData()" class="tab" [ngClass]="{'selected' : selected == 'traffic'}">Traffic</div>
-        <div (click)="fetchLatestPollutionDetails()" class="tab" [ngClass]="{'selected' : selected == 'pollution'}">Pollution</div>
-        <div (click)="fetchLatestBikesData()" class="tab" [ngClass]="{'selected' : selected == 'bike'}">Bikes</div>
-        <div (click)="fetchLuasStopData()" class="tab" [ngClass]="{'selected' : selected == 'luasstop'}">Luas Stops</div>
-        <div (click)="fetchBusStopData()" class="tab" [ngClass]="{'selected' : selected == 'busstop'}">Bus Stops</div>
-        <div (click)="fetchIrishRailStopData()" class="tab" [ngClass]="{'selected' : selected == 'irishrailstop'}">Dart Stations</div>
+  <div class="tabs">
+    <div
+      *ngIf="'traffic' | can: 'read'"
+      (click)="fetchTrafficData()"
+      class="tab"
+      [ngClass]="{ selected: selected == 'traffic' }"
+    >
+      Traffic
     </div>
-    <div *ngIf="mapsData" class="map-container">
-        <app-maps [mapsData]="mapsData"></app-maps>
+    <div
+      *ngIf="'pollution' | can: 'read'"
+      (click)="fetchLatestPollutionDetails()"
+      class="tab"
+      [ngClass]="{ selected: selected == 'pollution' }"
+    >
+      Pollution
     </div>
-    <div class="alert-list">
-        <app-view-list></app-view-list>
+    <div
+      *ngIf="'bike' | can: 'read'"
+      (click)="fetchLatestBikesData()"
+      class="tab"
+      [ngClass]="{ selected: selected == 'bike' }"
+    >
+      Bikes
     </div>
+    <div
+      *ngIf="'luas' | can: 'read'"
+      (click)="fetchLuasStopData()"
+      class="tab"
+      [ngClass]="{ selected: selected == 'luasstop' }"
+    >
+      Luas Stops
+    </div>
+    <div
+      *ngIf="'bus' | can: 'read'"
+      (click)="fetchBusStopData()"
+      class="tab"
+      [ngClass]="{ selected: selected == 'busstop' }"
+    >
+      Bus Stops
+    </div>
+    <div
+      *ngIf="'dart' | can: 'read'"
+      (click)="fetchIrishRailStopData()"
+      class="tab"
+      [ngClass]="{ selected: selected == 'irishrailstop' }"
+    >
+      Dart Stations
+    </div>
+  </div>
+  <div *ngIf="mapsData" class="map-container">
+    <app-maps [mapsData]="mapsData"></app-maps>
+  </div>
+  <div class="alert-list">
+    <app-view-list></app-view-list>
+  </div>
 </div>

@@ -1,50 +1,49 @@
-*{
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
+* {
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 
 /* The wrappr for the login page */
-.login-container{
-    display: flex;
-    justify-content: space-evenly;
-    margin: 0 auto;
-    padding: 1 rem;
-    background-color: #FFF;
-    width: 100vw;
-    height: 100vh;
+.login-container {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0 auto;
+  padding: 1 rem;
+  background-color: #fff;
+  width: 100vw;
+  height: 100vh;
 }
 
 /* The left side of the login screen. Landing text and the SVG container */
-.login-container .landing{
-    display: flex;
-    flex-direction: column;
-    flex-basis: 67%;
-    height: 100%
+.login-container .landing {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 67%;
+  height: 100%;
 }
 
-.login-container .landing .landing-txt-container{
-    flex-basis: 60%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 2rem 3rem;
+.login-container .landing .landing-txt-container {
+  flex-basis: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 2rem 3rem;
 }
 
-.login-container .landing .landing-svg{
-    flex-basis: 40%;
+.login-container .landing .landing-svg {
+  flex-basis: 40%;
 }
-
 
 /* The right side of the login screen. Contains form for the login */
-.login-container .login-form-container{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    background-image: url("../../../assets/images/skyline.jpg");
-    background-size: cover;
-    flex-basis: 33%;
-    height: 100%
+.login-container .login-form-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-image: url("../../../assets/images/skyline.jpg");
+  background-size: cover;
+  flex-basis: 33%;
+  height: 100%;
 }
 
 .login-container .login-form-container .overlay {
@@ -54,100 +53,83 @@
   width: 33%;
   height: 100%;
   margin: 0px auto;
-  background-color: #3CC47C;
+  background-color: #3cc47c;
   opacity: 0.85;
 }
 
-.login-container .login-form-container .user-cred{
-    width: 100%;
-    height:100%;
-    padding: 1rem;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    z-index: 1;
+.login-container .login-form-container .user-cred {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1;
 }
 
-.user-cred form{
-    flex-basis: 34%;
-    display: flex;
-    align-self: center;
-    flex-direction: column;
-    justify-content: space-evenly;
-    /* background-color: sienna; */
+.user-cred form {
+  flex-basis: 34%;
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+  /* background-color: sienna; */
 }
 
-.form-field{
-    width: 30vw;
-    height: 8vh;
-    border: 1px solid #3CC47C;
-    text-align: center;
-    border-radius: 12px;
-    font-size: 1rem;
+.form-field {
+  width: 30vw;
+  height: 8vh;
+  border: 1px solid #3cc47c;
+  text-align: center;
+  border-radius: 12px;
+  font-size: 1rem;
 }
-
 
 /* Styles for text */
-.login-text{
-    width: 100%;
-    flex-basis: 30%;
-    text-align: right;
-    color:#FFF;
-    font-size: 2rem;
-    font-weight: 100;
+.login-text {
+  width: 100%;
+  flex-basis: 30%;
+  text-align: right;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 100;
 }
 
-.landing-txt-title{
-    font-weight: 100;
-    font-size: 5rem;
-    color: #000
+.landing-txt-title {
+  font-weight: 100;
+  font-size: 5rem;
+  color: #000;
 }
 
-.landing-txt-content{
-    text-align: center;
-    line-height: 2rem;
-    font-weight: 400;
-    font-size: 1rem;
-    color: #AAA
+.landing-txt-content {
+  text-align: center;
+  line-height: 2rem;
+  font-weight: 400;
+  font-size: 1rem;
+  color: #aaa;
 }
 
 /* Signin button */
 .login-btn {
-	background-color:#44c767;
-    border-radius:20px;
-    height: 3rem;
-	border:1px solid #44c767;
-	display:inline-block;
-	cursor:pointer;
-    color:#ffffff;
-    font-weight: 400;
-    font-size: 1rem;
-    width: 30vw;
-	/* padding:16px 31px; */
-	text-decoration:none;
-	text-shadow:0px 1px 0px #2f6627;
+  background-color: #44c767;
+  border-radius: 20px;
+  height: 3rem;
+  border: 1px solid #44c767;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 1rem;
+  width: 30vw;
+  /* padding:16px 31px; */
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #2f6627;
 }
 .login-btn:hover {
-	background-color:#5cbf2a;
+  background-color: #5cbf2a;
 }
 .login-btn:active {
-	position:relative;
-	top:1px;
-}
-
-/* Animations */
-#gps{
-    animation: wave 3s ease-in-out infinite;
-    -webkit-animation: wave 3s ease-in-out infinite;
-    transform-origin: center;
-    transform-box: fill-box;
-}
-
-@keyframes wave {
-    0% { transform: rotateZ(  0.0deg) }
-   30% { transform: rotateZ(-30.0deg) }
-   50% { transform: rotateZ( 30.0deg) }
-   80% { transform: rotateZ(0.0deg) }
-   100% { transform: rotateZ(  10.0deg) }
+  position: relative;
+  top: 1px;
 }

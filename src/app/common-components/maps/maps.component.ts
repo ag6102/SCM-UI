@@ -94,7 +94,8 @@ export class MapsComponent implements OnInit, OnChanges {
           // Firefox
           e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
         // acknowledge QuotaExceededError only if there's something already stored
-        storage && storage.length !== 0
+        storage &&
+        storage.length !== 0
       );
     }
   }
@@ -126,9 +127,9 @@ export class MapsComponent implements OnInit, OnChanges {
           this.attachSecretMessage(
             marker,
             coordinates[i].standName +
-            " Available Stands : " +
+              " Available Stands : " +
               coordinates[i].availableBikeStands +
-            " Available Bikes : " +
+              " Available Bikes : " +
               coordinates[i].availableBikes
           );
           break;

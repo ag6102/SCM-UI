@@ -1,36 +1,36 @@
 .side-nav-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .logo {
-    width: 6vw;
-    padding: 15px 0;
+  width: 6vw;
+  padding: 15px 0;
 }
 
 .nav-icons {
-    bottom: 1em;
-    position: absolute;
-    /* display: flex;
+  bottom: 1em;
+  position: absolute;
+  /* display: flex;
     flex-direction: column; */
-    font-size: 0.85em;
-    width: 6vw;
+  font-size: 0.85em;
+  width: 6vw;
 }
 
-.nav-icons>div {
-    /* margin: 5px 0; */
-    padding: 10px 2px;
-    text-align: center;
+.nav-icons > div {
+  /* margin: 5px 0; */
+  padding: 10px 2px;
+  text-align: center;
 }
 
 .nav-icons .nav-icon {
-    width: 3vw;
-    display: block;
-    margin: auto;
-    /* margin-right: 5px; */
+  width: 5vw;
+  display: block;
+  margin: auto;
+  /* margin-right: 5px; */
 }
 
 .nav-icons .selected {
-    background-color: rgba(255,255,255,0.2);
-    color: #fff;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
 }
