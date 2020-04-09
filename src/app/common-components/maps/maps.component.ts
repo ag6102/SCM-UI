@@ -64,8 +64,8 @@ export class MapsComponent implements OnInit, OnChanges {
 
   initializeMap() {
     var map = new google.maps.Map(this.mapElement.nativeElement, {
-      zoom: 13,
-      center: { lat: 53.349562, lng: -6.278198 },
+      zoom: 14,
+      center: { lat: 53.3479528, lng: -6.2582849 },
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
     return map;
@@ -107,18 +107,18 @@ export class MapsComponent implements OnInit, OnChanges {
 
   addMarkers(coordinates, markerType: string) {
     console.log(markerType);
-    let tempJSON = {
-      coordinates: coordinates,
-      timestamp: new Date().valueOf()
-    };
-    if (this.mapsData.changeTypeAPI) {
-      if (this.storageAvailable("localStorage")) {
-        localStorage.setItem(
-          markerType + "ObjectList",
-          JSON.stringify(tempJSON)
-        );
-      }
-    }
+    // let tempJSON = {
+    //   coordinates: coordinates,
+    //   timestamp: new Date().valueOf()
+    // };
+    // if (this.mapsData.changeTypeAPI) {
+    //   if (this.storageAvailable("localStorage")) {
+    //     localStorage.setItem(
+    //       markerType + "ObjectList",
+    //       JSON.stringify(tempJSON)
+    //     );
+    //   }
+    // }
     let marker;
     for (let i = 0; i < coordinates.length; i++) {
       marker = new google.maps.Marker({

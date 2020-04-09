@@ -1,6 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { AbilityModule } from "@casl/angular";
+import { createAbility } from "./ability";
+import { Ability } from "@casl/ability";
+import { LoaderComponent } from "./common-components/loader/loader.component";
+import { LoaderService } from "./loader.service";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { LoaderInterceptor } from "./loader.interceptor";
+import { LoginSvgComponent } from "./common-components/login-svg/login-svg.component";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NgModule } from "@angular/core";
 import { MaterialModule } from "./material/material.module";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -45,8 +53,10 @@ import { TimetableComponent } from './common-components/timetable/timetable.comp
     AnalyticsComponent,
     AdminPortalComponent,
     AlertListComponent,
+    TimetableComponent,
+    LoaderComponent,
+    LoginSvgComponent,
     CommunicationComponent,
-    TimetableComponent
   ],
   imports: [
     BrowserModule,
@@ -62,9 +72,15 @@ import { TimetableComponent } from './common-components/timetable/timetable.comp
     MatSelectModule,
     ReactiveFormsModule,
     MatExpansionModule,
+    AbilityModule.forRoot(),
   ],
-  providers: [CacheDataRepository],
+  providers: [
+    CacheDataRepository,
+    { provide: Ability, useFactory: createAbility },
+    LoaderService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
   entryComponents:[CommunicationComponent, TimetableComponent]
 })
-export class AppModule { }
+export class AppModule {}
