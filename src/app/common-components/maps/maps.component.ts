@@ -1,8 +1,11 @@
 import { Component, OnInit, Input, OnChanges, ViewChild } from "@angular/core";
 import config from "../../../assets/config/dev-config.json";
+import { TimetablesService } from '../../services/timetables.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { } from "googlemaps";
 import {MatDialog, MatDialogConfig} from "@angular/material"
 import { CommunicationComponent } from 'src/app/communication/communication.component';
+import { TimetableComponent } from 'src/app/common-components/timetable/timetable.component';
 import { NotificationService } from 'src/app/services/notification.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 declare let L;
@@ -23,9 +26,12 @@ export class MapsComponent implements OnInit, OnChanges {
   map;
   center = [53.1424, 7.6921];
 
-  constructor(private dialog: MatDialog, private notificationService: NotificationService, private authService: AuthenticationService) {
-    
-  }
+  constructor(
+    private dialog: MatDialog,
+    private notificationService: NotificationService,
+    private authService: AuthenticationService,
+    private timetableService: TimetablesService    
+  ) {}
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
     if (markers != null) {
@@ -50,21 +56,20 @@ export class MapsComponent implements OnInit, OnChanges {
   }
   ngOnInit() {
     this.map = this.initializeMap();
-    let that = this
-    google.maps.event.addListener(this.map, 'click', function (args) {
-      that.onRandomCoordinateClick(args.latLng)
+    let that = this;
+    google.maps.event.addListener(this.map, "click", function(args) {
+      that.onRandomCoordinateClick(args.latLng);
     });
   }
 
   initializeMap() {
     var map = new google.maps.Map(this.mapElement.nativeElement, {
       zoom: 14,
-      center: { lat: 53.349562, lng: -6.278198 },
+      center: { lat: 53.3479528, lng: -6.2582849 },
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
     return map;
   }
-
 
   clearMarkers() {
     for (var i = 0; i < markers.length; i++) {
@@ -101,14 +106,19 @@ export class MapsComponent implements OnInit, OnChanges {
   }
 
   addMarkers(coordinates, markerType: string) {
-    if (this.mapsData.changeTypeAPI) {
-      if (this.storageAvailable("localStorage")) {
-        localStorage.setItem(
-          markerType + "ObjectList",
-          JSON.stringify(coordinates)
-        );
-      }
-    }
+    console.log(markerType);
+    // let tempJSON = {
+    //   coordinates: coordinates,
+    //   timestamp: new Date().valueOf()
+    // };
+    // if (this.mapsData.changeTypeAPI) {
+    //   if (this.storageAvailable("localStorage")) {
+    //     localStorage.setItem(
+    //       markerType + "ObjectList",
+    //       JSON.stringify(tempJSON)
+    //     );
+    //   }
+    // }
     let marker;
     for (let i = 0; i < coordinates.length; i++) {
       marker = new google.maps.Marker({
@@ -138,9 +148,15 @@ export class MapsComponent implements OnInit, OnChanges {
           break;
         case "busstop":
           this.attachSecretMessage(marker, coordinates[i].standName);
+          marker.addListener("click", () => {
+            this.onCustomMarkerClick(markerType, coordinates[i].stopId, coordinates[i].standName);
+          })          
           break;
         case "irishrailstop":
           this.attachSecretMessage(marker, coordinates[i].standName);
+          marker.addListener("click", () => {
+            this.onCustomMarkerClick(markerType, coordinates[i].standName);
+          });
           break;
         case "luasstop":
           this.attachSecretMessage(marker, coordinates[i].standName);
@@ -212,25 +228,62 @@ export class MapsComponent implements OnInit, OnChanges {
     });
   }
 
+  // onClick(StopID) {
+  //   this.timetableService
+  //     .fetchTimetable("busstop", parseInt(StopID))
+  //     .subscribe(response => {
+  //       console.log(response);
+  //     });
+  // }
+  // getTimeTable(marker, StopID) {
+  //   marker.addListener("click", this.onClick.bind(this, StopID));
+  // }
+
+  getDialogConfig() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "50%";
+    return dialogConfig
+  }
+
+  onCustomMarkerClick(markerType, standKey, busStandName=null) {
+    if(markerType=='irishrailstop')
+    {
+      const dialogConfig = this.getDialogConfig();
+      dialogConfig.data = { type: markerType, name: standKey};
+      this.dialog.open(TimetableComponent, dialogConfig);
+    }
+    else if(markerType=='busstop')
+    {
+      let bus_tt;
+      this.timetableService
+      .fetchTimetable("busstop", standKey)
+      .subscribe(response => {        
+        bus_tt = JSON.parse(response);
+        const dialogConfig = this.getDialogConfig();
+        dialogConfig.data = { type: markerType, name: standKey, timetable:bus_tt, standName:busStandName};
+        this.dialog.open(TimetableComponent, dialogConfig);
+      });
+    }
+  }
+
   onRandomCoordinateClick(latLng) {
     // Opens a Communication componenet whenever a random geocoordinate is clicked.
     if (this.isAllowedToPublishNotification()) {
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = false;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = '50%'
-      dialogConfig.data = { lat: latLng.lat(), lng: latLng.lng() }
-      let modalRef = this.dialog.open(CommunicationComponent, dialogConfig)
-      modalRef.componentInstance.emitService.subscribe((emmitedValue) => {
+      const dialogConfig = this.getDialogConfig()
+      dialogConfig.data = { lat: latLng.lat(), lng: latLng.lng() };
+      let modalRef = this.dialog.open(CommunicationComponent, dialogConfig);
+      modalRef.componentInstance.emitService.subscribe(emmitedValue => {
         this.publishNotifcationWithBundle(emmitedValue);
-        this.dialog.closeAll()
+        this.dialog.closeAll();
       });
     }
   }
 
   publishNotifcationWithBundle(bundle) {
     if (bundle) {
-      this.notificationService.sendNotification(bundle).subscribe((response) => {
+      this.notificationService.sendNotification(bundle).subscribe(response => {
         // TODO: Handle err.
       });
     }
@@ -238,26 +291,30 @@ export class MapsComponent implements OnInit, OnChanges {
 
   isAllowedToPublishNotification() {
     // Checks if the logged in user has the permission to notify or not.
-    
-    let notifPermission = localStorage.getItem("notification_permission")
+
+    let notifPermission = localStorage.getItem("notification_permission");
     let that = this;
     if (notifPermission) {
-      return true
+      return true;
     } else {
-        this.authService.getUserPermissions().subscribe((response) => {
-          let isAllowed = true;
-          let permits = response['user']['permits']
-          for (let permit in permits) {
-            if (permits[permit] !== true){
-                isAllowed = false;
-            }
+      this.authService.getUserPermissions().subscribe(response => {
+        let isAllowed = true;
+        let permits = response["user"]["permits"];
+        for (let permit in permits) {
+          if (permits[permit] !== true) {
+            isAllowed = false;
           }
-          if (isAllowed) {
-            localStorage.setItem("notification_permission", "notification_permission_read_write");
-            that.isAllowedToPublishNotification()
-          }
-        });
+        }
+        if (isAllowed) {
+          localStorage.setItem(
+            "notification_permission",
+            "notification_permission_read_write"
+          );
+          that.isAllowedToPublishNotification();
+        }
+      });
       return false;
     }
   }
 }
+
