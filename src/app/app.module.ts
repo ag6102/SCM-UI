@@ -34,6 +34,7 @@ import { CacheDataRepository } from "./repositories/cache-data.repository";
 import { AlertListComponent } from "./screens/alert-list/alert-list.component";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { CommunicationComponent } from "./communication/communication.component";
+import { MessageDialogComponent } from "./common-components/message-dialog/message-dialog.component";
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { CommunicationComponent } from "./communication/communication.component"
     LoaderComponent,
     LoginSvgComponent,
     CommunicationComponent,
+    MessageDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,6 +79,6 @@ import { CommunicationComponent } from "./communication/communication.component"
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [CommunicationComponent],
+  entryComponents: [CommunicationComponent, MessageDialogComponent],
 })
 export class AppModule {}
