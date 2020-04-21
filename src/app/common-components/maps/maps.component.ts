@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, OnChanges, ViewChild } from "@angular/core";
 import config from "../../../assets/config/dev-config.json";
-import { TimetablesService } from '../../services/timetables.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { } from "googlemaps";
-import {MatDialog, MatDialogConfig} from "@angular/material"
-import { CommunicationComponent } from 'src/app/communication/communication.component';
-import { TimetableComponent } from 'src/app/common-components/timetable/timetable.component';
-import { NotificationService } from 'src/app/services/notification.service';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { TimetablesService } from "../../services/timetables.service";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import {} from "googlemaps";
+import { MatDialog, MatDialogConfig } from "@angular/material";
+import { CommunicationComponent } from "src/app/communication/communication.component";
+import { TimetableComponent } from "src/app/common-components/timetable/timetable.component";
+import { NotificationService } from "src/app/services/notification.service";
+import { AuthenticationService } from "src/app/services/authentication.service";
 declare let L;
 declare let tomtom: any;
 var markers = [];
@@ -16,7 +16,7 @@ var trafficPath;
 @Component({
   selector: "app-maps",
   templateUrl: "./maps.component.html",
-  styleUrls: ["./maps.component.css"]
+  styleUrls: ["./maps.component.css"],
 })
 export class MapsComponent implements OnInit, OnChanges {
   @ViewChild("map", { static: true }) mapElement: any;
@@ -30,7 +30,7 @@ export class MapsComponent implements OnInit, OnChanges {
     private dialog: MatDialog,
     private notificationService: NotificationService,
     private authService: AuthenticationService,
-    private timetableService: TimetablesService    
+    private timetableService: TimetablesService
   ) {}
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
@@ -54,10 +54,11 @@ export class MapsComponent implements OnInit, OnChanges {
       this.fetchIrishRailStopData();
     }
   }
+
   ngOnInit() {
     this.map = this.initializeMap();
     let that = this;
-    google.maps.event.addListener(this.map, "click", function(args) {
+    google.maps.event.addListener(this.map, "click", function (args) {
       that.onRandomCoordinateClick(args.latLng);
     });
   }
@@ -66,7 +67,7 @@ export class MapsComponent implements OnInit, OnChanges {
     var map = new google.maps.Map(this.mapElement.nativeElement, {
       zoom: 14,
       center: { lat: 53.3479528, lng: -6.2582849 },
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
     });
     return map;
   }
@@ -120,49 +121,55 @@ export class MapsComponent implements OnInit, OnChanges {
     //   }
     // }
     let marker;
-    for (let i = 0; i < coordinates.length; i++) {
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(
-          coordinates[i].cordinate[0],
-          coordinates[i].cordinate[1]
-        ),
-        map: this.map,
-        icon: {
-          url: "assets/images/" + markerType + ".png"
+    if (coordinates) {
+      for (let i = 0; i < coordinates.length; i++) {
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(
+            coordinates[i].cordinate[0],
+            coordinates[i].cordinate[1]
+          ),
+          map: this.map,
+          icon: {
+            url: "assets/images/" + markerType + ".png",
+          },
+        });
+        markers.push(marker);
+        switch (markerType) {
+          case "bike":
+            this.attachSecretMessage(
+              marker,
+              coordinates[i].standName +
+                " Available Stands : " +
+                coordinates[i].availableBikeStands +
+                " Available Bikes : " +
+                coordinates[i].availableBikes
+            );
+            break;
+          case "pollution":
+            this.attachSecretMessage(marker, coordinates[i].msg);
+            break;
+          case "busstop":
+            this.attachSecretMessage(marker, coordinates[i].standName);
+            marker.addListener("click", () => {
+              this.onCustomMarkerClick(
+                markerType,
+                coordinates[i].stopId,
+                coordinates[i].standName
+              );
+            });
+            break;
+          case "irishrailstop":
+            this.attachSecretMessage(marker, coordinates[i].standName);
+            marker.addListener("click", () => {
+              this.onCustomMarkerClick(markerType, coordinates[i].standName);
+            });
+            break;
+          case "luasstop":
+            this.attachSecretMessage(marker, coordinates[i].standName);
+            break;
+          default:
+            break;
         }
-      });
-      markers.push(marker);
-      switch (markerType) {
-        case "bike":
-          this.attachSecretMessage(
-            marker,
-            coordinates[i].standName +
-              " Available Stands : " +
-              coordinates[i].availableBikeStands +
-              " Available Bikes : " +
-              coordinates[i].availableBikes
-          );
-          break;
-        case "pollution":
-          this.attachSecretMessage(marker, coordinates[i].msg);
-          break;
-        case "busstop":
-          this.attachSecretMessage(marker, coordinates[i].standName);
-          marker.addListener("click", () => {
-            this.onCustomMarkerClick(markerType, coordinates[i].stopId, coordinates[i].standName);
-          })          
-          break;
-        case "irishrailstop":
-          this.attachSecretMessage(marker, coordinates[i].standName);
-          marker.addListener("click", () => {
-            this.onCustomMarkerClick(markerType, coordinates[i].standName);
-          });
-          break;
-        case "luasstop":
-          this.attachSecretMessage(marker, coordinates[i].standName);
-          break;
-        default:
-          break;
       }
     }
   }
@@ -193,7 +200,9 @@ export class MapsComponent implements OnInit, OnChanges {
   }
 
   fetchTrafficDetails() {
-    let trafficData = this.mapsData.coordinates;
+    let trafficData = this.mapsData.coordinates
+      ? this.mapsData.coordinates
+      : [];
     for (let i = 0; i < trafficData.length; i++) {
       var coordinates = trafficData[i].coordinates.coordinate;
       var color = trafficData[i].color;
@@ -201,7 +210,7 @@ export class MapsComponent implements OnInit, OnChanges {
       for (let j = 0; j < coordinates.length; j++) {
         roadTrafficCoordinates.push({
           lat: coordinates[j].latitude,
-          lng: coordinates[j].longitude
+          lng: coordinates[j].longitude,
         });
       }
       trafficPath = new google.maps.Polyline({
@@ -209,21 +218,21 @@ export class MapsComponent implements OnInit, OnChanges {
         geodesic: true,
         strokeColor: color,
         strokeOpacity: 1.0,
-        strokeWeight: 3
+        strokeWeight: 3,
       });
       trafficPath.setMap(this.map);
     }
   }
   attachSecretMessage(marker, secretMessage) {
     var infowindow = new google.maps.InfoWindow({
-      content: secretMessage
+      content: secretMessage,
     });
 
-    marker.addListener("mouseover", function() {
+    marker.addListener("mouseover", function () {
       infowindow.open(marker.get("map"), marker);
     });
 
-    marker.addListener("mouseout", function() {
+    marker.addListener("mouseout", function () {
       infowindow.close();
     });
   }
@@ -244,37 +253,39 @@ export class MapsComponent implements OnInit, OnChanges {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "50%";
-    return dialogConfig
+    return dialogConfig;
   }
 
-  onCustomMarkerClick(markerType, standKey, busStandName=null) {
-    if(markerType=='irishrailstop')
-    {
+  onCustomMarkerClick(markerType, standKey, busStandName = null) {
+    if (markerType == "irishrailstop") {
       const dialogConfig = this.getDialogConfig();
-      dialogConfig.data = { type: markerType, name: standKey};
+      dialogConfig.data = { type: markerType, name: standKey };
       this.dialog.open(TimetableComponent, dialogConfig);
-    }
-    else if(markerType=='busstop')
-    {
+    } else if (markerType == "busstop") {
       let bus_tt;
       this.timetableService
-      .fetchTimetable("busstop", standKey)
-      .subscribe(response => {        
-        bus_tt = JSON.parse(response);
-        const dialogConfig = this.getDialogConfig();
-        dialogConfig.data = { type: markerType, name: standKey, timetable:bus_tt, standName:busStandName};
-        this.dialog.open(TimetableComponent, dialogConfig);
-      });
+        .fetchTimetable("busstop", standKey)
+        .subscribe((response) => {
+          bus_tt = JSON.parse(response);
+          const dialogConfig = this.getDialogConfig();
+          dialogConfig.data = {
+            type: markerType,
+            name: standKey,
+            timetable: bus_tt,
+            standName: busStandName,
+          };
+          this.dialog.open(TimetableComponent, dialogConfig);
+        });
     }
   }
 
   onRandomCoordinateClick(latLng) {
     // Opens a Communication componenet whenever a random geocoordinate is clicked.
     if (this.isAllowedToPublishNotification()) {
-      const dialogConfig = this.getDialogConfig()
+      const dialogConfig = this.getDialogConfig();
       dialogConfig.data = { lat: latLng.lat(), lng: latLng.lng() };
       let modalRef = this.dialog.open(CommunicationComponent, dialogConfig);
-      modalRef.componentInstance.emitService.subscribe(emmitedValue => {
+      modalRef.componentInstance.emitService.subscribe((emmitedValue) => {
         this.publishNotifcationWithBundle(emmitedValue);
         this.dialog.closeAll();
       });
@@ -283,9 +294,11 @@ export class MapsComponent implements OnInit, OnChanges {
 
   publishNotifcationWithBundle(bundle) {
     if (bundle) {
-      this.notificationService.sendNotification(bundle).subscribe(response => {
-        // TODO: Handle err.
-      });
+      this.notificationService
+        .sendNotification(bundle)
+        .subscribe((response) => {
+          // TODO: Handle err.
+        });
     }
   }
 
@@ -297,7 +310,7 @@ export class MapsComponent implements OnInit, OnChanges {
     if (notifPermission) {
       return true;
     } else {
-      this.authService.getUserPermissions().subscribe(response => {
+      this.authService.getUserPermissions().subscribe((response) => {
         let isAllowed = true;
         let permits = response["user"]["permits"];
         for (let permit in permits) {
@@ -317,4 +330,3 @@ export class MapsComponent implements OnInit, OnChanges {
     }
   }
 }
-
