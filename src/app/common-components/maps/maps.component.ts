@@ -8,7 +8,7 @@ import { CommunicationComponent } from "src/app/communication/communication.comp
 import { TimetableComponent } from "src/app/common-components/timetable/timetable.component";
 import { NotificationService } from "src/app/services/notification.service";
 import { AuthenticationService } from "src/app/services/authentication.service";
-import { BikesAnalysisDialogComponent } from "../bikes-analysis-dialog/bikes-analysis-dialog.component.js";
+
 declare let L;
 declare let tomtom: any;
 var markers = [];
