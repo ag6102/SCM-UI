@@ -10,6 +10,11 @@
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": false
+    },
+    "/analysis": {
+        "target": "http://localhost:8000/",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": false
     }
-
 }

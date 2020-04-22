@@ -1,31 +1,45 @@
-<div class="timetable-container">
-    
-    <div class="tt-header">UPCOMING {{serviceType}} AT {{name}}</div>
+<div class="timetable-container 2" *ngIf="data.type === 'irishrailstop' || data.type === 'busstop'">
+    <div class="tt-header">UPCOMING {{ serviceType }} AT {{ name }}</div>
     <div class="tt-row-container">
         <div class="tt-row" *ngFor="let station of targetInfo" style="text-decoration: none;">
-                
-                    <div class="source">
-                        <div class="place-dot"></div>
+            <div class="source">
+                <div class="place-dot"></div>
+            </div>
+            <div class="content">
+                <div class="upper">
+                    <div class="source-place">{{ station["origin"] }}</div>
+                    <div class="service">
+                        <img [src]="station['image']" />
                     </div>
-                    <div class="content">
-                        <div class="upper">
-                            <div class="source-place">{{station['origin']}}</div>
-                            <div class="service">
-                                <img [src] = "station['image']" />
-                            </div>
-                            <div class="service">{{station['route']}}</div>
-                            <div class="dest-place">{{station['dest']}}</div>
-                        </div>
-                        <div class="lower">
-                            <div class="source-time">{{station['originTime']}}</div>
-                            <div class="schedule"><span class="remaining-time">{{station['dueIn']}} min(s)</span> &nbsp; <span class="delay">+{{station['late']}} min(s)</span>
-                            </div>
-                            <div class="dest-time">{{station['destTime']}}</div>
-                        </div>
+                    <div class="service">{{ station["route"] }}</div>
+                    <div class="dest-place">{{ station["dest"] }}</div>
+                </div>
+                <div class="lower">
+                    <div class="source-time">{{ station["originTime"] }}</div>
+                    <div class="schedule">
+                        <span class="remaining-time">{{ station["dueIn"] }} min(s)</span> &nbsp; <span class="delay">+{{ station["late"] }} min(s)</span>
                     </div>
-                    <div class="destination">
-                        <div class="place-dot"></div>
-                    </div>
+                    <div class="dest-time">{{ station["destTime"] }}</div>
+                </div>
+            </div>
+            <div class="destination">
+                <div class="place-dot"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="timetable-container 1" *ngIf="!(data.type === 'irishrailstop' || data.type === 'busstop')">
+    <div class="tt-header">
+        {{ serviceType }} ANALYSIS AT {{ name ? name : this.data.name.cordinate[0] + " " + this.data.name.cordinate[1] }}
+    </div>
+    <div class="tt-row-container">
+        <div class="trends-container" *ngIf="!noData">
+            <ngx-charts-line-chart [view]="view" [scheme]="colorScheme" [legend]="legend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [results]="multi" autoScale="true"
+                (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+            </ngx-charts-line-chart>
+        </div>
+        <div *ngIf="noData">
+            No data avaialable.
         </div>
     </div>
 </div>

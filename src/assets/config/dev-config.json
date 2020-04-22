@@ -12,5 +12,8 @@
     "TIMETABLE_APIS": {
         "IRISHRAIL": "https://cors-anywhere.herokuapp.com/http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByNameXML?StationDesc=",
         "BUS": "/data/tt_bus?stopid="
+    },
+    "ANALYSIS_API_ENDPOINTS": {
+        "ANALYSIS": "/analysis"
     }
 }

@@ -8,6 +8,7 @@ import { CommunicationComponent } from "src/app/communication/communication.comp
 import { TimetableComponent } from "src/app/common-components/timetable/timetable.component";
 import { NotificationService } from "src/app/services/notification.service";
 import { AuthenticationService } from "src/app/services/authentication.service";
+import { BikesAnalysisDialogComponent } from "../bikes-analysis-dialog/bikes-analysis-dialog.component.js";
 declare let L;
 declare let tomtom: any;
 var markers = [];
@@ -107,7 +108,6 @@ export class MapsComponent implements OnInit, OnChanges {
   }
 
   addMarkers(coordinates, markerType: string) {
-    console.log(markerType);
     // let tempJSON = {
     //   coordinates: coordinates,
     //   timestamp: new Date().valueOf()
@@ -144,9 +144,15 @@ export class MapsComponent implements OnInit, OnChanges {
                 " Available Bikes : " +
                 coordinates[i].availableBikes
             );
+            marker.addListener("click", () => {
+              this.onCustomMarkerClick(markerType, coordinates[i]);
+            });
             break;
           case "pollution":
             this.attachSecretMessage(marker, coordinates[i].msg);
+            marker.addListener("click", () => {
+              this.onCustomMarkerClick(markerType, coordinates[i]);
+            });
             break;
           case "busstop":
             this.attachSecretMessage(marker, coordinates[i].standName);
@@ -276,6 +282,14 @@ export class MapsComponent implements OnInit, OnChanges {
           };
           this.dialog.open(TimetableComponent, dialogConfig);
         });
+    } else if (markerType == "bike") {
+      const dialogConfig = this.getDialogConfig();
+      dialogConfig.data = { type: markerType, name: standKey };
+      this.dialog.open(TimetableComponent, dialogConfig);
+    } else if (markerType == "pollution") {
+      const dialogConfig = this.getDialogConfig();
+      dialogConfig.data = { type: markerType, name: standKey };
+      this.dialog.open(TimetableComponent, dialogConfig);
     }
   }
 

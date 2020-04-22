@@ -38,6 +38,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { CommunicationComponent } from "./communication/communication.component";
 import { MatIcon, MatGridTile } from "@angular/material";
 import { TimetableComponent } from "./common-components/timetable/timetable.component";
+import { BikesAnalysisDialogComponent } from "./common-components/bikes-analysis-dialog/bikes-analysis-dialog.component";
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { TimetableComponent } from "./common-components/timetable/timetable.comp
     LoginSvgComponent,
     CommunicationComponent,
     MessageDialogComponent,
+    BikesAnalysisDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -84,6 +86,7 @@ import { TimetableComponent } from "./common-components/timetable/timetable.comp
   ],
   bootstrap: [AppComponent],
   entryComponents: [
+    BikesAnalysisDialogComponent,
     CommunicationComponent,
     MessageDialogComponent,
     TimetableComponent,
