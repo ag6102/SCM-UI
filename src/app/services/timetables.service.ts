@@ -17,7 +17,6 @@ export class TimetablesService {
   }
 
   getBusTimetable(searchkey) {
-    console.log(searchkey);
     let baseURL = config.TIMETABLE_APIS.BUS + searchkey;
     return this.httpClient.get(baseURL, {
       responseType: "text",

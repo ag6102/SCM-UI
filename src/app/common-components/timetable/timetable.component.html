@@ -38,7 +38,7 @@
                 (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
             </ngx-charts-line-chart>
         </div>
-        <div *ngIf="noData">
+        <div class="no-data" *ngIf="noData">
             No data avaialable.
         </div>
     </div>

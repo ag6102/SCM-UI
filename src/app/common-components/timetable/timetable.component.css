@@ -122,3 +122,10 @@
     height: 3vh;
     object-fit: cover;
 }
+
+.tt-row-container .no-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+}

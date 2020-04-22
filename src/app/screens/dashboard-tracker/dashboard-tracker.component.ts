@@ -175,15 +175,11 @@ export class DashboardTrackerComponent implements OnInit {
         type: objectType,
       };
       this.mapsData = mapsJson;
-      console.log("Outside");
       if (objectType == "irishrailstop") {
-        console.log("Inside");
         this.saveTimeTableData(objectType, savedObjects.coordinates);
       }
       let d = new Date().valueOf();
-      console.log(savedObjects);
       let lastUpdate = (d - savedObjects.timestamp) / 60000;
-      console.log("Last update - " + lastUpdate);
       if (lastUpdate > 15) {
         if (
           objectType == "irishrailstop" ||
@@ -320,16 +316,12 @@ export class DashboardTrackerComponent implements OnInit {
     if (savedObjects != null) {
       let d = new Date().valueOf();
       let lastUpdate = (d - savedObjects.timestamp) / 60000;
-      console.log("Here 1 - " + lastUpdate);
       if (lastUpdate < 15) {
-        console.log("Here 2");
         return savedObjects.schedule;
       } else {
-        console.log("Here 3");
         return null;
       }
     } else {
-      console.log("Here 4");
       return savedObjects;
     }
   }
@@ -337,7 +329,6 @@ export class DashboardTrackerComponent implements OnInit {
   saveTimeTableData(markerType: string, coordinates) {
     let savedTimeTable = this.retrievetimetable(markerType);
     if (savedTimeTable == null) {
-      console.log("Here 5");
       let timetable = [];
       var XML;
       if (coordinates) {

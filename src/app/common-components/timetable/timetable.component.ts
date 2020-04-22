@@ -43,7 +43,7 @@ export class TimetableComponent implements OnInit {
   multi = [];
   noData = false;
 
-  view: any[] = [400, 350];
+  view: any[] = [400, 300];
 
   // options
   legend: boolean = false;
@@ -120,7 +120,6 @@ export class TimetableComponent implements OnInit {
         }
       }
     }
-    console.log("Target station:", this.targetStation);
     this.extractInfoFromTargetStation();
   }
 
@@ -147,9 +146,8 @@ export class TimetableComponent implements OnInit {
     this.name = this.data.name.standName;
     this.serviceType = "Bike";
     this.yAxisLabel = "Bike Availability";
-    this.predictionService
-      .fetchBikePrediction(this.name)
-      .subscribe((response) => {
+    this.predictionService.fetchBikePrediction(this.name).subscribe(
+      (response) => {
         this.noData = false;
         var temp = [];
         var dateObj = null;
@@ -159,10 +157,9 @@ export class TimetableComponent implements OnInit {
           } else {
             dateObj = new Date(dateObj.getTime() + 15 * 60000);
           }
-          console.log(`${key}: ${value}`);
           temp.push({
             name: dateObj,
-            value: value,
+            value: Math.round(value),
           });
         }
         this.multi.push({
@@ -170,12 +167,15 @@ export class TimetableComponent implements OnInit {
           series: temp,
         });
         this.multi = [...this.multi];
-      });
+      },
+      (error) => {
+        this.noData = true;
+      }
+    );
   }
 
   handlePollutionData() {
     this.name = this.data.name.standName;
-    console.log(this.data.name);
     this.serviceType = "Pollution";
     this.yAxisLabel = "Air Quality Index";
     this.predictionService
@@ -191,7 +191,6 @@ export class TimetableComponent implements OnInit {
             } else {
               dateObj = new Date(dateObj.getTime() + 15 * 60000);
             }
-            console.log(`${key}: ${value}`);
             temp.push({
               name: dateObj,
               value: value,

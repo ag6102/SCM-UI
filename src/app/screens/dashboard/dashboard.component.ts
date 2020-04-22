@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
   userobj = {
     firstname: "",
     lastname: "",
+    role: "",
   };
 
   constructor(
@@ -44,6 +45,7 @@ export class DashboardComponent implements OnInit {
         );
         this.userobj.firstname = response["user"]["first_name"];
         this.userobj.lastname = response["user"]["last_name"];
+        this.userobj.role = response["user"]["role"];
         localStorage.setItem("role", response["user"]["role"]);
         this.ability.update(defineAbilitiesFor(response["user"]["role"]));
         var pusher = new Pusher("fe5bdaff7e445663f02e", {

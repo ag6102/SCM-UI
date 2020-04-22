@@ -70,3 +70,7 @@ select:-webkit-autofill:focus {
     color: white;
     border-radius: 0 25px 25px 0;
 }
+
+.role {
+    font-size: 10px;
+}

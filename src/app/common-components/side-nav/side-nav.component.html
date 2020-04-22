@@ -3,24 +3,27 @@
     <div class="user">
         <img class="user-img" src="../../../assets/icons/user.png" width="30" />
         <div class="greetings">
-            Hi <span>{{ userobj.firstname }} {{ userobj.lastname }}</span>
+            <div>
+                Hi <span>{{ userobj.firstname }} {{ userobj.lastname }}</span>
+            </div>
+            <div class="role">{{ userobj.role }}</div>
         </div>
     </div>
     <div class="nav-icons">
         <div (click)="navRedirect('/dashboard/tracker')" [ngClass]="{ selected: selected == '/dashboard/tracker' }">
             <img alt="Maps" title="Maps" class="nav-icon" src="../../../assets/icons/loc.png" />
         </div>
-        <div (click)="navRedirect('/dashboard/analytics')" [ngClass]="{ selected: selected == '/dashboard/analytics' }">
-            <!-- Analytics -->
+        <!-- <div (click)="navRedirect('/dashboard/analytics')" [ngClass]="{ selected: selected == '/dashboard/analytics' }">
+
             <img alt="History" title="History" class="nav-icon" src="../../../assets/icons/hist.png" />
-        </div>
+        </div> -->
         <div (click)="navRedirect('/dashboard/alerts')" [ngClass]="{ selected: selected == '/dashboard/alerts' }">
             <!-- Alerts -->
-            <img alt="Actions" title="Actions" class="nav-icon" src="../../../assets/icons/notif.png" />
+            <img alt="Actions" title="Alarms" class="nav-icon" src="../../../assets/icons/notif.png" />
         </div>
         <div *ngIf="'create' | can: 'manage'" (click)="navRedirect('/dashboard/admin')" [ngClass]="{ selected: selected == '/dashboard/admin' }">
             <!-- Admin Portal -->
-            <img alt="Actions" title="Actions" class="nav-icon" src="../../../assets/icons/settings.png" />
+            <img alt="Actions" title="Admin Portal" class="nav-icon" src="../../../assets/icons/settings.png" />
         </div>
         <div (click)="navRedirect('login')">
             <!-- Logout -->
