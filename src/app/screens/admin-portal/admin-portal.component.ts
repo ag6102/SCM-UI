@@ -51,6 +51,7 @@ export class AdminPortalComponent implements OnInit {
     },
   };
   matcher = null;
+
   constructor(
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
@@ -99,6 +100,7 @@ export class AdminPortalComponent implements OnInit {
           modalRef.componentInstance.emitService.subscribe(() => {
             this.dialog.closeAll();
           });
+          this.adminCreationForm.reset();
         },
         (error) => {
           console.log("Error while signing up.");
