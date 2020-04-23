@@ -1,5 +1,5 @@
 {
-    "/mongo_auth/login": {
+    "/mongo_auth": {
         "target": "http://localhost:8000/",
         "secure": false,
         "logLevel": "debug",
@@ -10,6 +10,11 @@
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": false
+    },
+    "/analysis": {
+        "target": "http://localhost:8000/",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": false
     }
-
 }

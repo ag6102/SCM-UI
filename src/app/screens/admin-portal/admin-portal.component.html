@@ -1,38 +1,76 @@
 <div class="admin-portal">
     <mat-card>
-        <mat-card-title>Create New User</mat-card-title>
-        <mat-card-content>
-            <div class="block">
-                <label>First Name</label>
-                <input [(ngModel)] = "userDetails.first_name" type="text"/>
-            </div>
-            <div class="block">
-                <label>Last Name</label>
-                <input [(ngModel)] = "userDetails.last_name" type="text"/>
-            </div>
-            <div class="block">
-                <label>E-mail</label>
-                <input [(ngModel)] = "userDetails.username" type="text"/>
-            </div>
-            <div class="block">
-                <label>Password</label>
-                <input [(ngModel)] = "userDetails.password" type="password"/>
-            </div>
-            <div class="block">
-                <label>Role</label>
-                <select [(ngModel)] = "userDetails.role">
-                    <option selected="true" disabled>Select</option>
-                    <option value="manager">Manager</option>
-                    <option value="service_provider">Service Provider</option>
-                </select>
-            </div>
-            <div class="block">
-                <label>User Permissions</label>
-                <input type="checkbox" [(ngModel)] = "userDetails.permits"/>
-            </div>
+        <form (ngSubmit)="onSubmit()" autocomplete="off">
+            <div [formGroup]="adminCreationForm">
+                <mat-card-title>Create New User</mat-card-title>
+                <mat-card-content>
+                    <mat-form-field class="">
+                        <mat-label>First Name</mat-label>
+                        <input matInput formControlName="first_name" autocomplete="off" />
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput formControlName="last_name" autocomplete="off" />
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="">
+                        <mat-label>E-mail</mat-label>
+                        <input matInput formControlName="email" autocomplete="off" [errorStateMatcher]="matcher" />
+                        <!-- <mat-error>This field is mandatory.</mat-error> -->
+                        <mat-error *ngIf="
+                !adminCreationForm.controls['email'].errors?.required &&
+                adminCreationForm.controls['email'].errors?.email
+              ">
+                            Please enter a valid email address
+                        </mat-error>
+                        <mat-error *ngIf="adminCreationForm.controls['email'].errors?.required">
+                            This field is mandatory.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="">
+                        <mat-label>Password</mat-label>
+                        <input matInput type="password" formControlName="password" autocomplete="off" />
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="">
+                        <mat-label>Role</mat-label>
+                        <mat-select formControlName="role">
+                            <mat-option value="admin">Admin - City Manager</mat-option>
+                            <mat-option value="serviceprovider">Service Provider</mat-option>
+                        </mat-select>
+                        <mat-error>This field is mandatory.</mat-error>
+                    </mat-form-field>
+                    <div class="permissions">
+                        <mat-label>User Permissions<span class="help-text">(Please select atleast one.)</span
+              >
+            </mat-label>
+            <ul class="permits">
+              <li>
+                <mat-checkbox formControlName="busCheckbox">
+                  Dublin Bus</mat-checkbox
+                >
+              </li>
+              <li>
+                <mat-checkbox formControlName="dartCheckbox">Dart</mat-checkbox>
+              </li>
+              <li>
+                <mat-checkbox formControlName="luasCheckbox">Luas</mat-checkbox>
+              </li>
+              <li>
+                <mat-checkbox formControlName="bikesCheckbox"
+                  >Dublin Bikes</mat-checkbox
+                >
+              </li>
+            </ul>
+          </div>
         </mat-card-content>
         <mat-card-actions>
-            <button (click)="signupNewUser()">Create User</button>
+          <button mat-raised-button color="primary" type="submit">
+            Create User
+          </button>
         </mat-card-actions>
-    </mat-card>
+      </div>
+    </form>
+  </mat-card>
 </div>

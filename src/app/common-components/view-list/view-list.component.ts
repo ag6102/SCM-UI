@@ -4,7 +4,7 @@ declare let Pusher: any;
 @Component({
   selector: "app-view-list",
   templateUrl: "./view-list.component.html",
-  styleUrls: ["./view-list.component.css"]
+  styleUrls: ["./view-list.component.css"],
 })
 export class ViewListComponent implements OnInit {
   listData;
@@ -13,13 +13,18 @@ export class ViewListComponent implements OnInit {
   constructor(private alertsService: AlertsService) {}
 
   ngOnInit() {
-    this.alertsService.fetchAlerts().subscribe(v => {
-      this.listData = v;
+    this.alertsService.fetchAlerts().subscribe((response: []) => {
+      this.listData = response.sort((a, b) => {
+        return (
+          new Date(b["timestamp"]).getTime() -
+          new Date(a["timestamp"]).getTime()
+        );
+      });
     });
   }
 
   forwardRequest(item) {
     item.status = "Forwarded";
-    this.alertsService.updateAlert(item).subscribe(v => {});
+    this.alertsService.updateAlert(item).subscribe((v) => {});
   }
 }

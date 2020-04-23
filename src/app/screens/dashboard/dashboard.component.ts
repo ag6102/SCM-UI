@@ -7,6 +7,7 @@ import { CacheData } from "../../models/cache-data.model";
 import { AuthenticationService } from "../../services/authentication.service";
 import { Ability } from "@casl/ability";
 import { defineAbilitiesFor } from "../../ability";
+import { AlertDataInterface } from "src/app/interfaces/common-interfaces";
 
 declare let Pusher: any;
 
@@ -16,9 +17,14 @@ declare let Pusher: any;
   styleUrls: ["./dashboard.component.css"],
 })
 export class DashboardComponent implements OnInit {
-  alertData = {};
+  alertData: AlertDataInterface;
   showAlert: Boolean = false;
   cacheData: CacheData;
+  userobj = {
+    firstname: "",
+    lastname: "",
+    role: "",
+  };
 
   constructor(
     private router: Router,
@@ -37,6 +43,9 @@ export class DashboardComponent implements OnInit {
           "permits",
           JSON.stringify(response["user"]["permits"])
         );
+        this.userobj.firstname = response["user"]["first_name"];
+        this.userobj.lastname = response["user"]["last_name"];
+        this.userobj.role = response["user"]["role"];
         localStorage.setItem("role", response["user"]["role"]);
         this.ability.update(defineAbilitiesFor(response["user"]["role"]));
         var pusher = new Pusher("fe5bdaff7e445663f02e", {
@@ -67,7 +76,7 @@ export class DashboardComponent implements OnInit {
   pushNotification(data) {
     this.alertData = {
       message: data,
-      action: ["Cancel", "Take Action"],
+      action: ["Take Action"],
     };
     this.showAlert = true;
   }

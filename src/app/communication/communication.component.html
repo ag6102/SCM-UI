@@ -4,12 +4,13 @@
         <mat-grid-tile>
             <div class="controles-container">
                 <mat-form-field>
-                    <input formControlName="message" formControlName="message" matInput placeholder="Message*">
+                    <input formControlName="message" formControlName="message" matInput placeholder="Message*" />
                     <mat-error>This field is mandatory.</mat-error>
                 </mat-form-field>
                 <div class="add-bottom-padding"></div>
                 <mat-form-field>
-                    <input formControlName="loc" formControlName="coordinates" matInput  [attr.disabled]="shouldEditGeo">
+                    <input formControlName="loc" formControlName="coordinates" matInput />
+                    <!-- [attr.disabled]="shouldEditGeo" -->
                 </mat-form-field>
             </div>
         </mat-grid-tile>
@@ -17,10 +18,12 @@
             <div class="controles-container">
                 <div class="add-bottom-padding">
                     <!-- <mat-radio formControlName="to_services"> -->
-                        
-                        <ul class="services">
-                        
-                        <li><mat-checkbox formControlName="busCheckbox"> Dublin Bus</mat-checkbox></li>
+
+                    <ul class="services">
+                        <li>
+                            <mat-checkbox formControlName="busCheckbox">
+                                Dublin Bus</mat-checkbox>
+                        </li>
                         <li>
                             <mat-checkbox formControlName="dartCheckbox">Dart</mat-checkbox>
                         </li>
@@ -30,7 +33,6 @@
                         <li>
                             <mat-checkbox formControlName="bikesCheckbox">Dublin Bikes</mat-checkbox>
                         </li>
- 
                     </ul>
 
                     <!-- </mat-radio> -->
@@ -48,7 +50,9 @@
                 </mat-form-field>
                 <div class="button-row">
                     <!-- [disabled]="service.form.invalid" -->
-                    <button mat-raised-button color="primary" type="submit">Submit</button>
+                    <button mat-raised-button color="primary" type="submit">
+            Submit
+          </button>
                 </div>
             </div>
         </mat-grid-tile>

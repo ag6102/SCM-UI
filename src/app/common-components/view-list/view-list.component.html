@@ -1,4 +1,5 @@
 <div class="list-container" *ngIf="listData">
+    <h1 class="mat-h1 mat-title list-heading">Alarms</h1>
     <div class="con">
         <div class="list-header">
             <div class="time">Timestamp</div>
@@ -8,25 +9,30 @@
         </div>
     </div>
     <mat-accordion>
-
         <mat-expansion-panel *ngFor="let item of listData">
             <mat-expansion-panel-header>
                 <div class="con">
                     <div class="list-item">
-                        <div class="time">{{item.timestamp}}</div>
-                        <div class="desc">{{item.lat+" "+item.long}}</div>
-                        <div class="criticality">{{item.type}}</div>
+                        <div class="time">{{ item.timestamp }}</div>
+                        <div class="desc">{{ item.lat + " " + item.long }}</div>
+                        <div class="criticality">{{ item.type }}</div>
                         <div class="action">
-                            <div [id]="item.id">{{item.status}}</div>
+                            <div [id]="item.id">{{ item.status }}</div>
                         </div>
                     </div>
                 </div>
             </mat-expansion-panel-header>
+            <mat-action-row *ngIf="item.status == 'New' || item.status == 'Acknowledged'">
+                <button (click)="forwardRequest(item)" color="primary" mat-raised-button>
+          Forward Request To Service Provider
+        </button>
+            </mat-action-row>
             <div class="display-flex">
                 <div></div>
-                <div class="action-btn" (click)="forwardRequest(item)" *ngIf="item.status == 'New' || item.status == 'Acknowledged'"><img alt="Alert" title="Alert" class="nav-icon" src="../../../assets/icons/tick.png" /></div>
+                <!-- <div class="action-btn" (click)="forwardRequest(item)" *ngIf="item.status == 'New' || item.status == 'Acknowledged'">
+                    <img alt="Alert" title="Alert" class="nav-icon" src="../../../assets/icons/tick.png" />
+                </div> -->
             </div>
         </mat-expansion-panel>
-
     </mat-accordion>
 </div>
