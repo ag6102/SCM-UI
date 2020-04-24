@@ -123,6 +123,14 @@ export class MapsComponent implements OnInit, OnChanges {
     let marker;
     if (coordinates) {
       for (let i = 0; i < coordinates.length; i++) {
+        console.log(coordinates);
+        var aqi = parseInt(coordinates[i]["aqi_display"]);
+        var iconSuffix = "";
+        if (aqi > 100 && aqi < 150) {
+          iconSuffix = "-med";
+        } else if (aqi > 150) {
+          iconSuffix = "-high";
+        }
         marker = new google.maps.Marker({
           position: new google.maps.LatLng(
             coordinates[i].cordinate[0],

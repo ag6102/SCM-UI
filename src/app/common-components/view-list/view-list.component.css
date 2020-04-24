@@ -21,7 +21,6 @@
 
 .list-container .list-item {
     display: flex;
-    align-items: center;
     justify-content: center;
     text-transform: capitalize;
 }
@@ -36,10 +35,15 @@
 
 .desc {
     width: 40%;
+    white-space: break-spaces;
+    word-break: break-word;
 }
 
 .criticality {
     width: 10%;
+    white-space: break-spaces;
+    display: flex;
+    flex-flow: wrap;
 }
 
 .action {
@@ -63,4 +67,33 @@
     padding: 0em 0.75em;
     background: #fff;
     height: 35px;
+}
+
+.description {
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.sub-head {
+    color: #3cc47c;
+    font-weight: bold;
+}
+
+.heading {
+    font-size: 17px;
+}
+
+span.type-span {
+    text-transform: capitalize;
+    padding-right: 5px;
+}
+
+.desc.wider {
+    width: 50%;
+}
+
+.description>div {
+    width: 40%;
 }

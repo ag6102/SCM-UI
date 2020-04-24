@@ -4,7 +4,7 @@
         <div class="list-header">
             <div class="time">Timestamp</div>
             <div class="desc">Coordinates</div>
-            <div class="criticality">Type</div>
+            <div class="criticality" *ngIf="'create' | can: 'manage'">Type</div>
             <div class="action">Status</div>
         </div>
     </div>
@@ -14,14 +14,35 @@
                 <div class="con">
                     <div class="list-item">
                         <div class="time">{{ item.timestamp }}</div>
-                        <div class="desc">{{ item.lat + " " + item.long }}</div>
-                        <div class="criticality">{{ item.type }}</div>
+                        <div class="desc" [ngClass]="{ wider: isAdmin == false }">
+                            {{ item.lat + " " + item.long }}
+                        </div>
+                        <div class="criticality" *ngIf="'create' | can: 'manage'">
+                            <span class="type-span" *ngFor="let type of item.type">{{
+                type
+              }}</span>
+                        </div>
                         <div class="action">
                             <div [id]="item.id">{{ item.status }}</div>
                         </div>
                     </div>
                 </div>
             </mat-expansion-panel-header>
+            <mat-card>
+                <mat-card-title class="heading">Alarm Description</mat-card-title>
+                <mat-card-content>
+                    <div class="description">
+                        <div class="message">
+                            <div class="sub-head">Warning</div>
+                            <div>{{ item.message }}</div>
+                        </div>
+                        <div class="priority">
+                            <div class="sub-head">Criticality</div>
+                            <div>{{ item.priority }}</div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
             <mat-action-row *ngIf="item.status == 'New' || item.status == 'Acknowledged'">
                 <button (click)="forwardRequest(item)" color="primary" mat-raised-button>
           Forward Request To Service Provider
