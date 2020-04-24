@@ -121,15 +121,21 @@ export class MapsComponent implements OnInit, OnChanges {
     //   }
     // }
     let marker;
+    var iconSuffix = "";
     if (coordinates) {
       for (let i = 0; i < coordinates.length; i++) {
-        console.log(coordinates);
-        var aqi = parseInt(coordinates[i]["aqi_display"]);
-        var iconSuffix = "";
-        if (aqi > 100 && aqi < 150) {
-          iconSuffix = "-med";
-        } else if (aqi > 150) {
-          iconSuffix = "-high";
+        if(markerType=='pollution'){
+          var msg = coordinates[i].msg;
+          console.log(msg);
+          if (msg.trim() == 'Good air quality') {
+            iconSuffix = "";
+          } 
+          else if (msg.trim() == 'Moderate air quality') {
+            iconSuffix = "-med";
+          }
+          else{
+            iconSuffix = '-high';
+          }
         }
         marker = new google.maps.Marker({
           position: new google.maps.LatLng(
@@ -138,7 +144,7 @@ export class MapsComponent implements OnInit, OnChanges {
           ),
           map: this.map,
           icon: {
-            url: "assets/images/" + markerType + ".png",
+            url: "assets/images/" + markerType + iconSuffix + ".png",
           },
         });
         markers.push(marker);
