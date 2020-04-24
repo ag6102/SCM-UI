@@ -197,7 +197,7 @@ export class TimetableComponent implements OnInit {
             });
           }
           this.multi.push({
-            name: "Bus",
+            name: "Pollution Index",
             series: temp,
           });
           this.multi = [...this.multi];
