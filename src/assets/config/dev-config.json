@@ -1,0 +1,19 @@
+{
+    "API_ENDPOINTS": {
+        "USER": "api/v1/user",
+        "BASE_URL": "/data",
+        "AUTH_URL": "/mongo_auth",
+        "DEV_SERVER_BASE": "/data/"
+    },
+    "CONSTANTS": {
+        "TOMTOM_API_KEY": "69zn9YEOaXOsIbOWQWFiaWINh4yJobxv"
+    },
+
+    "TIMETABLE_APIS": {
+        "IRISHRAIL": "https://cors-anywhere.herokuapp.com/http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByNameXML?StationDesc=",
+        "BUS": "/data/tt_bus?stopid="
+    },
+    "ANALYSIS_API_ENDPOINTS": {
+        "ANALYSIS": "/analysis"
+    }
+}

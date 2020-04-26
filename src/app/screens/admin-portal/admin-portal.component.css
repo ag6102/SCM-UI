@@ -1,0 +1,35 @@
+.admin-portal {
+    padding: 1.5em;
+}
+
+.sub-heading {
+    font-size: 1.5em;
+    color: #fd7727;
+    margin-bottom: 1em;
+}
+
+.user-cred {
+    padding: 2em;
+}
+
+.mat-form-field {
+    margin: 0.5em;
+    width: 42%;
+}
+
+.permits {
+    list-style-type: none;
+    padding: 0 1em;
+}
+
+.mat-card-actions {
+    text-align: right;
+}
+
+.permissions {
+    padding: 7px;
+}
+
+.help-text {
+    font-size: 10px;
+}

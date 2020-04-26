@@ -1,0 +1,99 @@
+.list-container {
+    padding: 1.5em;
+    /* display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 100%; */
+}
+
+.list-container .list-header {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    padding: 1em 1.5em;
+    background: #3cc47c;
+    color: white;
+    text-transform: capitalize;
+    font-variant: small-caps;
+    font-weight: bold;
+}
+
+.list-container .list-item {
+    display: flex;
+    justify-content: center;
+    text-transform: capitalize;
+}
+
+.list-header {
+    font-weight: bold;
+}
+
+.time {
+    width: 25%;
+}
+
+.desc {
+    width: 40%;
+    white-space: break-spaces;
+    word-break: break-word;
+}
+
+.criticality {
+    width: 10%;
+    white-space: break-spaces;
+    display: flex;
+    flex-flow: wrap;
+}
+
+.action {
+    width: 25%;
+    text-align: left;
+}
+
+.con {
+    width: 100%;
+}
+
+.display-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action-btn {
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 0em 0.75em;
+    background: #fff;
+    height: 35px;
+}
+
+.description {
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.sub-head {
+    color: #3cc47c;
+    font-weight: bold;
+}
+
+.heading {
+    font-size: 17px;
+}
+
+span.type-span {
+    text-transform: capitalize;
+    padding-right: 5px;
+}
+
+.desc.wider {
+    width: 50%;
+}
+
+.description>div {
+    width: 40%;
+}

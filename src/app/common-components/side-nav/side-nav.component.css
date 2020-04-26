@@ -1,8 +1,76 @@
-
-.logo{
-    width: 100px
+.side-nav-container {
+    display: flex;
+    justify-content: center;
 }
-.nav-icons{
-    bottom: 0;
+
+.logo {
+    width: 6vw;
+    padding: 15px 0;
+}
+
+.nav-icons {
+    bottom: 1em;
     position: absolute;
+    /* display: flex;
+    flex-direction: column; */
+    font-size: 0.85em;
+    width: 6vw;
+}
+
+.nav-icons>div {
+    /* margin: 5px 0; */
+    padding: 10px 2px;
+    text-align: center;
+}
+
+.nav-icons .nav-icon {
+    width: 4vw;
+    display: block;
+    margin: auto;
+    /* margin-right: 5px; */
+}
+
+.nav-icons .selected {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.user img {
+    padding: 1em;
+}
+
+.user:hover .greetings {
+    display: block;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    background-color: transparent !important;
+}
+
+
+/* input:-internal-autofill-selected {} */
+
+.greetings {
+    display: none;
+    position: fixed;
+    text-align: right;
+    padding: 1em;
+    text-transform: capitalize;
+    left: 51px;
+    top: 5px;
+    background: #222;
+    color: white;
+    border-radius: 0 25px 25px 0;
+}
+
+.role {
+    font-size: 10px;
 }

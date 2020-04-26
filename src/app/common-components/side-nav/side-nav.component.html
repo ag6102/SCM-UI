@@ -1,9 +1,33 @@
-<div>
-    <div><img class="logo" src="../../../../assets/icons/logo-icon.png"/></div>
+<div class="side-nav-container">
+    <!-- <div><img class="logo" src="../../../../assets/icons/logo-icon.png"/></div> -->
+    <div class="user">
+        <img class="user-img" src="../../../assets/icons/user.png" width="30" />
+        <div class="greetings">
+            <div>
+                Hi <span>{{ userobj.firstname }} {{ userobj.lastname }}</span>
+            </div>
+            <div class="role">{{ userobj.role }}</div>
+        </div>
+    </div>
     <div class="nav-icons">
-        <div (click)="navRedirect('dashboard')">Maps</div>
-        <div (click)="navRedirect('')">History</div>
-        <div (click)="navRedirect('')">Actions</div>
-        <div (click)="navRedirect('login')">Logout</div>
+        <div (click)="navRedirect('/dashboard/tracker')" [ngClass]="{ selected: selected == '/dashboard/tracker' }">
+            <img alt="Maps" title="Maps" class="nav-icon" src="../../../assets/icons/loc.png" />
+        </div>
+        <!-- <div (click)="navRedirect('/dashboard/analytics')" [ngClass]="{ selected: selected == '/dashboard/analytics' }">
+
+            <img alt="History" title="History" class="nav-icon" src="../../../assets/icons/hist.png" />
+        </div> -->
+        <div (click)="navRedirect('/dashboard/alerts')" [ngClass]="{ selected: selected == '/dashboard/alerts' }">
+            <!-- Alerts -->
+            <img alt="Actions" title="Alarms" class="nav-icon" src="../../../assets/icons/notif.png" />
+        </div>
+        <div *ngIf="'create' | can: 'manage'" (click)="navRedirect('/dashboard/admin')" [ngClass]="{ selected: selected == '/dashboard/admin' }">
+            <!-- Admin Portal -->
+            <img alt="Actions" title="Admin Portal" class="nav-icon" src="../../../assets/icons/settings.png" />
+        </div>
+        <div (click)="navRedirect('login')">
+            <!-- Logout -->
+            <img alt="Logout" title="Logout" class="nav-icon" src="../../../assets/icons/logout_.png" />
+        </div>
     </div>
 </div>

@@ -1,0 +1,14 @@
+<div class="alert-container" *ngIf="showAlert">
+    <div class="alert-heading">
+        <div>Alarm</div>
+        <div>
+            <img (click)="hideAlert()" src="../../../assets/icons/close1.png" width="10" />
+        </div>
+    </div>
+    <div class="alert-body">{{ alertData.message }}</div>
+    <div class="alert-actions display-flex">
+        <div *ngFor="let action of alertData.action">
+            <button (click)="hideAlert()">{{ action }}</button>
+        </div>
+    </div>
+</div>

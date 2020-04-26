@@ -1,0 +1,22 @@
+.notification-bar-container{
+    display: flex;
+    justify-content: space-between;
+    padding: 1em 2em;
+    background-color: #edf7fe;
+    height: 10vh;
+}
+
+.logo{
+    background-image: url('/assets/icons/skyline.jpg');
+    background-size: contain;
+    width: 100%;
+    margin: 0 40vw 0 0;
+}
+
+.notification-bar-container .nav-icon{
+    width: 20px;
+}
+
+.logo{
+    /* height: 10rem; */
+}
